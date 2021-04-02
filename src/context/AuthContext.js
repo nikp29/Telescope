@@ -94,7 +94,7 @@ const signin = (dispatch) => async ({ email, password }) => {
         .catch((error) => {
           dispatch({
             type: "add_error",
-            payload: "error.message",
+            payload: error.message,
           });
         });
     })
