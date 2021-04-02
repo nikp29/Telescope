@@ -4,6 +4,7 @@ import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 
 import AccountScreen from "./src/screens/AccountScreen";
+import ConfirmUploadScreen from "./src/screens/ConfirmUploadScreen";
 import SigninScreen from "./src/screens/SigninScreen";
 import SignupScreen from "./src/screens/SignupScreen";
 import ReelUploadScreen from "./src/screens/ReelUploadScreen";
@@ -13,21 +14,30 @@ import { Provider as AuthProvider } from "./src/context/AuthContext";
 import { setNavigator } from "./src/navigationRef";
 import ResolveAuthScreen from "./src/screens/ResolveAuthScreen";
 
-const switchNavigator = createSwitchNavigator({
-  ResolveAuth: ResolveAuthScreen,
-  loginFlow: createStackNavigator({
-    Signin: SigninScreen,
-    Signup: SignupScreen,
-  }),
-  mainFlow: createBottomTabNavigator({
-    reelFlow: createStackNavigator({
-      FeedScreen: FeedScreen,
-      ReelView: ReelViewScreen,
+const switchNavigator = createSwitchNavigator(
+  {
+    ResolveAuth: ResolveAuthScreen,
+    loginFlow: createStackNavigator(
+      {
+        Signin: SigninScreen,
+        Signup: SignupScreen,
+      },
+      { initialRouteName: "Signin" }
+    ),
+    mainFlow: createBottomTabNavigator({
+      reelFlow: createStackNavigator({
+        FeedScreen: FeedScreen,
+        ReelView: ReelViewScreen,
+      }),
+      ReelUploadFlow: createStackNavigator({
+        ReelUpload: ReelUploadScreen,
+        ConfirmUpload: ConfirmUploadScreen,
+      }),
+      Account: AccountScreen,
     }),
-    ReelUpload: ReelUploadScreen,
-    Account: AccountScreen,
-  }),
-});
+  },
+  { initialRouteName: "loginFlow" }
+);
 
 const App = createAppContainer(switchNavigator);
 

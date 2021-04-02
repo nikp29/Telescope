@@ -1,6 +1,5 @@
 import AsyncStorage from "@react-native-community/async-storage";
 import createDataContext from "./createDataContext";
-import trackerApi from "../api/tracker";
 import { navigate } from "../navigationRef";
 import { firebase } from "../firebase/config.js";
 
@@ -49,7 +48,7 @@ const signup = (dispatch) => async ({ email, password, fullName }) => {
         .doc(uid)
         .set(data)
         .then(() => {
-          // AsyncStorage.setItem("token", data);
+          AsyncStorage.setItem("token", uid);
           dispatch({ type: "signin", payload: data });
           navigate("FeedScreen");
         })
@@ -88,6 +87,8 @@ const signin = (dispatch) => async ({ email, password }) => {
           }
           const data = firestoreDocument.data();
           dispatch({ type: "signin", payload: data });
+          console.log(data);
+          AsyncStorage.setItem("token", uid);
           navigate("FeedScreen");
         })
         .catch((error) => {
