@@ -43,7 +43,7 @@ const ConfirmUploadScreen = (props) => {
               timestamp: moment().unix().valueOf(),
               title: title,
               youtube_id: url.slice(-11),
-              tags: tags,
+              tags: [],
             });
             props.navigation.goBack(null);
             navigate("FeedScreen");
