@@ -2,7 +2,9 @@
 
 - open terminal and enter `git clone https://github.com/nikp29/Telescope`
 - `cd Telescope`
-- get .env file from the Shub's favorite person and place it in base directory of repo
+- get env file from the Shub's favorite person
+- `nano .env`
+- paste the contents of the file nikhil sent you and type `control x`, `Y`, `enter`
 - install LTS version of Node.js from here: https://nodejs.org/en/download/
 - `npm install`
 - `brew install watchman`
