@@ -7,7 +7,7 @@ import { firebase } from "../firebase/config.js";
 import { navigate } from "../navigationRef";
 
 const ConfirmUploadScreen = (props) => {
-  const { url, title, tags } = props.navigation.state.params;
+  const { url, title, tags, thumbnail } = props.navigation.state.params;
   const [status, setStatus] = useState(false);
   const [ready, setReady] = useState(false);
   console.log(moment().unix().valueOf());
@@ -20,7 +20,7 @@ const ConfirmUploadScreen = (props) => {
         <Text>Preview</Text>
       </View>
       <YoutubePlayer
-        videoId={url.slice(-11)}
+        videoId={url}
         play={true} // control playback of video with true/false
         onReady={() => setReady(true)}
         onChangeState={(e) => setStatus(e)}
@@ -28,13 +28,26 @@ const ConfirmUploadScreen = (props) => {
         forceAndroidAutoplay
       />
       <View>
-        <Text>Tags:</Text>
-        <Text>{tags}</Text>
+        {tags == [] ? (
+          <>
+            <Text>Tags:</Text>
+            <Text>
+              {tags
+                .map((item) => {
+                  return "#" + item;
+                })
+                .join(", ")}
+            </Text>
+          </>
+        ) : (
+          <></>
+        )}
         <Button
           title={"Confirm"}
           onPress={async () => {
             const reelsRef = firebase.firestore().collection("reels");
             const usersRef = firebase.firestore().collection("users");
+
             const uid = await AsyncStorage.getItem("token");
             await usersRef
               .doc(uid)
@@ -42,8 +55,11 @@ const ConfirmUploadScreen = (props) => {
             await reelsRef.add({
               timestamp: moment().unix().valueOf(),
               title: title,
-              youtube_id: url.slice(-11),
-              tags: [],
+              youtube_id: url,
+              tags: tags,
+              user: uid,
+              thumbnail,
+              upvotes: 0,
             });
             props.navigation.goBack(null);
             navigate("FeedScreen");

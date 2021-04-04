@@ -38,12 +38,12 @@ const UploadForm = ({
       />
       <Spacer />
       <Input
-        secureTextEntry
         label="Tags"
         value={tags}
         onChangeText={setTags}
         autoCapitalize="none"
         autoCorrect={false}
+        placeholder={"#hashtag1 #hashtag2..."}
       />
       {errorMessage ? (
         <Text style={styles.errorMessage}>{errorMessage}</Text>
@@ -52,13 +52,21 @@ const UploadForm = ({
         <Button
           title={submitButtonText}
           onPress={() => {
-            const youtubeRegex = new RegExp(
-              "^(https?://)?(www.youtube.com|youtu.?be)/.+$"
-            );
+            const youtubeRegex = /(?:http(?:s)?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^\?&\"'<> #]+)/;
             if (youtubeRegex.test(url)) {
               if (title.length >= 2 && title.length <= 40) {
                 setError("");
-                onSubmit({ url, title, tags, setError });
+                const matches = tags
+                  ? tags.match(/#(\w+)/g).map((item) => {
+                      return item.substr(1);
+                    })
+                  : [];
+                onSubmit({
+                  url: youtubeRegex.exec(url)[1],
+                  title,
+                  tags: matches,
+                  setError,
+                });
               } else {
                 setError("Title must be between 2 and 40 characters");
               }
