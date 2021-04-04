@@ -4,7 +4,7 @@
 - `cd Telescope`
 - get env file from the Shub's favorite person
 - `nano .env`
-- paste the contents of the file nikhil sent you and type `control x`, `Y`, `enter`
+- paste the contents of the file nikhil sent you and type `<control-key>+x`, `Y`, `enter`
 - install LTS version of Node.js from here: https://nodejs.org/en/download/
 - `npm install`
 - `brew install watchman`
