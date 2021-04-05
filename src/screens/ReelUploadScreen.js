@@ -38,7 +38,7 @@ const confirmUpload = async ({ url, title, tags, setError }) => {
       if (data.hasOwnProperty("lastUploaded")) {
         // convert unix timestamp to moment
         const lastUploaded = data.lastUploaded;
-        const current = moment().subtract(1, "d").unix().valueOf(); // limit 1 upload per day
+        const current = moment().subtract(0, "d").unix().valueOf(); // limit 1 upload per day
         if (current > lastUploaded) {
           // if more than 24 hours has elapsed
           const response = await youtubeApi.get("/videos", {

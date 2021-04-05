@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useRef } from "react";
 import { View, StyleSheet, Text, Button } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
-import moment from "moment";
+import moment, { unix } from "moment";
 import YoutubePlayer from "react-native-youtube-iframe";
 import { firebase } from "../firebase/config.js";
 import { navigate } from "../navigationRef";
@@ -54,6 +54,8 @@ const ConfirmUploadScreen = (props) => {
               .update({ lastUploaded: moment().unix().valueOf() });
             await reelsRef.add({
               timestamp: moment().unix().valueOf(),
+              daystamp: getDaystamp(moment()),
+              weekstamp: getWeekstamp(moment()),
               title: title,
               youtube_id: url,
               tags: tags,
@@ -68,6 +70,16 @@ const ConfirmUploadScreen = (props) => {
       </View>
     </View>
   );
+};
+
+const getDaystamp = (moment_) => {
+  // get unix days since jan 1st 1970
+  return Math.floor(moment_.unix().valueOf() / 86400);
+};
+
+const getWeekstamp = (moment_) => {
+  // get unix weeks since dec 29 monday 1969
+  return Math.floor((Math.floor(moment_.unix().valueOf() / 86400) - 4) / 7);
 };
 
 const styles = StyleSheet.create({});
