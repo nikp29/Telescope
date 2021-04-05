@@ -17,7 +17,7 @@ const ReelFeedView = ({ title, upvotes, image_url, youtube_id, id }) => {
     }
     fetchUid();
     return () => {
-      console.log("This will be logged on unmount");
+      null;
     };
   }, []);
   return (
@@ -104,6 +104,10 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
+    padding: 8,
+    borderColor: "#FFD770",
+    borderWidth: 1,
+    borderRadius: 8,
   },
 });
 export default ReelFeedView;

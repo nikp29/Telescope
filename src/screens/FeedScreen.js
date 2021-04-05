@@ -102,7 +102,6 @@ ReelScreen.navigationOptions = () => {
 };
 
 const getReelList = async (setReelList, numDisplayed, isWeek) => {
-  console.log("getting_list");
   let reelsRef = firebase.firestore().collection("reels");
   let reelList_ = [];
   reelsRef = !isWeek
