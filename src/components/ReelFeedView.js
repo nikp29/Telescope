@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
 import { StyleSheet } from "react-native";
 import { Text, Image } from "react-native-elements";
 import Spacer from "./Spacer";
@@ -14,7 +14,6 @@ const ReelFeedView = ({ title, upvotes, image_url, youtube_id }) => {
       }}
     >
       <View style={styles.container}>
-        {/* <Text h4>{title}</Text> */}
         <View style={styles.horizontalContainer}>
           <View style={{ flex: 1 }}>
             <Image source={{ uri: image_url }} style={styles.image} />
@@ -27,20 +26,26 @@ const ReelFeedView = ({ title, upvotes, image_url, youtube_id }) => {
               paddingLeft: 16,
             }}
           >
-            <View
-              style={{
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                borderWidth: 1,
-                padding: 4,
-                borderColor: "#FFD770",
-                borderRadius: 8,
-              }}
-            >
-              <Icon name="star" size={30} color="#FFD770" />
-              <Text style={styles.text}>{upvotes.length}</Text>
-            </View>
+            <TouchableWithoutFeedback>
+              <TouchableOpacity
+                onPress={() => console.log("This is printed never")}
+              >
+                <View
+                  style={{
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderWidth: 1,
+                    padding: 4,
+                    borderColor: "#FFD770",
+                    borderRadius: 8,
+                  }}
+                >
+                  <Icon name="star" size={30} color="#FFD770" />
+                  <Text style={styles.text}>{upvotes.length}</Text>
+                </View>
+              </TouchableOpacity>
+            </TouchableWithoutFeedback>
           </View>
         </View>
       </View>
