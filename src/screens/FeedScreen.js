@@ -51,7 +51,9 @@ const ReelScreen = ({ navigation, variant }) => {
       </View>
       <ScrollView>
         <Spacer>
-          {reelList.length != 0 ? <Text h3>Top 3</Text> : null}
+          {reelList.length != 0 ? (
+            <Text style={styles.header}>Top 3</Text>
+          ) : null}
 
           <FlatList
             showsVerticalScrollIndicator={false}
@@ -61,7 +63,15 @@ const ReelScreen = ({ navigation, variant }) => {
               return renderReelFeedView(item);
             }}
           />
-          {reelList.length > 3 ? <Text> Add a divider here </Text> : null}
+          {reelList.length > 3 ? (
+            <View
+              style={{
+                borderBottomColor: "black",
+                borderBottomWidth: 1,
+                marginBottom: 32,
+              }}
+            />
+          ) : null}
           <FlatList
             showsVerticalScrollIndicator={false}
             data={reelList.slice(reelList.length >= 3 ? 3 : reelList.length)}
@@ -156,9 +166,11 @@ const styles = StyleSheet.create({
   tabBar: {
     paddingHorizontal: 16,
     flexDirection: "row",
-    marginTop: 60,
+    paddingTop: 60,
     justifyContent: "space-around",
     opacity: 50,
+    backgroundColor: "white",
+    paddingBottom: 8,
   },
   tab: {
     fontFamily: "Raleway",
@@ -171,6 +183,11 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     fontSize: 25,
     color: "#5c33ff",
+  },
+  header: {
+    fontSize: 30,
+    fontFamily: "RalewayExtraBold",
+    marginBottom: 16,
   },
 });
 
