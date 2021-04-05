@@ -16,7 +16,7 @@ const ReelFeedView = ({ title, upvotes, image_url, youtube_id }) => {
         <Text h4>{title}</Text>
         <View>
           <Image source={{ uri: image_url }} style={styles.image} />
-          <Text> Upvotes: {upvotes} </Text>
+          <Text> Upvotes: {upvotes.length} </Text>
         </View>
       </View>
       <Spacer />
