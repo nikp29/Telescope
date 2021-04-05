@@ -6,8 +6,10 @@
 - `nano .env`
 - paste the contents of the file nikhil sent you and type `<control-key>+x`, `Y`, `enter`
 - install LTS version of Node.js from here: https://nodejs.org/en/download/
-- `npm install`
+
+- `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
 - `brew install watchman`
+- `npm install`
 - `npm install -g react-native-cli`
 - attempt to start by running `npm start`
 - if this doesnt work run `sudo npm install --unsafe-perm -g expo-cli`
