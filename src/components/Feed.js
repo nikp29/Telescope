@@ -59,12 +59,10 @@ const getReelList = async (setReelList, numDisplayed, isWeek) => {
         reelList_.push(data_);
       });
       setReelList(reelList_);
-      console.log(reelList_);
     })
     .catch((error) => {
       console.log(error.message);
     });
-  //   console.log(reelListRef);
 };
 
 const getDaystamp = (moment_) => {

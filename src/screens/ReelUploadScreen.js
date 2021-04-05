@@ -25,7 +25,6 @@ const ReelUploadScreen = () => {
 const confirmUpload = async ({ url, title, tags, setError }) => {
   const usersRef = firebase.firestore().collection("users");
   const uid = await AsyncStorage.getItem("token");
-  console.log(uid);
   await usersRef
     .doc(uid)
     .get()

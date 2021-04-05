@@ -87,7 +87,6 @@ const signin = (dispatch) => async ({ email, password }) => {
           }
           const data = firestoreDocument.data();
           dispatch({ type: "signin", payload: data });
-          console.log(data);
           AsyncStorage.setItem("token", uid);
           navigate("FeedScreen");
         })
