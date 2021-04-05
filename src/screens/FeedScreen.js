@@ -107,9 +107,9 @@ const getReelList = async (setReelList, numDisplayed, isWeek) => {
   let reelList_ = [];
   reelsRef = !isWeek
     ? reelsRef
-        .orderBy("upvotes")
+        .orderBy("upvotes", "desc")
         .where("weekstamp", "==", getWeekstamp(moment()))
-        .orderBy("timestamp")
+        .orderBy("timestamp", "desc")
         .limit(numDisplayed)
         .get()
         .then((querySnapshot) => {
@@ -124,9 +124,9 @@ const getReelList = async (setReelList, numDisplayed, isWeek) => {
           console.log(error.message);
         })
     : reelsRef
-        .orderBy("upvotes")
+        .orderBy("upvotes", "desc")
         .where("daystamp", "==", getDaystamp(moment()))
-        .orderBy("timestamp")
+        .orderBy("timestamp", "desc")
         .limit(numDisplayed)
         .get()
         .then((querySnapshot) => {
@@ -158,6 +158,7 @@ const renderReelFeedView = (data) => {
       title={data.title}
       upvotes={data.upvotes}
       image_url={data.thumbnail}
+      id={data.id}
     />
   );
 };

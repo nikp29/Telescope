@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import AsyncStorage from "@react-native-community/async-storage";
+import { firebase } from "../firebase/config.js";
 import { View, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
 import { StyleSheet } from "react-native";
 import { Text, Image } from "react-native-elements";
@@ -6,7 +8,18 @@ import Spacer from "./Spacer";
 import { navigate } from "../navigationRef";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-const ReelFeedView = ({ title, upvotes, image_url, youtube_id }) => {
+const ReelFeedView = ({ title, upvotes, image_url, youtube_id, id }) => {
+  const [upvoted, setUpvoted] = useState(false);
+  useEffect(() => {
+    async function fetchUid() {
+      const uid = await AsyncStorage.getItem("token");
+      setUpvoted(upvotes.includes(uid));
+    }
+    fetchUid();
+    return () => {
+      console.log("This will be logged on unmount");
+    };
+  }, []);
   return (
     <TouchableOpacity
       onPress={() => {
@@ -28,20 +41,14 @@ const ReelFeedView = ({ title, upvotes, image_url, youtube_id }) => {
           >
             <TouchableWithoutFeedback>
               <TouchableOpacity
-                onPress={() => console.log("This is printed never")}
+                onPress={() => editVote(upvotes, id, setUpvoted)}
               >
-                <View
-                  style={{
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    borderWidth: 1,
-                    padding: 4,
-                    borderColor: "#FFD770",
-                    borderRadius: 8,
-                  }}
-                >
-                  <Icon name="star" size={30} color="#FFD770" />
+                <View style={styles.upvoteView}>
+                  <Icon
+                    name={upvoted ? "star" : "star-o"}
+                    size={30}
+                    color="#FFD770"
+                  />
                   <Text style={styles.text}>{upvotes.length}</Text>
                 </View>
               </TouchableOpacity>
@@ -53,6 +60,24 @@ const ReelFeedView = ({ title, upvotes, image_url, youtube_id }) => {
     </TouchableOpacity>
   );
 };
+
+const editVote = async (upvotes, id, setUpvoted) => {
+  const uid = await AsyncStorage.getItem("token");
+  const reelsRef = firebase.firestore().collection("reels");
+
+  let new_upvotes = upvotes;
+  if (upvotes.includes(uid)) {
+    new_upvotes.splice(new_upvotes.indexOf(uid), 1);
+    await reelsRef.doc(id).update({ upvotes: new_upvotes });
+    setUpvoted(false);
+  } else {
+    // reel has not already been upvoted
+    new_upvotes.push(uid);
+    await reelsRef.doc(id).update({ upvotes: new_upvotes });
+    setUpvoted(true);
+  }
+};
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
@@ -75,5 +100,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   text: {},
+  upvoteView: {
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+  },
 });
 export default ReelFeedView;
