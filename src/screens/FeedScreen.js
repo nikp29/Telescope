@@ -26,7 +26,6 @@ const ReelScreen = ({ navigation, variant }) => {
   const [numDisplayed, setNumDisplayed] = useState(5);
   if (initialGet == false) {
     setInitialGet(true);
-    console.log("init");
     getReelList(setReelList, numDisplayed, false);
   }
   if (!loaded) {
@@ -111,7 +110,6 @@ ReelScreen.navigationOptions = () => {
 const getReelList = async (setReelList, numDisplayed, isWeek) => {
   let reelsRef = firebase.firestore().collection("reels");
   let reelList_ = [];
-  console.log(isWeek);
   if (isWeek) {
     reelsRef
       .orderBy("upvotes", "desc")
@@ -123,7 +121,6 @@ const getReelList = async (setReelList, numDisplayed, isWeek) => {
         querySnapshot.forEach((doc) => {
           let data_ = doc.data();
           data_["id"] = doc.id;
-          // console.log(data_.daystamp);
           if (data_.weekstamp == getWeekstamp(moment())) {
             reelList_.push(data_);
           }
@@ -145,7 +142,6 @@ const getReelList = async (setReelList, numDisplayed, isWeek) => {
           let data_ = doc.data();
           data_["id"] = doc.id;
           if (data_.daystamp == getDaystamp(moment())) {
-            console.log("hi");
             reelList_.push(data_);
           }
         });
