@@ -16,15 +16,18 @@ import moment from "moment";
 import ReelFeedView from "../components/ReelFeedView";
 
 const ReelScreen = ({ navigation, variant }) => {
-  const [isWeek, setIsWeek] = useState(variant ? true : false);
+  const [isWeek, setIsWeek] = useState(false);
+  const [initialGet, setInitialGet] = useState(false);
   const [loaded] = useFonts({
     Raleway: require("../../assets/Raleway-Bold.ttf"),
     RalewayExtraBold: require("../../assets/Raleway-ExtraBold.ttf"),
   });
   const [reelList, setReelList] = useState([]);
   const [numDisplayed, setNumDisplayed] = useState(5);
-  if (reelList.length == 0) {
-    getReelList(setReelList, numDisplayed, isWeek);
+  if (initialGet == false) {
+    setInitialGet(true);
+    console.log("init");
+    getReelList(setReelList, numDisplayed, false);
   }
   if (!loaded) {
     return null;
@@ -33,17 +36,21 @@ const ReelScreen = ({ navigation, variant }) => {
     <>
       <View style={styles.tabBar}>
         <TouchableOpacity
-          onPress={(event) => {
-            setIsWeek(false);
-            getReelList(setReelList, numDisplayed, isWeek);
+          onPress={async (event) => {
+            if (isWeek == true) {
+              await setIsWeek(false);
+              getReelList(setReelList, numDisplayed, false);
+            }
           }}
         >
           <Text style={isWeek ? styles.tab : styles.tabActive}>Today</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={(event) => {
-            setIsWeek(true);
-            getReelList(setReelList, numDisplayed, isWeek);
+          onPress={async (event) => {
+            if (isWeek == false) {
+              await setIsWeek(true);
+              getReelList(setReelList, numDisplayed, true);
+            }
           }}
         >
           <Text style={isWeek ? styles.tabActive : styles.tab}>This Week</Text>
@@ -83,8 +90,8 @@ const ReelScreen = ({ navigation, variant }) => {
           {reelList.length == numDisplayed ? (
             <Button
               onPress={() => {
+                getReelList(setReelList, numDisplayed + 5, isWeek);
                 setNumDisplayed(numDisplayed + 5);
-                getReelList(setReelList, numDisplayed, isWeek);
               }}
               title="Load more"
             />
@@ -104,41 +111,50 @@ ReelScreen.navigationOptions = () => {
 const getReelList = async (setReelList, numDisplayed, isWeek) => {
   let reelsRef = firebase.firestore().collection("reels");
   let reelList_ = [];
-  reelsRef = !isWeek
-    ? reelsRef
-        .orderBy("upvotes", "desc")
-        .where("weekstamp", "==", getWeekstamp(moment()))
-        .orderBy("timestamp", "desc")
-        .limit(numDisplayed)
-        .get()
-        .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            let data_ = doc.data();
-            data_["id"] = doc.id;
+  console.log(isWeek);
+  if (isWeek) {
+    reelsRef
+      .orderBy("upvotes", "desc")
+      .where("weekstamp", "==", getWeekstamp(moment()))
+      .orderBy("timestamp", "desc")
+      .limit(numDisplayed)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          let data_ = doc.data();
+          data_["id"] = doc.id;
+          // console.log(data_.daystamp);
+          if (data_.weekstamp == getWeekstamp(moment())) {
             reelList_.push(data_);
-          });
-          setReelList(reelList_);
-        })
-        .catch((error) => {
-          console.log(error.message);
-        })
-    : reelsRef
-        .orderBy("upvotes", "desc")
-        .where("daystamp", "==", getDaystamp(moment()))
-        .orderBy("timestamp", "desc")
-        .limit(numDisplayed)
-        .get()
-        .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            let data_ = doc.data();
-            data_["id"] = doc.id;
-            reelList_.push(data_);
-          });
-          setReelList(reelList_);
-        })
-        .catch((error) => {
-          console.log(error.message);
+          }
         });
+        setReelList(reelList_);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  } else {
+    reelsRef
+      .orderBy("upvotes", "desc")
+      .where("daystamp", "==", getDaystamp(moment()))
+      .orderBy("timestamp", "desc")
+      .limit(numDisplayed)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          let data_ = doc.data();
+          data_["id"] = doc.id;
+          if (data_.daystamp == getDaystamp(moment())) {
+            console.log("hi");
+            reelList_.push(data_);
+          }
+        });
+        setReelList(reelList_);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  }
 };
 
 const getDaystamp = (moment_) => {
