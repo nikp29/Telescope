@@ -8,7 +8,7 @@ import Spacer from "./Spacer";
 import { navigate } from "../navigationRef";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-const ReelFeedView = ({ title, upvotes, image_url, youtube_id, id }) => {
+const ReelFeedView = ({ title, upvotes, image_url, youtube_id, id, data }) => {
   const [upvoted, setUpvoted] = useState(false);
   useEffect(() => {
     async function fetchUid() {
@@ -23,7 +23,7 @@ const ReelFeedView = ({ title, upvotes, image_url, youtube_id, id }) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        navigate("ReelView", { id: youtube_id });
+        navigate("ReelView", { data: data });
       }}
     >
       <View style={styles.container}>

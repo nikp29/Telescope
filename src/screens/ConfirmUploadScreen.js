@@ -62,6 +62,8 @@ const ConfirmUploadScreen = (props) => {
               user: uid,
               thumbnail,
               upvotes: [],
+              comments: [],
+              description: "",
             });
             props.navigation.goBack(null);
             navigate("FeedScreen");

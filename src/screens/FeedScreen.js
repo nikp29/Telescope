@@ -13,7 +13,7 @@ import { NavigationEvents } from "react-navigation";
 import Spacer from "../components/Spacer";
 import { firebase } from "../firebase/config.js";
 import moment from "moment";
-import ReelFeedView from "../components/ReelFeedView";
+import ReelFeedCard from "../components/ReelFeedCard";
 
 const ReelScreen = ({ navigation, variant }) => {
   const [isWeek, setIsWeek] = useState(false);
@@ -121,9 +121,7 @@ const getReelList = async (setReelList, numDisplayed, isWeek) => {
         querySnapshot.forEach((doc) => {
           let data_ = doc.data();
           data_["id"] = doc.id;
-          if (data_.weekstamp == getWeekstamp(moment())) {
-            reelList_.push(data_);
-          }
+          reelList_.push(data_);
         });
         setReelList(reelList_);
       })
@@ -141,9 +139,7 @@ const getReelList = async (setReelList, numDisplayed, isWeek) => {
         querySnapshot.forEach((doc) => {
           let data_ = doc.data();
           data_["id"] = doc.id;
-          if (data_.daystamp == getDaystamp(moment())) {
-            reelList_.push(data_);
-          }
+          reelList_.push(data_);
         });
         setReelList(reelList_);
       })
@@ -165,11 +161,12 @@ const getWeekstamp = (moment_) => {
 
 const renderReelFeedView = (data) => {
   return (
-    <ReelFeedView
+    <ReelFeedCard
       title={data.title}
       upvotes={data.upvotes}
       image_url={data.thumbnail}
       id={data.id}
+      data={data}
     />
   );
 };
