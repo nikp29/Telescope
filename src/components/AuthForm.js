@@ -5,6 +5,7 @@ import {
   TextInput,
   Button,
   TouchableOpacity,
+  Keyboard,
 } from "react-native";
 import { Text } from "react-native-elements";
 
@@ -25,6 +26,7 @@ const AuthForm = ({
         <Text style={styles.title}>telescope</Text>
         <Text style={styles.title2}>.</Text>
       </View>
+      <Text style={styles.headerText}>{headerText}</Text>
       {isSignUp ? (
         <>
           <View style={styles.inputContainer}>
@@ -35,6 +37,7 @@ const AuthForm = ({
               onChangeText={setFullName}
               autoCapitalize="none"
               autoCorrect={false}
+              onPress={() => Keyboard.dismiss()}
             />
           </View>
         </>
@@ -48,6 +51,7 @@ const AuthForm = ({
           keyboardType="email-address"
           autoCapitalize="none"
           autoCorrect={false}
+          onPress={() => Keyboard.dismiss()}
         />
       </View>
       <View style={styles.inputContainer}>
@@ -59,6 +63,13 @@ const AuthForm = ({
           onChangeText={setPassword}
           autoCapitalize="none"
           autoCorrect={false}
+          returnKeyType="done"
+          blurOnSubmit={true}
+          onPress={() => Keyboard.dismiss()}
+          onSubmitEditing={() => {
+            Keyboard.dismiss();
+            onSubmit({ email, password });
+          }}
         />
       </View>
       {errorMessage ? (
@@ -133,6 +144,16 @@ const styles = StyleSheet.create({
     color: "#5C33FF",
     fontFamily: "Raleway-SemiBold",
     fontSize: 18,
+  },
+  headerText: {
+    width: "100%",
+    textAlign: "left",
+    paddingLeft: "10%",
+    fontFamily: "Raleway-Bold",
+    fontSize: 28,
+    color: "white",
+    marginTop: 32,
+    marginBottom: -16,
   },
 });
 

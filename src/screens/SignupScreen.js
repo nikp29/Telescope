@@ -13,7 +13,7 @@ const SignupScreen = ({ navigation }) => {
       <View style={styles.container}>
         <NavigationEvents onWillFocus={clearErrorMessage} />
         <AuthForm
-          headerText="Sign Up for Telescope"
+          headerText="Sign Up"
           errorMessage={state.errorMessage}
           submitButtonText="Sign Up"
           onSubmit={signup}
