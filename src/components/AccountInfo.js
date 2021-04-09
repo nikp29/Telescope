@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Text, View, StyleSheet, TextInput, TouchableOpacity} from 'react-native' 
+import {Text, View, StyleSheet, TextInput, TouchableOpacity, Image} from 'react-native' 
 import { Button, Input } from "react-native-elements";
 import AsyncStorage from "@react-native-community/async-storage";
 import { firebase } from "../firebase/config.js";
@@ -12,34 +12,28 @@ const AccountInfo = () => {
     const [bio, setBio] = useState(""); 
     const [name, setName] = useState(""); 
     const [email, setEmail] = useState(""); 
+    const [profilePic, setProfilePic] = useState({uri: ""}); 
     const [edit, setEdit] = useState(false);
     const [editText, setEditText] = useState("Edit Profile");
 
     if(t) {
-        getInfo(setBio, setName, setEmail);
+        getInfo(setBio, setName, setEmail, setProfilePic);
         t = false;
+        
     }
+    
     return (
         <View >
             {/* <Text>Name: {name}</Text>
             <Text>Email: {email}</Text>
             <Text>Bio: {bio}</Text> */}
+            <Image style={{ width: 200, height: 200 }} source={profilePic}/>
             <TextInput
                 style={styles.textInput}
                 label="bioText"
                 value={name}
                 onChange={newValue => {setName(newValue.nativeEvent.text);}}
                 placeholder={"Name"}
-                autoCapitalize="none"
-                autoCorrect={false}
-                editable={edit}
-            />
-            <TextInput
-                style={styles.textInput}
-                label="bioText"
-                value={email}
-                onChange={newValue => {setEmail(newValue.nativeEvent.text);}}
-                placeholder={"Email"}
                 autoCapitalize="none"
                 autoCorrect={false}
                 editable={edit}
@@ -64,7 +58,7 @@ const AccountInfo = () => {
                         setEditText("Edit Profile");
                         setEdit(!edit);
                     }
-                    editInfo(name, email, bio);
+                    editInfo(name, bio);
                     // addComment(id, description);
                 }}
             >
@@ -74,15 +68,27 @@ const AccountInfo = () => {
     );
 };
 
-const getInfo = async (setBio, setName, setEmail) => {
+const getInfo = async (setBio, setName, setEmail, setProfilePic) => {
+    var imageURL = false;
     const uid = await AsyncStorage.getItem("token");
     const userRef = firebase.firestore().collection("users");
+    var storageRef = firebase.storage().ref();
+
     firebase.firestore().collection("users").doc(uid).get()
     .then((doc) => {
         console.log(doc.data());
         setBio(doc.data().bio);
         setName(doc.data().fullName);
         setEmail(doc.data().email);
+        imageURL = doc.data().pic;
+    }).then(() => {
+        if(imageURL) {
+            storageRef.child(uid+'/profilepicture.jpg').getDownloadURL()
+            .then((url) => {
+                setProfilePic({uri: url});
+                console.log("url is " + url);
+            });
+        }
     })
     .catch((error) => {
         console.error("Error fetching document: ", error);
@@ -103,14 +109,13 @@ const getInfo = async (setBio, setName, setEmail) => {
     return temp;
 };
 
-const editInfo = async (name, email, bio) => {
+const editInfo = async (name, bio) => {
     
     const uid = await AsyncStorage.getItem("token");
     // const userRef = firebase.firestore().collection("users");
     firebase.firestore().collection("users").doc(uid).update({
         bio: bio,
         fullName: name,
-        email: email
     })
     .then(() => {
         console.log("Edited Bio.") ;

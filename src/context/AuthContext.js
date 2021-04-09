@@ -42,6 +42,8 @@ const signup = (dispatch) => async ({ email, password, fullName }) => {
         id: uid,
         email,
         fullName,
+        bio: "",
+        pic: false
       };
       const usersRef = firebase.firestore().collection("users");
       usersRef
