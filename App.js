@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { Host } from "react-native-portalize";
-
+import * as Font from "expo-font";
+import AppLoading from "expo-app-loading";
 import AccountScreen from "./src/screens/AccountScreen";
 import ConfirmUploadScreen from "./src/screens/ConfirmUploadScreen";
 import SigninScreen from "./src/screens/SigninScreen";
@@ -40,9 +41,28 @@ const switchNavigator = createSwitchNavigator(
   { initialRouteName: "loginFlow" }
 );
 
+const fetchFonts = () => {
+  return Font.loadAsync({
+    "Raleway-Bold": require("./assets/Raleway-Bold.ttf"),
+    "Raleway-ExtraBold": require("./assets/Raleway-ExtraBold.ttf"),
+    "Raleway-SemiBold": require("./assets/Raleway-SemiBold.ttf"),
+    "Raleway-Regular": require("./assets/Raleway-Regular.ttf"),
+  });
+};
+
 const App = createAppContainer(switchNavigator);
 
 export default () => {
+  const [dataLoaded, setDataLoaded] = useState(false);
+  if (!dataLoaded) {
+    return (
+      <AppLoading
+        onError={() => console.log("couldn't load fonts")}
+        startAsync={fetchFonts}
+        onFinish={() => setDataLoaded(true)}
+      />
+    );
+  }
   return (
     <AuthProvider>
       <Host>

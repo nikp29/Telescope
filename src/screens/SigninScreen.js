@@ -9,19 +9,22 @@ const SigninScreen = () => {
   const { state, signin, clearErrorMessage } = useContext(Context);
 
   return (
-    <View style={styles.container}>
-      <NavigationEvents onWillFocus={clearErrorMessage} />
-      <AuthForm
-        headerText="Sign In to Your Account"
-        errorMessage={state.errorMessage}
-        onSubmit={signin}
-        submitButtonText="Sign In"
-        isSignUp={false}
-      />
-      <NavLink
-        text="Dont have an account? Sign up instead"
-        routeName="Signup"
-      />
+    <View style={styles.background}>
+      <View style={styles.container}>
+        <NavigationEvents onWillFocus={clearErrorMessage} />
+        <AuthForm
+          headerText="Sign In to Your Account"
+          errorMessage={state.errorMessage}
+          onSubmit={signin}
+          submitButtonText="Sign In"
+          isSignUp={false}
+        />
+        <NavLink
+          text="Dont have an account?"
+          linkText="Sign up"
+          routeName="Signup"
+        />
+      </View>
     </View>
   );
 };
@@ -34,7 +37,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    marginBottom: 250,
+  },
+  background: {
+    height: "100%",
+    backgroundColor: "#5c33ff",
   },
 });
 

@@ -15,6 +15,7 @@
     "axios": "^0.21.1",
     "dotenv": "^8.2.0",
     "expo": "~40.0.0",
+    "expo-app-loading": "^1.0.1",
     "expo-font": "~8.4.0",
     "expo-status-bar": "~1.0.3",
     "firebase": "^8.3.2",
@@ -42,5 +43,10 @@
   "devDependencies": {
     "@babel/core": "~7.9.0"
   },
-  "private": true
+  "private": true,
+  "rnpm": {
+    "assets": [
+      "assets/fonts/Raleway"
+    ]
+  }
 }

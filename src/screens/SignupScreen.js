@@ -9,19 +9,22 @@ const SignupScreen = ({ navigation }) => {
   const { state, signup, clearErrorMessage } = useContext(AuthContext);
 
   return (
-    <View style={styles.container}>
-      <NavigationEvents onWillFocus={clearErrorMessage} />
-      <AuthForm
-        headerText="Sign Up for Telescope"
-        errorMessage={state.errorMessage}
-        submitButtonText="Sign Up"
-        onSubmit={signup}
-        isSignUp
-      />
-      <NavLink
-        routeName="Signin"
-        text="Already have an account? Sign in instead!"
-      />
+    <View style={styles.background}>
+      <View style={styles.container}>
+        <NavigationEvents onWillFocus={clearErrorMessage} />
+        <AuthForm
+          headerText="Sign Up for Telescope"
+          errorMessage={state.errorMessage}
+          submitButtonText="Sign Up"
+          onSubmit={signup}
+          isSignUp
+        />
+        <NavLink
+          routeName="Signin"
+          text="Already have an account?"
+          linkText="Sign in"
+        />
+      </View>
     </View>
   );
 };
@@ -36,7 +39,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    marginBottom: 250,
+  },
+  background: {
+    height: "100%",
+    backgroundColor: "#5c33ff",
   },
 });
 
