@@ -20,6 +20,7 @@ const UploadForm = ({
   const [tags, setTags] = useState("");
   const [description, setDescription] = useState("");
   const uploadReel = () => {
+    // hi jared
     const youtubeRegex = /(?:http(?:s)?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^\?&\"'<> #]+)/;
     if (youtubeRegex.test(url)) {
       if (title.length >= 2 && title.length <= 40) {
