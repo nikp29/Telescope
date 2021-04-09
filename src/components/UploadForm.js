@@ -20,6 +20,7 @@ const UploadForm = ({
   const [tags, setTags] = useState("");
   const [description, setDescription] = useState("");
   const uploadReel = () => {
+    // hi jared
     const youtubeRegex = /(?:http(?:s)?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^\?&\"'<> #]+)/;
     if (youtubeRegex.test(url)) {
       if (title.length >= 2 && title.length <= 40) {
@@ -45,11 +46,6 @@ const UploadForm = ({
 
   return (
     <>
-      <View style={styles.topBar}>
-        <TouchableOpacity onPress={uploadReel} style={styles.uploadContainer}>
-          <Text style={styles.uploadText}>{submitButtonText}</Text>
-        </TouchableOpacity>
-      </View>
       <KeyboardAwareScrollView
         style={{ width: "100%" }}
         contentContainerStyle={{ alignItems: "center" }}
@@ -113,6 +109,18 @@ const UploadForm = ({
           <Text style={styles.errorMessage}>{errorMessage}</Text>
         ) : null}
       </KeyboardAwareScrollView>
+      <View style={styles.topBar}>
+        <TouchableOpacity
+          style={{ zIndex: 2 }}
+          onPress={() => {
+            console.log("hi");
+            uploadReel();
+          }}
+          style={styles.uploadContainer}
+        >
+          <Text style={styles.uploadText}>{submitButtonText}</Text>
+        </TouchableOpacity>
+      </View>
     </>
   );
 };
