@@ -18,7 +18,7 @@ const AccountScreen = () => {
       </Spacer>
       <Info/>
       {/* <Edit/> */}
-      <ImagePick/>
+      {/* <ImagePick/> */}
     </>
   );
 };

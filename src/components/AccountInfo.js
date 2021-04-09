@@ -4,6 +4,7 @@ import { Button, Input } from "react-native-elements";
 import AsyncStorage from "@react-native-community/async-storage";
 import { firebase } from "../firebase/config.js";
 import Spacer from "./Spacer";
+import ImagePick from "./ImagePick";
 
 var t = true;
 
@@ -64,6 +65,9 @@ const AccountInfo = () => {
             >
                 <Text>{editText}</Text>
             </TouchableOpacity>
+            <ImagePick
+                setURL = {setProfilePic}
+            />
         </View>
     );
 };
@@ -83,7 +87,7 @@ const getInfo = async (setBio, setName, setEmail, setProfilePic) => {
         imageURL = doc.data().pic;
     }).then(() => {
         if(imageURL) {
-            storageRef.child(uid+'/profilepicture.jpg').getDownloadURL()
+            storageRef.child("profile_pictures/" + uid + '.jpg').getDownloadURL()
             .then((url) => {
                 setProfilePic({uri: url});
                 console.log("url is " + url);
