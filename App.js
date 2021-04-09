@@ -35,7 +35,7 @@ const switchNavigator = createSwitchNavigator(
         ReelUpload: ReelUploadScreen,
         ConfirmUpload: ConfirmUploadScreen,
       }),
-      Account: AccountScreen,
+      Account: AccountScreen
     }),
   },
   { initialRouteName: "loginFlow" }
