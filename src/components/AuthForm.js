@@ -121,9 +121,9 @@ const styles = StyleSheet.create({
   input: {
     fontSize: 18,
     fontFamily: "Raleway-Regular",
+    padding: 24,
   },
   inputContainer: {
-    padding: 24,
     backgroundColor: "white",
     width: "80%",
     borderRadius: 16,

@@ -133,7 +133,6 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   inputContainer: {
-    padding: 24,
     backgroundColor: "rgba(255, 215, 112, 0.7)",
     width: "80%",
     borderRadius: 16,
@@ -142,11 +141,14 @@ const styles = StyleSheet.create({
   input: {
     fontFamily: "Raleway-Regular",
     fontSize: 18,
+    padding: 24,
   },
   inputMulti: {
     fontFamily: "Raleway-Regular",
     fontSize: 18,
     maxHeight: 90,
+    padding: 24,
+    paddingTop: 24,
   },
   title: {
     width: "100%",
