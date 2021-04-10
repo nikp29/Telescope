@@ -38,7 +38,7 @@ const ImagePick = ({setURL}) => {
 
   return (
     <View>
-      <Button title="Pick an image from camera roll" onPress={pickImage} />
+      <Button title="Update Profile Picture" onPress={pickImage} />
     </View>
   );
 }

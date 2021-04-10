@@ -6,6 +6,7 @@ import { Host } from "react-native-portalize";
 import * as Font from "expo-font";
 import AppLoading from "expo-app-loading";
 import AccountScreen from "./src/screens/AccountScreen";
+import EditAccountScreen from "./src/screens/EditAccountScreen";
 import ConfirmUploadScreen from "./src/screens/ConfirmUploadScreen";
 import SigninScreen from "./src/screens/SigninScreen";
 import SignupScreen from "./src/screens/SignupScreen";
@@ -35,7 +36,10 @@ const switchNavigator = createSwitchNavigator(
         ReelUpload: ReelUploadScreen,
         ConfirmUpload: ConfirmUploadScreen,
       }),
-      Account: AccountScreen
+      accountFlow: createStackNavigator({
+        ViewAccount: AccountScreen,
+        EditAccount: EditAccountScreen
+      })
     }),
   },
   { initialRouteName: "loginFlow" }

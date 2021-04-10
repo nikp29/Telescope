@@ -3,57 +3,68 @@ import {Text, View, StyleSheet, TextInput, TouchableOpacity, Image} from 'react-
 import { Button, Input } from "react-native-elements";
 import AsyncStorage from "@react-native-community/async-storage";
 import { firebase } from "../firebase/config.js";
-import Spacer from "./Spacer";
-import ImagePick from "./ImagePick";
+// import Spacer from "./Spacer";
+import ImagePick from "../components/ImagePick";
 
-var t = true;
+var t = false;
 
-const AccountInfo = (props) => {
 
-    const [bio, setBio] = useState(""); 
-    const [name, setName] = useState(""); 
-    const [email, setEmail] = useState(""); 
-    const [profilePic, setProfilePic] = useState({uri: ""}); 
-    const [edit, setEdit] = useState(false);
-    const [editText, setEditText] = useState("Edit Profile");
-
+const AccountInfo = ({route, navigation}) => {
+    const [bio, setBio] = useState(navigation.getParam('bio')); 
+    const [name, setName] = useState(navigation.getParam('name')); 
+    const [profilePic, setProfilePic] = useState(navigation.getParam('profilePic')); 
     if(t) {
-        getInfo(setBio, setName, setEmail, setProfilePic);
+        getInfo(setBio, setName, setProfilePic)
+        .then(() => {
+
+        });
         t = false;
-        
     }
     
     return (
         <View >
             <Image style={{ width: 200, height: 200 }} source={profilePic}/>
-            <Text>Name: {name}</Text>
-            <Text>Bio: {bio}</Text>
             
-            <Spacer/>
-            {/* <TouchableOpacity
+            <TextInput
+                style={styles.textInput}
+                label="bioText"
+                value={name}
+                onChange={newValue => {setName(newValue.nativeEvent.text);
+                console.log(name)}}
+                placeholder={"Name"}
+                autoCapitalize="none"
+                autoCorrect={false}
+            />
+            <TextInput
+                style={styles.textInput}
+                label="bioText"
+                value={bio}
+                onChange={newValue => {setBio(newValue.nativeEvent.text);}}
+                placeholder={"Bio"}
+                autoCapitalize="none"
+                autoCorrect={false}
+            />
+            {/* <Spacer/> */}
+            <TouchableOpacity
                 onPress={() => {
-                    () => props.navigation.navigate('EditAccount')
-                    // if(!edit) {
-                    //     setEditText("Finish Editing");
-                    //     setEdit(!edit);
-                    // } else {
-                    //     setEditText("Edit Profile");
-                    //     setEdit(!edit);
-                    // }
-                    // editInfo(name, bio);
-                    // addComment(id, description);
+                        const temp = navigation.getParam('func');
+                        editInfo(name, bio).then(()=> {
+                            temp();                        
+                        }).then(()=> {
+                            navigation.navigate('ViewAccount', {bio: bio, name: name, profilePic: profilePic});
+                        });
                 }}
             >
-                <Text>{editText}</Text>
+                <Text>Finish Editing</Text>
             </TouchableOpacity>
             <ImagePick
                 setURL = {setProfilePic}
-            /> */}
+            />
         </View>
     );
 };
 
-const getInfo = async (setBio, setName, setEmail, setProfilePic) => {
+const getInfo = async (setBio, setName, setProfilePic) => {
     var imageURL = false;
     const uid = await AsyncStorage.getItem("token");
     const userRef = firebase.firestore().collection("users");
@@ -64,7 +75,6 @@ const getInfo = async (setBio, setName, setEmail, setProfilePic) => {
         console.log(doc.data());
         setBio(doc.data().bio);
         setName(doc.data().fullName);
-        setEmail(doc.data().email);
         imageURL = doc.data().pic;
     }).then(() => {
         if(imageURL) {
@@ -100,7 +110,7 @@ const editInfo = async (name, bio) => {
     // const userRef = firebase.firestore().collection("users");
     firebase.firestore().collection("users").doc(uid).update({
         bio: bio,
-        fullName: name,
+        fullName: name
     })
     .then(() => {
         console.log("Edited Bio.") ;
