@@ -96,7 +96,7 @@ const UploadForm = ({
             autoCorrect={false}
             multiline
             returnKeyType="done"
-            textAlignVertical
+            // textAlignVertical
             blurOnSubmit={true}
             onPress={() => Keyboard.dismiss()}
             onSubmitEditing={() => {
