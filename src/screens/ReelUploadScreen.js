@@ -22,7 +22,7 @@ const ReelUploadScreen = () => {
   );
 };
 
-const confirmUpload = async ({ url, title, tags, setError }) => {
+const confirmUpload = async ({ url, tags, setError, description }) => {
   const usersRef = firebase.firestore().collection("users");
   const uid = await AsyncStorage.getItem("token");
   await usersRef
@@ -47,7 +47,14 @@ const confirmUpload = async ({ url, title, tags, setError }) => {
             const thumbnail =
               response.data.items[0].snippet.thumbnails.standard.url;
             setError("");
-            navigate("ConfirmUpload", { url, title, tags, thumbnail });
+            navigate("ConfirmUpload", {
+              url,
+              tags,
+              thumbnail,
+              description,
+              username: data.fullName,
+              uid,
+            });
           } else {
             setError("invalid youtube video");
           }
@@ -64,7 +71,13 @@ const confirmUpload = async ({ url, title, tags, setError }) => {
           const thumbnail =
             response.data.items[0].snippet.thumbnails.standard.url;
           setError("");
-          navigate("ConfirmUpload", { url, title, tags, thumbnail });
+          navigate("ConfirmUpload", {
+            url,
+            title,
+            tags,
+            thumbnail,
+            description,
+          });
         } else {
           setError("invalid youtube video");
         }

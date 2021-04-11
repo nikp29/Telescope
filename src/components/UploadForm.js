@@ -16,14 +16,13 @@ const UploadForm = ({
   goBack,
 }) => {
   const [url, setUrl] = useState("");
-  const [title, setTitle] = useState("");
   const [tags, setTags] = useState("");
   const [description, setDescription] = useState("");
   const uploadReel = () => {
     // hi jared
     const youtubeRegex = /(?:http(?:s)?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^\?&\"'<> #]+)/;
     if (youtubeRegex.test(url)) {
-      if (title.length >= 2 && title.length <= 40) {
+      if (description.length >= 0) {
         setError("");
         const matches = tags
           ? tags.match(/#(\w+)/g).map((item) => {
@@ -32,12 +31,12 @@ const UploadForm = ({
           : [];
         onSubmit({
           url: youtubeRegex.exec(url)[1],
-          title,
           tags: matches,
           setError,
+          description,
         });
       } else {
-        setError("Title must be between 2 and 40 characters");
+        setError("Description must be between 2 and 40 characters");
       }
     } else {
       setError("Invalid youtube url");
@@ -61,17 +60,6 @@ const UploadForm = ({
             placeholder={"Insert Youtube link"}
             autoCapitalize="none"
             autoCorrect={false}
-            onPress={() => Keyboard.dismiss()}
-          />
-        </View>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            value={title}
-            onChangeText={setTitle}
-            autoCapitalize="words"
-            autoCorrect={false}
-            placeholder={"Write a title"}
             onPress={() => Keyboard.dismiss()}
           />
         </View>

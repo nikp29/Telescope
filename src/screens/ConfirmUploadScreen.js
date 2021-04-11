@@ -1,76 +1,76 @@
 import React, { useState, useCallback, useRef } from "react";
-import { View, StyleSheet, Text, Button } from "react-native";
+import { View, StyleSheet, Text, Button, TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
 import moment, { unix } from "moment";
-import YoutubePlayer from "react-native-youtube-iframe";
 import { firebase } from "../firebase/config.js";
 import { navigate } from "../navigationRef";
+import ReelView from "../components/ReelView";
+import { NavigationEvents } from "react-navigation";
 
 const ConfirmUploadScreen = (props) => {
-  const { url, title, tags, thumbnail } = props.navigation.state.params;
-  const [status, setStatus] = useState(false);
-  const [ready, setReady] = useState(false);
+  const {
+    url,
+    tags,
+    thumbnail,
+    description,
+    username,
+    uid,
+  } = props.navigation.state.params;
+  const confirmUpload = async () => {
+    const reelsRef = firebase.firestore().collection("reels");
+    const usersRef = firebase.firestore().collection("users");
+
+    const uid = await AsyncStorage.getItem("token");
+    await usersRef.doc(uid).update({ lastUploaded: moment().unix().valueOf() });
+    await reelsRef.add({
+      timestamp: moment().unix().valueOf(),
+      daystamp: getDaystamp(moment()),
+      weekstamp: getWeekstamp(moment()),
+      youtube_id: url,
+      tags,
+      user: uid,
+      thumbnail,
+      upvotes: [],
+      comments: [],
+      description,
+    });
+    props.navigation.goBack(null);
+    navigate("FeedScreen");
+  };
+
   console.log(moment().unix().valueOf());
-
   return (
-    <View>
-      <View>
-        <Text>Your new reel:</Text>
-        <Text>Title: {title}</Text>
-        <Text>Preview</Text>
-      </View>
-      <YoutubePlayer
-        videoId={url}
-        play={true} // control playback of video with true/false
-        onReady={() => setReady(true)}
-        onChangeState={(e) => setStatus(e)}
-        height={219}
-        forceAndroidAutoplay
+    <>
+      <ReelView
+        url={url}
+        tags={tags}
+        username={username}
+        thumbnail={thumbnail}
+        description={description}
+        uid={uid}
       />
-      <View>
-        {tags == [] ? (
-          <>
-            <Text>Tags:</Text>
-            <Text>
-              {tags
-                .map((item) => {
-                  return "#" + item;
-                })
-                .join(", ")}
-            </Text>
-          </>
-        ) : (
-          <></>
-        )}
-        <Button
-          title={"Confirm"}
-          onPress={async () => {
-            const reelsRef = firebase.firestore().collection("reels");
-            const usersRef = firebase.firestore().collection("users");
-
-            const uid = await AsyncStorage.getItem("token");
-            await usersRef
-              .doc(uid)
-              .update({ lastUploaded: moment().unix().valueOf() });
-            await reelsRef.add({
-              timestamp: moment().unix().valueOf(),
-              daystamp: getDaystamp(moment()),
-              weekstamp: getWeekstamp(moment()),
-              title: title,
-              youtube_id: url,
-              tags: tags,
-              user: uid,
-              thumbnail,
-              upvotes: [],
-              comments: [],
-              description: "",
-            });
+      <View style={styles.topBar}>
+        <TouchableOpacity
+          style={{ zIndex: 2 }}
+          onPress={() => {
             props.navigation.goBack(null);
-            navigate("FeedScreen");
           }}
-        />
+          style={styles.backContainer}
+        >
+          <Text style={styles.uploadText}>Back</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{ zIndex: 2 }}
+          onPress={() => {
+            console.log("hi");
+            confirmUpload();
+          }}
+          style={styles.uploadContainer}
+        >
+          <Text style={styles.uploadText}>Upload</Text>
+        </TouchableOpacity>
       </View>
-    </View>
+    </>
   );
 };
 
@@ -84,6 +84,36 @@ const getWeekstamp = (moment_) => {
   return Math.floor((Math.floor(moment_.unix().valueOf() / 86400) - 4) / 7);
 };
 
-const styles = StyleSheet.create({});
+ConfirmUploadScreen.navigationOptions = () => {
+  return {
+    header: () => false,
+  };
+};
+
+const styles = StyleSheet.create({
+  topBar: {
+    position: "absolute",
+    top: 0,
+    paddingTop: 45,
+    backgroundColor: "white",
+    left: 0,
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  uploadContainer: {
+    padding: 8,
+    marginRight: 8,
+  },
+  backContainer: {
+    padding: 8,
+    marginLeft: 8,
+  },
+  uploadText: {
+    color: "#5C33FF",
+    fontFamily: "Raleway-Bold",
+    fontSize: 18,
+  },
+});
 
 export default ConfirmUploadScreen;
