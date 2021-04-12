@@ -51,7 +51,14 @@ const ReelFeedView = ({ title, image_url, youtube_id, id, data }) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        navigate("ReelView", { data: data });
+        navigate("ReelView", {
+          data: data,
+          upvoted,
+          setUpvoted,
+          upvotes,
+          setUpvotes,
+          editVote,
+        });
       }}
     >
       <View style={styles.container}>

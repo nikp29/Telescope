@@ -16,29 +16,14 @@ import moment from "moment";
 import ReelView from "../components/ReelView";
 
 const ReelViewScreen = (props) => {
-  const { data } = props.navigation.state.params;
-  const [username, setUsername] = useState("");
-  const [upvoted, setUpvoted] = useState(false);
-  const [upvotes, setUpvotes] = useState([]);
-  useEffect(() => {
-    (async () => {
-      let user_name = "";
-      await firebase
-        .firestore()
-        .collection("users")
-        .doc(data.user)
-        .get()
-        .then((doc) => {
-          const data_ = doc.data();
-          user_name = data_.fullName;
-        })
-        .catch((error) => {
-          console.log(error.message);
-        });
-      setUsername(user_name);
-      setUpvotes(data.upvotes);
-    })();
-  }, []);
+  const {
+    data,
+    upvoted,
+    setUpvoted,
+    upvotes,
+    setUpvotes,
+    editVote,
+  } = props.navigation.state.params;
 
   return (
     <>
@@ -46,11 +31,9 @@ const ReelViewScreen = (props) => {
         url={data.youtube_id}
         tags={data.tags}
         description={data.description}
-        username={username}
         reel_uid={data.user}
         id={data.id}
-        upvotes={upvotes}
-        setUpvotes={setUpvotes}
+        upvoteStuff={{ upvoted, setUpvoted, upvotes, setUpvotes, editVote }}
         showComments={true}
       />
       <View style={styles.topBar}>

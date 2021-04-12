@@ -25,11 +25,12 @@ const ReelView = ({
   url,
   tags,
   description,
-  username,
   reel_uid,
   showComments,
+  upvoteStuff,
   id,
 }) => {
+  const { upvoted, setUpvoted, upvotes, setUpvotes, editVote } = upvoteStuff;
   const [status, setStatus] = useState(false);
   const [commenting, setCommenting] = useState(false);
   const [ready, setReady] = useState(false);
@@ -37,26 +38,15 @@ const ReelView = ({
   const [uid, setUid] = useState("");
   const [comments, setComments] = useState([]);
   const [initialGet, setInitialGet] = useState(false);
-  const [upvoted, setUpvoted] = useState(false);
-  const [upvotes, setUpvotes] = useState([]);
+  const [upvoted_, setUpvoted_] = useState(upvoted);
+  const [upvotes_, setUpvotes_] = useState(upvotes.length);
+
   useEffect(() => {
     (async () => {
       const uid_ = await AsyncStorage.getItem("token");
-      const reelsRef = firebase.firestore().collection("reels");
-      reelsRef
-        .doc(id)
-        .get()
-        .then((doc) => {
-          const data = doc.data();
-          setUpvoted(data.upvotes.includes(uid_));
-          setUpvotes(data.upvotes);
-        })
-        .catch((error) => console.log(error.message));
       setUid(uid_);
     })();
   }, []);
-  console.log(upvotes);
-  console.log(upvoted);
   const modalizeRef = useRef(null);
   if (initialGet == false && showComments) {
     setInitialGet(true);
@@ -85,15 +75,21 @@ const ReelView = ({
           <TouchableOpacity
             style={styles.upvoteBox}
             onPress={() => {
-              editVote(upvotes, id, setUpvoted, setUpvotes);
+              if (!upvoted) {
+                setUpvotes_(upvotes_ - 1);
+              } else {
+                setUpvotes_(upvotes_ + 1);
+              }
+              setUpvoted_(!upvoted_);
+              editVote(upvotes, id, setUpvoted);
             }}
           >
-            {upvotes.includes(uid) ? (
+            {upvoted_ ? (
               <Icon name={"star"} size={20} color="#FFD770" />
             ) : (
               <Icon name={"star-o"} size={20} color="#FFD770" />
             )}
-            <Text style={styles.upvoteText}>{upvotes.length}</Text>
+            <Text style={styles.upvoteText}>{upvotes_}</Text>
           </TouchableOpacity>
         )}
         <View style={styles.bottomContainer}>
