@@ -19,7 +19,7 @@ const ReelViewScreen = (props) => {
   const { data } = props.navigation.state.params;
   const [username, setUsername] = useState("");
   useEffect(() => {
-    async function fetchUsername() {
+    (async () => {
       let user_name = "";
       await firebase
         .firestore()
@@ -34,11 +34,7 @@ const ReelViewScreen = (props) => {
           console.log(error.message);
         });
       setUsername(user_name);
-    }
-    fetchUsername();
-    return () => {
-      null;
-    };
+    })();
   }, []);
 
   return (

@@ -7,6 +7,9 @@ import {
   TouchableOpacity,
   FlatList,
   ScrollView,
+  TextInput,
+  Keyboard,
+  KeyboardAvoidingView,
 } from "react-native";
 import { Input } from "react-native-elements";
 import { Modalize } from "react-native-modalize";
@@ -15,6 +18,8 @@ import YoutubePlayer from "react-native-youtube-iframe";
 import AsyncStorage from "@react-native-community/async-storage";
 import { firebase } from "../firebase/config.js";
 import CommentCard from "../components/CommentCard";
+import ProfileIcon from "../components/ProfileIcon";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const ReelView = ({
   url,
@@ -26,20 +31,17 @@ const ReelView = ({
   id,
 }) => {
   const [status, setStatus] = useState(false);
+  const [commenting, setCommenting] = useState(false);
   const [ready, setReady] = useState(false);
   const [comment, setComment] = useState("");
   const [uid, setUid] = useState("");
   const [comments, setComments] = useState([]);
   const [initialGet, setInitialGet] = useState(false);
   useEffect(() => {
-    async function fetchUid() {
+    (async () => {
       const uid = await AsyncStorage.getItem("token");
       setUid(uid);
-    }
-    fetchUid();
-    return () => {
-      null;
-    };
+    })();
   }, []);
 
   const modalizeRef = useRef(null);
@@ -66,78 +68,142 @@ const ReelView = ({
           height={201}
           forceAndroidAutoplay
         />
+        <View style={styles.bottomContainer}>
+          <View style={styles.topRow}>
+            {showComments && (
+              <TouchableOpacity onPress={onOpen}>
+                <Icon
+                  name={"commenting"}
+                  size={30}
+                  color="rgba(196, 196, 196, 0.7)"
+                />
+              </TouchableOpacity>
+            )}
+            {tags != [] && (
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                style={styles.tagView}
+              >
+                <FlatList
+                  scrollEnabled={true}
+                  horizontal
+                  style={styles.tags}
+                  data={tags}
+                  showsHorizontalScrollIndicator={false}
+                  renderItem={({ item }) => {
+                    const color = colors[tags.indexOf(item) % 3];
+                    console.log(color);
+                    return (
+                      <View
+                        style={{
+                          padding: 8,
+                          backgroundColor: color,
+                          borderRadius: 8,
+                          marginRight: 16,
+                        }}
+                      >
+                        <Text>{item}</Text>
+                      </View>
+                    );
+                  }}
+                />
+              </ScrollView>
+            )}
+          </View>
+          <View style={styles.bottomRow}>
+            <ProfileIcon uid={reel_uid} />
+            {showComments && (
+              <TouchableOpacity
+                style={styles.commentInputContainer}
+                onPress={() => {
+                  onOpen();
+                  setCommenting(true);
+                }}
+              >
+                <Text
+                  style={styles.commentInput}
+                  placeholder={"Add a comment"}
+                  value={comment}
+                  onChangeText={setComment}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  returnKeyType="send"
+                  editable={false}
+                >
+                  Add a comment
+                </Text>
+              </TouchableOpacity>
+            )}
+          </View>
+        </View>
       </View>
       <View>
-        <Text style={styles.username}>{username}</Text>
         {description != "" && (
           <Text style={styles.description}>{description}</Text>
         )}
       </View>
-      {tags != [] && (
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <FlatList
-            scrollEnabled={true}
-            horizontal
-            style={styles.tags}
-            data={tags}
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => {
-              const color = colors[tags.indexOf(item) % 3];
-              console.log(color);
-              return (
-                <View
-                  style={{
-                    padding: 8,
-                    backgroundColor: color,
-                    borderRadius: 8,
-                    marginRight: 16,
-                  }}
-                >
-                  <Text>{item}</Text>
-                </View>
-              );
-            }}
-          />
-        </ScrollView>
-      )}
+
       {showComments && (
         <>
-          <TouchableOpacity onPress={onOpen}>
-            <Text>Comments</Text>
-          </TouchableOpacity>
           <Portal>
             <Modalize
+              modalStyle={{ backgroundColor: "#E5E5E5" }}
               ref={modalizeRef}
               modalTopOffset={100}
+              onClose={() => {
+                setCommenting(false);
+              }}
               FooterComponent={
-                <View>
-                  <Input
+                <View style={styles.footer}>
+                  <TextInput
+                    style={styles.commentInput}
                     placeholder={"Add a comment"}
                     value={comment}
                     onChangeText={setComment}
                     autoCapitalize="none"
                     autoCorrect={false}
+                    returnKeyType="send"
+                    autoFocus={commenting}
+                    onEndEditing={() => {
+                      setCommenting(false);
+                    }}
+                    onSubmitEditing={() => {
+                      Keyboard.dismiss();
+                      setCommenting(false);
+                    }}
                   />
                   <TouchableOpacity
                     onPress={() => {
-                      addComment(id, comment, setComment);
-                      getComments(id, setComments);
+                      if (comment != "") {
+                        Keyboard.dismiss();
+                        setCommenting(false);
+                        addComment(id, comment, setComment);
+                        getComments(id, setComments);
+                      }
                     }}
                   >
-                    <Text>Send</Text>
+                    <Icon
+                      name={"paper-plane"}
+                      size={24}
+                      color="rgba(0, 0, 0, .7)"
+                    />
                   </TouchableOpacity>
                 </View>
               }
             >
-              <Text>Comments</Text>
-              <FlatList
-                showsVerticalScrollIndicator={false}
-                data={comments}
-                keyExtractor={(data) => id}
-                renderItem={({ item }) => {
-                  return <CommentCard data={item} uid={uid} />;
-                }}
-              />
+              <View style={styles.commentModal}>
+                <FlatList
+                  showsVerticalScrollIndicator={false}
+                  data={comments}
+                  keyExtractor={(data) => {
+                    return data.id;
+                  }}
+                  renderItem={({ item }) => {
+                    return <CommentCard data={item} uid={uid} />;
+                  }}
+                />
+              </View>
             </Modalize>
           </Portal>
         </>
@@ -199,12 +265,12 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "flex-start",
     padding: 16,
-    paddingTop: 110,
+    paddingTop: 90,
   },
   video: {
     borderRadius: 8,
     overflow: "hidden",
-    height: 650,
+    height: "100%",
     backgroundColor: "black",
     flexDirection: "column",
     justifyContent: "center",
@@ -223,6 +289,51 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     width: "100%",
     marginTop: 8,
+  },
+  bottomContainer: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+  topRow: {
+    flexDirection: "row-reverse",
+    paddingLeft: 8,
+    paddingRight: 8,
+    alignItems: "center",
+  },
+  tagView: {
+    flex: 1,
+    marginRight: 8,
+  },
+  bottomRow: {
+    flexDirection: "row-reverse",
+    padding: 8,
+    alignItems: "center",
+  },
+  commentInput: {
+    flex: 1,
+    fontFamily: "Raleway-Regular",
+    color: "rgba(0, 0, 0, 0.9)",
+    fontSize: 14,
+  },
+  commentInputContainer: {
+    flex: 1,
+    backgroundColor: "rgba(196, 196, 196, 0.7)",
+    borderRadius: 8,
+    padding: 8,
+    marginRight: 8,
+  },
+  footer: {
+    flexDirection: "row",
+    backgroundColor: "white",
+    padding: 16,
+    paddingBottom: 24,
+    alignItems: "center",
+  },
+  commentModal: {
+    flexDirection: "column",
+    marginTop: 16,
   },
 });
 
