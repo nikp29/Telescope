@@ -38,14 +38,12 @@ const ConfirmUploadScreen = (props) => {
     navigate("FeedScreen");
   };
 
-  console.log(moment().unix().valueOf());
   return (
     <>
       <ReelView
         url={url}
         tags={tags}
         username={username}
-        thumbnail={thumbnail}
         description={description}
         uid={uid}
       />

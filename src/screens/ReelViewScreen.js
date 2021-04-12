@@ -13,86 +13,56 @@ import { Host, Portal } from "react-native-portalize";
 import AsyncStorage from "@react-native-community/async-storage";
 import { firebase } from "../firebase/config.js";
 import moment from "moment";
-import CommentCard from "../components/CommentCard";
+import ReelView from "../components/ReelView";
 
 const ReelViewScreen = (props) => {
   const { data } = props.navigation.state.params;
-  const [status, setStatus] = useState(false);
-  const [ready, setReady] = useState(false);
-  const [comment, setComment] = useState("");
-  const [uid, setUid] = useState("");
-  const [comments, setComments] = useState([]);
-  const [initialGet, setInitialGet] = useState(false);
+  const [username, setUsername] = useState("");
   useEffect(() => {
-    async function fetchUid() {
-      const uid = await AsyncStorage.getItem("token");
-      setUid(uid);
+    async function fetchUsername() {
+      let user_name = "";
+      await firebase
+        .firestore()
+        .collection("users")
+        .doc(data.user)
+        .get()
+        .then((doc) => {
+          const data_ = doc.data();
+          user_name = data_.fullName;
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+      setUsername(user_name);
     }
-    fetchUid();
+    fetchUsername();
     return () => {
       null;
     };
   }, []);
 
-  const modalizeRef = useRef(null);
-  if (initialGet == false) {
-    setInitialGet(true);
-    getComments(data.id, setComments);
-  }
-  const onOpen = () => {
-    modalizeRef.current?.open();
-  };
   return (
     <>
-      <Text style={{ fontSize: 48 }}>{data.title}</Text>
-      <YoutubePlayer
-        videoId={data.youtube_id}
-        play={true} // control playback of video with true/false
-        onReady={() => setReady(true)}
-        onChangeState={(e) => setStatus(e)}
-        height={219}
-        forceAndroidAutoplay
+      <ReelView
+        url={data.youtube_id}
+        tags={data.tags}
+        description={data.description}
+        username={username}
+        reel_uid={data.user}
+        id={data.id}
+        showComments={true}
       />
-      <Text>{data.description}</Text>
-      <TouchableOpacity onPress={onOpen}>
-        <Text>Comments</Text>
-      </TouchableOpacity>
-
-      <Portal>
-        <Modalize
-          ref={modalizeRef}
-          modalTopOffset={100}
-          FooterComponent={
-            <View>
-              <Input
-                placeholder={"Add a comment"}
-                value={comment}
-                onChangeText={setComment}
-                autoCapitalize="none"
-                autoCorrect={false}
-              />
-              <TouchableOpacity
-                onPress={() => {
-                  addComment(data.id, comment, setComment);
-                  getComments(data.id, setComments);
-                }}
-              >
-                <Text>Send</Text>
-              </TouchableOpacity>
-            </View>
-          }
+      <View style={styles.topBar}>
+        <TouchableOpacity
+          style={{ zIndex: 2 }}
+          onPress={() => {
+            props.navigation.goBack(null);
+          }}
+          style={styles.backContainer}
         >
-          <Text>Comments</Text>
-          <FlatList
-            showsVerticalScrollIndicator={false}
-            data={comments}
-            keyExtractor={(data) => data.id}
-            renderItem={({ item }) => {
-              return <CommentCard data={item} uid={uid} />;
-            }}
-          />
-        </Modalize>
-      </Portal>
+          <Text style={styles.uploadText}>Back</Text>
+        </TouchableOpacity>
+      </View>
     </>
   );
 };
@@ -143,6 +113,35 @@ const getComments = async (id, setComments) => {
   setComments(comments);
 };
 
-const styles = StyleSheet.create({});
+ReelViewScreen.navigationOptions = () => {
+  return {
+    header: () => false,
+  };
+};
+const styles = StyleSheet.create({
+  topBar: {
+    position: "absolute",
+    top: 0,
+    paddingTop: 45,
+    backgroundColor: "white",
+    left: 0,
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  uploadContainer: {
+    padding: 8,
+    marginRight: 8,
+  },
+  backContainer: {
+    padding: 8,
+    marginLeft: 8,
+  },
+  uploadText: {
+    color: "#5C33FF",
+    fontFamily: "Raleway-Bold",
+    fontSize: 18,
+  },
+});
 
 export default ReelViewScreen;
