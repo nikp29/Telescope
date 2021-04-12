@@ -37,13 +37,26 @@ const ReelView = ({
   const [uid, setUid] = useState("");
   const [comments, setComments] = useState([]);
   const [initialGet, setInitialGet] = useState(false);
+  const [upvoted, setUpvoted] = useState(false);
+  const [upvotes, setUpvotes] = useState([]);
   useEffect(() => {
     (async () => {
-      const uid = await AsyncStorage.getItem("token");
-      setUid(uid);
+      const uid_ = await AsyncStorage.getItem("token");
+      const reelsRef = firebase.firestore().collection("reels");
+      reelsRef
+        .doc(id)
+        .get()
+        .then((doc) => {
+          const data = doc.data();
+          setUpvoted(data.upvotes.includes(uid_));
+          setUpvotes(data.upvotes);
+        })
+        .catch((error) => console.log(error.message));
+      setUid(uid_);
     })();
   }, []);
-
+  console.log(upvotes);
+  console.log(upvoted);
   const modalizeRef = useRef(null);
   if (initialGet == false && showComments) {
     setInitialGet(true);
@@ -68,6 +81,21 @@ const ReelView = ({
           height={201}
           forceAndroidAutoplay
         />
+        {showComments && (
+          <TouchableOpacity
+            style={styles.upvoteBox}
+            onPress={() => {
+              editVote(upvotes, id, setUpvoted, setUpvotes);
+            }}
+          >
+            {upvotes.includes(uid) ? (
+              <Icon name={"star"} size={20} color="#FFD770" />
+            ) : (
+              <Icon name={"star-o"} size={20} color="#FFD770" />
+            )}
+            <Text style={styles.upvoteText}>{upvotes.length}</Text>
+          </TouchableOpacity>
+        )}
         <View style={styles.bottomContainer}>
           <View style={styles.topRow}>
             {showComments && (
@@ -93,7 +121,6 @@ const ReelView = ({
                   showsHorizontalScrollIndicator={false}
                   renderItem={({ item }) => {
                     const color = colors[tags.indexOf(item) % 3];
-                    console.log(color);
                     return (
                       <View
                         style={{
@@ -213,13 +240,10 @@ const ReelView = ({
 };
 
 const addComment = async (reel_id, description, setComment) => {
-  console.log("add to " + reel_id);
-  console.log(description);
   if (description == "") {
     console.log("empty");
     return;
   }
-  console.log(description);
   const uid = await AsyncStorage.getItem("token");
   firebase
     .firestore()
@@ -238,6 +262,25 @@ const addComment = async (reel_id, description, setComment) => {
       console.error("Error adding document: ", error);
     });
   return;
+};
+
+const editVote = async (upvotes, id, setUpvoted, setUpvotes) => {
+  const uid = await AsyncStorage.getItem("token");
+  const reelsRef = firebase.firestore().collection("reels");
+
+  let new_upvotes = upvotes;
+  if (upvotes.includes(uid)) {
+    new_upvotes.splice(new_upvotes.indexOf(uid), 1);
+    await reelsRef.doc(id).update({ upvotes: new_upvotes });
+    setUpvoted(false);
+    setUpvotes(new_upvotes);
+  } else {
+    // reel has not already been upvoted
+    new_upvotes.push(uid);
+    await reelsRef.doc(id).update({ upvotes: new_upvotes });
+    setUpvoted(true);
+    setUpvotes(new_upvotes);
+  }
 };
 
 const getComments = async (id, setComments) => {
@@ -334,6 +377,19 @@ const styles = StyleSheet.create({
   commentModal: {
     flexDirection: "column",
     marginTop: 16,
+  },
+  upvoteBox: {
+    flexDirection: "column",
+    alignItems: "center",
+    position: "absolute",
+    top: 0,
+    right: 0,
+    padding: 8,
+  },
+  upvoteText: {
+    fontFamily: "Raleway-Regular",
+    fontSize: 13,
+    color: "#86878B",
   },
 });
 

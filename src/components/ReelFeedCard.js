@@ -7,13 +7,41 @@ import { Text, Image } from "react-native-elements";
 import Spacer from "./Spacer";
 import { navigate } from "../navigationRef";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { useFocusEffect } from "react-navigation-hooks";
 
-const ReelFeedView = ({ title, upvotes, image_url, youtube_id, id, data }) => {
+const ReelFeedView = ({ title, image_url, youtube_id, id, data }) => {
   const [upvoted, setUpvoted] = useState(false);
-  useEffect(() => {
+  const [upvotes, setUpvotes] = useState([]);
+  useFocusEffect(() => {
     async function fetchUid() {
       const uid = await AsyncStorage.getItem("token");
-      setUpvoted(upvotes.includes(uid));
+      const reelsRef = firebase.firestore().collection("reels");
+      reelsRef
+        .doc(id)
+        .get()
+        .then((doc) => {
+          const data = doc.data();
+          setUpvoted(data.upvotes.includes(uid_));
+          setUpvotes(data.upvotes);
+        })
+        .catch((error) => console.log(error.message));
+    }
+    fetchUid();
+  });
+  useEffect(() => {
+    console.log("loaded");
+    async function fetchUid() {
+      const uid = await AsyncStorage.getItem("token");
+      const reelsRef = firebase.firestore().collection("reels");
+      reelsRef
+        .doc(id)
+        .get()
+        .then((doc) => {
+          const data = doc.data();
+          setUpvoted(data.upvotes.includes(uid_));
+          setUpvotes(data.upvotes);
+        })
+        .catch((error) => console.log(error.message));
     }
     fetchUid();
     return () => {

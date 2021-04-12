@@ -18,6 +18,8 @@ import ReelView from "../components/ReelView";
 const ReelViewScreen = (props) => {
   const { data } = props.navigation.state.params;
   const [username, setUsername] = useState("");
+  const [upvoted, setUpvoted] = useState(false);
+  const [upvotes, setUpvotes] = useState([]);
   useEffect(() => {
     (async () => {
       let user_name = "";
@@ -34,6 +36,7 @@ const ReelViewScreen = (props) => {
           console.log(error.message);
         });
       setUsername(user_name);
+      setUpvotes(data.upvotes);
     })();
   }, []);
 
@@ -46,6 +49,8 @@ const ReelViewScreen = (props) => {
         username={username}
         reel_uid={data.user}
         id={data.id}
+        upvotes={upvotes}
+        setUpvotes={setUpvotes}
         showComments={true}
       />
       <View style={styles.topBar}>
