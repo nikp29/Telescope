@@ -20,7 +20,6 @@ const ReelViewScreen = (props) => {
         description={data.description}
         reel_uid={data.user}
         id={data.id}
-        upvoteStuff={{ upvoted, setUpvoted, upvotes, setUpvotes, editVote }}
         showComments={true}
       />
       <View style={styles.topBar}>

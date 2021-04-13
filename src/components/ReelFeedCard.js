@@ -7,43 +7,26 @@ import { Text, Image } from "react-native-elements";
 import Spacer from "./Spacer";
 import { navigate } from "../navigationRef";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { useFocusEffect } from "react-navigation-hooks";
+import { NavigationEvents } from "react-navigation";
 
 const ReelFeedView = ({ title, image_url, youtube_id, id, data }) => {
   const [upvoted, setUpvoted] = useState(false);
   const [upvotes, setUpvotes] = useState([]);
-  useFocusEffect(() => {
-    async function fetchUid() {
-      const uid = await AsyncStorage.getItem("token");
-      const reelsRef = firebase.firestore().collection("reels");
-      reelsRef
-        .doc(id)
-        .get()
-        .then((doc) => {
-          const data = doc.data();
-          setUpvoted(data.upvotes.includes(uid_));
-          setUpvotes(data.upvotes);
-        })
-        .catch((error) => console.log(error.message));
-    }
-    fetchUid();
-  });
+  const fetchUidUpvotes = async () => {
+    const uid = await AsyncStorage.getItem("token");
+    const reelsRef = firebase.firestore().collection("reels");
+    reelsRef
+      .doc(id)
+      .get()
+      .then((doc) => {
+        const data = doc.data();
+        setUpvoted(data.upvotes.includes(uid));
+        setUpvotes(data.upvotes);
+      })
+      .catch((error) => console.log(error.message));
+  };
   useEffect(() => {
-    console.log("loaded");
-    async function fetchUid() {
-      const uid = await AsyncStorage.getItem("token");
-      const reelsRef = firebase.firestore().collection("reels");
-      reelsRef
-        .doc(id)
-        .get()
-        .then((doc) => {
-          const data = doc.data();
-          setUpvoted(data.upvotes.includes(uid_));
-          setUpvotes(data.upvotes);
-        })
-        .catch((error) => console.log(error.message));
-    }
-    fetchUid();
+    fetchUidUpvotes();
     return () => {
       null;
     };
@@ -53,14 +36,10 @@ const ReelFeedView = ({ title, image_url, youtube_id, id, data }) => {
       onPress={() => {
         navigate("ReelView", {
           data: data,
-          upvoted,
-          setUpvoted,
-          upvotes,
-          setUpvotes,
-          editVote,
         });
       }}
     >
+      <NavigationEvents onWillFocus={(payload) => fetchUidUpvotes()} />
       <View style={styles.container}>
         <View style={styles.horizontalContainer}>
           <View style={{ flex: 1 }}>

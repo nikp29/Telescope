@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
+import "react-native-gesture-handler";
 import { useFonts } from "expo-font";
 import { NavigationEvents } from "react-navigation";
 import Spacer from "../components/Spacer";
@@ -15,7 +16,7 @@ import { firebase } from "../firebase/config.js";
 import moment from "moment";
 import ReelFeedCard from "../components/ReelFeedCard";
 
-const ReelScreen = ({ navigation, variant }) => {
+const ReelScreen = (props) => {
   const [isWeek, setIsWeek] = useState(true);
   const [initialGet, setInitialGet] = useState(false);
   const [loaded] = useFonts({
@@ -33,6 +34,9 @@ const ReelScreen = ({ navigation, variant }) => {
   }
   return (
     <>
+      <NavigationEvents
+        onWillFocus={(payload) => getReelList(setReelList, 3, true)}
+      />
       <View style={styles.tabBar}>
         <TouchableOpacity
           onPress={async (event) => {

@@ -21,16 +21,7 @@ import CommentCard from "../components/CommentCard";
 import ProfileIcon from "../components/ProfileIcon";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-const ReelView = ({
-  url,
-  tags,
-  description,
-  reel_uid,
-  showComments,
-  upvoteStuff,
-  id,
-}) => {
-  const { upvoted, setUpvoted, upvotes, setUpvotes, editVote } = upvoteStuff;
+const ReelView = ({ url, tags, description, reel_uid, showComments, id }) => {
   const [status, setStatus] = useState(false);
   const [commenting, setCommenting] = useState(false);
   const [ready, setReady] = useState(false);
@@ -38,9 +29,27 @@ const ReelView = ({
   const [uid, setUid] = useState("");
   const [comments, setComments] = useState([]);
   const [initialGet, setInitialGet] = useState(false);
-  const [upvoted_, setUpvoted_] = useState(upvoted);
-  const [upvotes_, setUpvotes_] = useState(upvotes.length);
-
+  const [upvoted, setUpvoted] = useState(false);
+  const [upvotes, setUpvotes] = useState([]);
+  useEffect(() => {
+    async function fetchUid() {
+      const uid = await AsyncStorage.getItem("token");
+      const reelsRef = firebase.firestore().collection("reels");
+      reelsRef
+        .doc(id)
+        .get()
+        .then((doc) => {
+          const data = doc.data();
+          setUpvoted(data.upvotes.includes(uid));
+          setUpvotes(data.upvotes);
+        })
+        .catch((error) => console.log(error.message));
+    }
+    fetchUid();
+    return () => {
+      null;
+    };
+  }, []);
   useEffect(() => {
     (async () => {
       const uid_ = await AsyncStorage.getItem("token");
@@ -74,22 +83,14 @@ const ReelView = ({
         {showComments && (
           <TouchableOpacity
             style={styles.upvoteBox}
-            onPress={() => {
-              if (upvoted_) {
-                setUpvotes_(upvotes_ - 1);
-              } else {
-                setUpvotes_(upvotes_ + 1);
-              }
-              setUpvoted_(!upvoted_);
-              editVote(upvotes, id, setUpvoted);
-            }}
+            onPress={() => editVote(upvotes, id, setUpvoted)}
           >
-            {upvoted_ ? (
+            {upvoted ? (
               <Icon name={"star"} size={20} color="#FFD770" />
             ) : (
               <Icon name={"star-o"} size={20} color="#FFD770" />
             )}
-            <Text style={styles.upvoteText}>{upvotes_}</Text>
+            <Text style={styles.upvoteText}>{upvotes.length}</Text>
           </TouchableOpacity>
         )}
         <View style={styles.bottomContainer}>
@@ -260,7 +261,7 @@ const addComment = async (reel_id, description, setComment) => {
   return;
 };
 
-const editVote = async (upvotes, id, setUpvoted, setUpvotes) => {
+const editVote = async (upvotes, id, setUpvoted) => {
   const uid = await AsyncStorage.getItem("token");
   const reelsRef = firebase.firestore().collection("reels");
 
@@ -269,13 +270,11 @@ const editVote = async (upvotes, id, setUpvoted, setUpvotes) => {
     new_upvotes.splice(new_upvotes.indexOf(uid), 1);
     await reelsRef.doc(id).update({ upvotes: new_upvotes });
     setUpvoted(false);
-    setUpvotes(new_upvotes);
   } else {
     // reel has not already been upvoted
     new_upvotes.push(uid);
     await reelsRef.doc(id).update({ upvotes: new_upvotes });
     setUpvoted(true);
-    setUpvotes(new_upvotes);
   }
 };
 
