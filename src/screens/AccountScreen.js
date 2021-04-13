@@ -1,11 +1,10 @@
-import React, { useContext,useState } from "react";
+import React, { useContext,useState, useEffect } from "react";
 import {StatusBar, Text, View, StyleSheet, TextInput, 
   TouchableOpacity, Image, Linking, 
   Dimensions, ScrollViewComponent,
   FlatList} from 'react-native' 
 import Spacer from "../components/Spacer";
 import { Context as AuthContext } from "../context/AuthContext";
-import Info from "../components/AccountInfo";
 import { Button, Input } from "react-native-elements";
 import AsyncStorage from "@react-native-community/async-storage";
 import { firebase } from "../firebase/config.js";
@@ -23,10 +22,11 @@ const AccountScreen = (props) => {
   const [instagram, setInstagram] = useState(""); 
   const [profilePic, setProfilePic] = useState({uri: ""}); 
   const [reelList, setReelList] = useState([]);
-
+  // useEffect(() => {
+  //   getInfo(setBio, setName, setEmail, setProfilePic, setFacebook, setTiktok, setInstagram);
+  // });
   const update = () => {
     getInfo(setBio, setName, setEmail, setProfilePic, setFacebook, setTiktok, setInstagram);
-    getReelList(setReelList);
   }
 
   if(email == "") {
@@ -157,7 +157,9 @@ const AccountScreen = (props) => {
           width: "90%"
         }}
       >
-        <Text>Reels</Text>
+        <Text
+          style={styles.reels}
+        >Reels</Text>
             <FlatList
             showsVerticalScrollIndicator={false}
             data={reelList.slice(0, reelList.length >= 3 ? 3 : reelList.length)}
@@ -265,14 +267,20 @@ const styles = StyleSheet.create({
       alignItems: "center"
   },
   name: {
+    fontFamily: 'Raleway',
     fontSize: 32,
-    fontFamily: '',
-    fontWeight: 'normal',
+    fontWeight: "bold"
   },
   bio: {
+    fontFamily: 'Raleway',
     fontSize: 16,
-    fontFamily: '',
     color: '#545454',
+    fontWeight: "normal"
+  },
+  reels: {
+    fontFamily: 'Raleway',
+    fontSize: 14,
+    fontWeight: "normal"
   },
   icon: {
     height: 20,
