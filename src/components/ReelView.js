@@ -75,7 +75,7 @@ const ReelView = ({
           <TouchableOpacity
             style={styles.upvoteBox}
             onPress={() => {
-              if (!upvoted) {
+              if (upvoted_) {
                 setUpvotes_(upvotes_ - 1);
               } else {
                 setUpvotes_(upvotes_ + 1);

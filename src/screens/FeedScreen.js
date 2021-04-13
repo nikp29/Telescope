@@ -16,17 +16,17 @@ import moment from "moment";
 import ReelFeedCard from "../components/ReelFeedCard";
 
 const ReelScreen = ({ navigation, variant }) => {
-  const [isWeek, setIsWeek] = useState(false);
+  const [isWeek, setIsWeek] = useState(true);
   const [initialGet, setInitialGet] = useState(false);
   const [loaded] = useFonts({
     Raleway: require("../../assets/Raleway-Bold.ttf"),
     RalewayExtraBold: require("../../assets/Raleway-ExtraBold.ttf"),
   });
   const [reelList, setReelList] = useState([]);
-  const [numDisplayed, setNumDisplayed] = useState(5);
+
   if (initialGet == false) {
     setInitialGet(true);
-    getReelList(setReelList, numDisplayed, false);
+    getReelList(setReelList, 3, true);
   }
   if (!loaded) {
     return null;
@@ -36,20 +36,20 @@ const ReelScreen = ({ navigation, variant }) => {
       <View style={styles.tabBar}>
         <TouchableOpacity
           onPress={async (event) => {
-            if (isWeek == true) {
-              await setIsWeek(false);
-              getReelList(setReelList, numDisplayed, false);
-            }
+            // if (isWeek == true) {
+            //   await setIsWeek(false);
+            //   getReelList(setReelList, numDisplayed, false);
+            // }
           }}
         >
           <Text style={isWeek ? styles.tab : styles.tabActive}>Today</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={async (event) => {
-            if (isWeek == false) {
-              await setIsWeek(true);
-              getReelList(setReelList, numDisplayed, true);
-            }
+            // if (isWeek == false) {
+            //   await setIsWeek(true);
+            //   getReelList(setReelList, numDisplayed, true);
+            // }
           }}
         >
           <Text style={isWeek ? styles.tabActive : styles.tab}>This Week</Text>
@@ -86,15 +86,6 @@ const ReelScreen = ({ navigation, variant }) => {
               return renderReelFeedView(item);
             }}
           />
-          {reelList.length == numDisplayed ? (
-            <Button
-              onPress={() => {
-                getReelList(setReelList, numDisplayed + 5, isWeek);
-                setNumDisplayed(numDisplayed + 5);
-              }}
-              title="Load more"
-            />
-          ) : null}
         </Spacer>
       </ScrollView>
     </>
