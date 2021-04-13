@@ -23,8 +23,12 @@ const ImagePick = ({setURL}) => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [1, 1],
       quality: 1,
+      borderBottomLeftRadius: 30,
+      borderBottomRightRadius: 30,
+      borderTopRightRadius: 30,
+      borderTopLeftRadius: 30
     });
 
     console.log(result);

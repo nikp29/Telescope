@@ -11,7 +11,10 @@ var t = false;
 
 const AccountInfo = ({route, navigation}) => {
     const [bio, setBio] = useState(navigation.getParam('bio')); 
-    const [name, setName] = useState(navigation.getParam('name')); 
+    const [name, setName] = useState(navigation.getParam('name'));
+    const [tiktok, setTiktok] = useState(navigation.getParam('tiktok'));
+    const [facebook, setFacebook] = useState(navigation.getParam('facebook'));
+    const [instagram, setInstagram] = useState(navigation.getParam('instagram')); 
     const [profilePic, setProfilePic] = useState(navigation.getParam('profilePic')); 
     if(t) {
         getInfo(setBio, setName, setProfilePic)
@@ -22,12 +25,12 @@ const AccountInfo = ({route, navigation}) => {
     }
     
     return (
-        <View >
+        <View 
+        style={{marginTop: 32}}>
             <Image style={{ width: 200, height: 200 }} source={profilePic}/>
             
             <TextInput
                 style={styles.textInput}
-                label="bioText"
                 value={name}
                 onChange={newValue => {setName(newValue.nativeEvent.text);
                 console.log(name)}}
@@ -37,10 +40,33 @@ const AccountInfo = ({route, navigation}) => {
             />
             <TextInput
                 style={styles.textInput}
-                label="bioText"
                 value={bio}
                 onChange={newValue => {setBio(newValue.nativeEvent.text);}}
                 placeholder={"Bio"}
+                autoCapitalize="none"
+                autoCorrect={false}
+            />
+            <TextInput
+                style={styles.textInput}
+                value={facebook}
+                onChange={newValue => {setFacebook(newValue.nativeEvent.text);}}
+                placeholder={"facebook url"}
+                autoCapitalize="none"
+                autoCorrect={false}
+            />
+            <TextInput
+                style={styles.textInput}
+                value={tiktok}
+                onChange={newValue => {setTiktok(newValue.nativeEvent.text);}}
+                placeholder={"tiktok url"}
+                autoCapitalize="none"
+                autoCorrect={false}
+            />
+            <TextInput
+                style={styles.textInput}
+                value={instagram}
+                onChange={newValue => {setInstagram(newValue.nativeEvent.text);}}
+                placeholder={"instagram url"}
                 autoCapitalize="none"
                 autoCorrect={false}
             />
@@ -48,7 +74,7 @@ const AccountInfo = ({route, navigation}) => {
             <TouchableOpacity
                 onPress={() => {
                         const temp = navigation.getParam('func');
-                        editInfo(name, bio).then(()=> {
+                        editInfo(name, bio, facebook, tiktok, instagram).then(()=> {
                             temp();                        
                         }).then(()=> {
                             navigation.navigate('ViewAccount', {bio: bio, name: name, profilePic: profilePic});
@@ -104,13 +130,22 @@ const getInfo = async (setBio, setName, setProfilePic) => {
     return temp;
 };
 
-const editInfo = async (name, bio) => {
+AccountInfo.navigationOptions = () => {
+    return {
+      header: () => false
+    };
+  };
+
+const editInfo = async (name, bio, f, t, i) => {
     
     const uid = await AsyncStorage.getItem("token");
     // const userRef = firebase.firestore().collection("users");
     firebase.firestore().collection("users").doc(uid).update({
         bio: bio,
-        fullName: name
+        fullName: name,
+        facebook: f,
+        tiktok: t,
+        instagram: i
     })
     .then(() => {
         console.log("Edited Bio.") ;
