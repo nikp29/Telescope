@@ -1,13 +1,16 @@
 import React, { useContext,useState } from "react";
 import {StatusBar, Text, View, StyleSheet, TextInput, 
   TouchableOpacity, Image, Linking, 
-  Dimensions, ScrollViewComponent} from 'react-native' 
+  Dimensions, ScrollViewComponent,
+  FlatList} from 'react-native' 
 import Spacer from "../components/Spacer";
 import { Context as AuthContext } from "../context/AuthContext";
 import Info from "../components/AccountInfo";
 import { Button, Input } from "react-native-elements";
 import AsyncStorage from "@react-native-community/async-storage";
 import { firebase } from "../firebase/config.js";
+import { LinearGradient } from "expo-linear-gradient";
+import ReelFeedCard from "../components/ReelFeedCard";
 
 
 const AccountScreen = (props) => {
@@ -19,13 +22,16 @@ const AccountScreen = (props) => {
   const [tiktok, setTiktok] = useState(""); 
   const [instagram, setInstagram] = useState(""); 
   const [profilePic, setProfilePic] = useState({uri: ""}); 
+  const [reelList, setReelList] = useState([]);
 
   const update = () => {
     getInfo(setBio, setName, setEmail, setProfilePic, setFacebook, setTiktok, setInstagram);
+    getReelList(setReelList);
   }
 
   if(email == "") {
       getInfo(setBio, setName, setEmail, setProfilePic, setFacebook, setTiktok, setInstagram);
+      getReelList(setReelList);
   } 
 
   return (
@@ -40,72 +46,128 @@ const AccountScreen = (props) => {
     flexDirection: "column",
     alignItems: "center",
     overflow: "scroll"}}>
-      <View style={{backgroundColor: '#7D5BFC', zIndex: 1, position: "absolute", height: 175, width: '100%'}}>
-      {/* <Spacer>
-        <Button title="Sign Out" onPress={signout} />
-      </Spacer> */}
-      
-      <TouchableOpacity
-                style={{marginTop: 32}}
-                onPress={() => { 
-                                props.navigation.navigate('EditAccount', 
-                                {bio: bio, 
-                                  name: name, 
-                                  profilePic: profilePic, 
-                                  facebook: facebook, 
-                                  instagram: instagram,
-                                  tiktok: tiktok,
-                                  func: update})
-                }}
-            >
-                <Text>edit screen</Text>
-      </TouchableOpacity>
+      <View style={{zIndex: 1, position: "absolute", height: 212.5, width: '100%'}}>
+                      
+        <LinearGradient
+          colors={["#ffffff", "#7D5BFC"]}
+          style={{
+            height: 212.5, 
+            width: '100%',
+            borderBottomLeftRadius: 25, 
+            borderBottomRightRadius: 25
+          }}
+          
+        >
+          <View
+            style={{flexDirection: "row"}}
+          >
+            <View
+              style={{width: "85%",
+            }}
+            ></View>
+          <TouchableOpacity
+                    style={{width: 40, marginTop: 50, marginRight: 20, alignItems: "flex-end"}}
+                    onPress={() => { 
+                                    props.navigation.navigate('EditAccount', 
+                                    {bio: bio, 
+                                      name: name, 
+                                      profilePic: profilePic, 
+                                      facebook: facebook, 
+                                      instagram: instagram,
+                                      tiktok: tiktok,
+                                      func: update})
+                    }}
+          >
+            <Image
+              source={require("../icons/settings.png")}
+              style={styles.icon}
+            />
+
+          </TouchableOpacity>
+          </View>
+      </LinearGradient>
       </View>
-      <View style={styles.container}>
-      <View style={{height: 75}}></View>
-      <Image style={{ width: 200, 
-                height: 200, 
+      <View>
+        <View style={{height: 125}}></View>
+        <View
+          style={{alignItems: "center"}}>
+        <Image style={{ width: 175, 
+                height: 175, 
                 borderBottomLeftRadius: 100,
                 borderBottomRightRadius: 100,
                 borderTopRightRadius: 100,
                 borderTopLeftRadius: 100,
-                zIndex: 1,}} 
-                source={profilePic}/>
-                <Text>Name: {name}</Text>
-            <Text>Bio: {bio}</Text>
+                zIndex: 1,
+                borderColor: 'white',
+                borderWidth: 5,
+              }} 
+                source={profilePic}
+        />
+        </View>
+        <View
+          style={{alignItems: "center"}}>
+            <Text style={styles.name}>{name}</Text>
+
+            <Text style={styles.bio}>{bio}</Text>
+            <Spacer></Spacer>
+        </View>
+
+
             <View style={styles.inline}>
-            <TouchableOpacity
-                onPress={() => {
-                  if(facebook != "") {
-                    Linking.openURL(facebook);
-                 }
-                }}
-            >
-              <Text>facebook    </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                onPress={() => {
-                  if(instagram != "") {
-                    Linking.openURL(instagram);
-                  }
-                }}
-            >
-              <Text>instagram    </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                onPress={() => {
-                  if(tiktok != "") {
-                    Linking.openURL(tiktok);
-                  }
-                }}
-            >
-              <Text>tiktok</Text>
-            </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => {
+                      if(facebook != "") {
+                        Linking.openURL(facebook);
+                    }
+                    }}
+                >
+                  <Image
+                    source={require("../icons/youtube.png")}
+                    style={styles.icon}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => {
+                      if(instagram != "") {
+                        Linking.openURL(instagram);
+                      }
+                    }}
+                >
+                  <Image
+                    source={require("../icons/instagram.png")}
+                    style={styles.icon}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => {
+                      if(tiktok != "") {
+                        Linking.openURL(tiktok);
+                      }
+                    }}
+                >
+                  <Image
+                    source={require("../icons/tik-tok.png")}
+                    style={styles.icon}
+                  />
+                </TouchableOpacity>
             </View>
       </View>
-            <Spacer/>
-      {/* <Edit/> */}
-      {/* <ImagePick/> */}
+      <View
+        style={{
+          width: "90%"
+        }}
+      >
+        <Text>Reels</Text>
+            <FlatList
+            showsVerticalScrollIndicator={false}
+            data={reelList.slice(0, reelList.length >= 3 ? 3 : reelList.length)}
+            keyExtractor={(data) => data.id}
+            renderItem={({ item }) => {
+              console.log("item is " +  item);
+              return renderReelFeedView(item);
+            }}
+          />
+      </View>
     </View>
   );
 };
@@ -116,7 +178,21 @@ AccountScreen.navigationOptions = () => {
   };
 };
 
-const getInfo = async (setBio, setName, setEmail, setProfilePic, setFacebook, setTiktok, setInstagram) => {
+const renderReelFeedView = (data) => {
+  return (
+    <ReelFeedCard
+      title={data.title}
+      upvotes={data.upvotes}
+      image_url={data.thumbnail}
+      id={data.id}
+      data={data}
+    />
+  );
+};
+
+const getInfo = async (setBio, setName, setEmail, 
+                      setProfilePic, setFacebook, setTiktok, 
+                      setInstagram) => {
   var imageURL = false;
   const uid = await AsyncStorage.getItem("token");
   const userRef = firebase.firestore().collection("users");
@@ -124,7 +200,6 @@ const getInfo = async (setBio, setName, setEmail, setProfilePic, setFacebook, se
 
   firebase.firestore().collection("users").doc(uid).get()
   .then((doc) => {
-      console.log(doc.data());
       setBio(doc.data().bio);
       setName(doc.data().fullName);
       setEmail(doc.data().email);
@@ -137,7 +212,6 @@ const getInfo = async (setBio, setName, setEmail, setProfilePic, setFacebook, se
           storageRef.child("profile_pictures/" + uid + '.jpg').getDownloadURL()
           .then((url) => {
               setProfilePic({uri: url});
-              console.log("url is " + url);
           });
       }
   })
@@ -145,6 +219,33 @@ const getInfo = async (setBio, setName, setEmail, setProfilePic, setFacebook, se
       console.error("Error fetching document: ", error);
   });
   return temp;
+};
+
+const getReelList = async (setReelList) => {
+  console.log("getting reel list");
+  const uid = await AsyncStorage.getItem("token");
+  let userReelsRef = firebase.firestore().collection("users/" + uid + "/reels");
+  let reelsRef = firebase.firestore().collection("reels");
+  let reelList_ = [];
+  let reel_id = "";
+  userReelsRef.get()
+  .then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      reel_id = doc.data().reelid;
+      console.log("reel id is" + reel_id);
+      reelsRef.doc(reel_id).get().then((doc) => {
+        let data_ = doc.data();
+        data_["id"] = doc.id;
+        reelList_.push(data_);
+        console.log("data read in is " + data_);
+      });
+    })
+  }).then(() => {
+    setReelList(reelList_);
+  })
+  .catch((error) => {
+        console.log(error.message);
+  });
 };
 
 
@@ -157,24 +258,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
 
   },
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center'
-    // borderTopColor: "blue",
-    // borderTopWidth: SCREEN_HEIGHT / 1100
-  },
-  topContainer:{
-    flex:1,
-    backgroundColor: 'blue',    
-  },
-  bottomContainer:{
-    flex:1,
-    backgroundColor: 'white'
-
-},
   inline: {
-    flexDirection:'row',
-    flexWrap:'wrap'
+      flexDirection:'row',
+      flexWrap:'wrap',
+      justifyContent: 'space-around',
+      alignItems: "center"
+  },
+  name: {
+    fontSize: 32,
+    fontFamily: '',
+    fontWeight: 'normal',
+  },
+  bio: {
+    fontSize: 16,
+    fontFamily: '',
+    color: '#545454',
+  },
+  icon: {
+    height: 20,
+    width: 20
   }
 });
 
