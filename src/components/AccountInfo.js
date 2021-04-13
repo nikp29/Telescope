@@ -13,12 +13,15 @@ const AccountInfo = (props) => {
     const [bio, setBio] = useState(""); 
     const [name, setName] = useState(""); 
     const [email, setEmail] = useState(""); 
+    const [facebook, setFacebook] = useState(""); 
+    const [tiktok, setTiktok] = useState(""); 
+    const [instagram, setInstagram] = useState(""); 
     const [profilePic, setProfilePic] = useState({uri: ""}); 
     const [edit, setEdit] = useState(false);
     const [editText, setEditText] = useState("Edit Profile");
 
     if(t) {
-        getInfo(setBio, setName, setEmail, setProfilePic);
+        getInfo(setBio, setName, setEmail, setProfilePic, setFacebook, setTiktok, setInstagram);
         t = false;
         
     }
