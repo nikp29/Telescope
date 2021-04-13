@@ -9,7 +9,6 @@ import {
   ScrollView,
   TextInput,
   Keyboard,
-  KeyboardAvoidingView,
 } from "react-native";
 import { Input } from "react-native-elements";
 import { Modalize } from "react-native-modalize";
@@ -20,6 +19,7 @@ import { firebase } from "../firebase/config.js";
 import CommentCard from "../components/CommentCard";
 import ProfileIcon from "../components/ProfileIcon";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { NavigationEvents } from "react-navigation";
 
 const ReelView = ({ url, tags, description, reel_uid, showComments, id }) => {
   const [status, setStatus] = useState(false);
@@ -33,28 +33,25 @@ const ReelView = ({ url, tags, description, reel_uid, showComments, id }) => {
   const [upvotes, setUpvotes] = useState([]);
   useEffect(() => {
     async function fetchUid() {
-      const uid = await AsyncStorage.getItem("token");
-      const reelsRef = firebase.firestore().collection("reels");
-      reelsRef
-        .doc(id)
-        .get()
-        .then((doc) => {
-          const data = doc.data();
-          setUpvoted(data.upvotes.includes(uid));
-          setUpvotes(data.upvotes);
-        })
-        .catch((error) => console.log(error.message));
+      const uid_ = await AsyncStorage.getItem("token");
+      if (showComments) {
+        const reelsRef = firebase.firestore().collection("reels");
+        reelsRef
+          .doc(id)
+          .get()
+          .then((doc) => {
+            const data = doc.data();
+            setUpvoted(data.upvotes.includes(uid_));
+            setUpvotes(data.upvotes);
+          })
+          .catch((error) => console.log(error.message));
+      }
+      setUid(uid_);
     }
     fetchUid();
     return () => {
       null;
     };
-  }, []);
-  useEffect(() => {
-    (async () => {
-      const uid_ = await AsyncStorage.getItem("token");
-      setUid(uid_);
-    })();
   }, []);
   const modalizeRef = useRef(null);
   if (initialGet == false && showComments) {
