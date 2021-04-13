@@ -16,6 +16,7 @@ import FeedScreen from "./src/screens/FeedScreen";
 import { Provider as AuthProvider } from "./src/context/AuthContext";
 import { setNavigator } from "./src/navigationRef";
 import ResolveAuthScreen from "./src/screens/ResolveAuthScreen";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const switchNavigator = createSwitchNavigator(
   {
@@ -27,20 +28,57 @@ const switchNavigator = createSwitchNavigator(
       },
       { initialRouteName: "Signin" }
     ),
-    mainFlow: createBottomTabNavigator({
-      reelFlow: createStackNavigator({
-        FeedScreen: FeedScreen,
-        ReelView: ReelViewScreen,
-      }),
-      ReelUploadFlow: createStackNavigator({
-        ReelUpload: ReelUploadScreen,
-        ConfirmUpload: ConfirmUploadScreen,
-      }),
-      accountFlow: createStackNavigator({
-        ViewAccount: AccountScreen,
-        EditAccount: EditAccountScreen
-      })
-    }),
+    mainFlow: createBottomTabNavigator(
+      {
+        reelFlow: {
+          screen: createStackNavigator({
+            FeedScreen: FeedScreen,
+            ReelView: ReelViewScreen,
+          }),
+          navigationOptions: {
+            tabBarLabel: "",
+            tabBarIcon: ({ tintColor }) => (
+              <Icon name="home" color={tintColor} size={29} />
+            ),
+          },
+        },
+        ReelUploadFlow: {
+          screen: createStackNavigator({
+            ReelUpload: ReelUploadScreen,
+            ConfirmUpload: ConfirmUploadScreen,
+          }),
+          navigationOptions: {
+            tabBarLabel: "",
+            tabBarIcon: ({ tintColor }) => (
+              <Icon name="plus-square" color={tintColor} size={29} />
+            ),
+          },
+        },
+        accountFlow: {
+          screen: createStackNavigator({
+            ViewAccount: AccountScreen,
+            EditAccount: EditAccountScreen,
+          }),
+          navigationOptions: {
+            tabBarLabel: "",
+            tabBarIcon: ({ tintColor }) => (
+              <Icon name="user" color={tintColor} size={29} />
+            ),
+          },
+        },
+      },
+      {
+        tabBarOptions: {
+          showLabel: false,
+          activeTintColor: "#FFFFFF",
+          style: {
+            backgroundColor: "#5C33FF",
+            height: 48,
+            paddingBottom: 26,
+          },
+        },
+      }
+    ),
   },
   { initialRouteName: "loginFlow" }
 );
