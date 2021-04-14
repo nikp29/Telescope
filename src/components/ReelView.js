@@ -264,7 +264,6 @@ const ReelView = ({
 
 const addComment = async (reel_id, description, setComment) => {
   if (description == "") {
-    console.log("empty");
     return;
   }
   const uid = await AsyncStorage.getItem("token");

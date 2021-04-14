@@ -29,7 +29,6 @@ const ReelFeedView = ({ title, image_url, youtube_id, id, data }) => {
     fetchUid();
   });
   useEffect(() => {
-    console.log("loaded");
     async function fetchUid() {
       const uid = await AsyncStorage.getItem("token");
       const reelsRef = firebase.firestore().collection("reels");
@@ -62,37 +61,40 @@ const ReelFeedView = ({ title, image_url, youtube_id, id, data }) => {
       }}
     >
       <View style={styles.container}>
-      <ImageBackground source={{ uri: image_url }} style={styles.image} imageStyle={{ borderRadius: 5}}>
-        <View style={styles.horizontalContainer}>
-          <View style={{ flex: 1 }}>
-            {/* <Image source={{ uri: image_url }} style={styles.image} /> */}
+        <ImageBackground
+          source={{ uri: image_url }}
+          style={styles.image}
+          imageStyle={{ borderRadius: 5 }}
+        >
+          <View style={styles.horizontalContainer}>
+            <View style={{ flex: 1 }}>
+              {/* <Image source={{ uri: image_url }} style={styles.image} /> */}
+            </View>
+            <View
+              style={{
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                paddingLeft: 16,
+              }}
+            >
+              <View style={{ height: 120 }}></View>
+              <TouchableWithoutFeedback>
+                <TouchableOpacity
+                  onPress={() => editVote(upvotes, id, setUpvoted)}
+                >
+                  <View style={styles.upvoteView}>
+                    <Icon
+                      name={upvoted ? "star" : "star-o"}
+                      size={30}
+                      color="#FFD770"
+                    />
+                    <Text style={styles.text}>{upvotes.length}</Text>
+                  </View>
+                </TouchableOpacity>
+              </TouchableWithoutFeedback>
+            </View>
           </View>
-          <View
-            style={{
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              paddingLeft: 16,
-            }}
-          ><View
-            style={{height: 120}}
-          ></View>
-            <TouchableWithoutFeedback>
-              <TouchableOpacity
-                onPress={() => editVote(upvotes, id, setUpvoted)}
-              >
-                <View style={styles.upvoteView}>
-                  <Icon
-                    name={upvoted ? "star" : "star-o"}
-                    size={30}
-                    color="#FFD770"
-                  />
-                  <Text style={styles.text}>{upvotes.length}</Text>
-                </View>
-              </TouchableOpacity>
-            </TouchableWithoutFeedback>
-          </View>
-        </View>
         </ImageBackground>
       </View>
       <Spacer />
@@ -126,7 +128,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    aspectRatio: 16/9,
+    aspectRatio: 16 / 9,
     // height: null,
     // width: 100,
     // width: null,

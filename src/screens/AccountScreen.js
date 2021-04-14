@@ -42,7 +42,6 @@ const AccountScreen = (props) => {
       null;
     };
   }, []);
-  console.log(reelList);
   const update = () => {
     getInfo(
       setBio,
@@ -150,7 +149,6 @@ const getReelList = async (setReelList) => {
         reelList_.push(data_);
       });
       setReelList(reelList_);
-      console.log(reelList_.length);
     });
 };
 

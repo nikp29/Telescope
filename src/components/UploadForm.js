@@ -101,7 +101,6 @@ const UploadForm = ({
         <TouchableOpacity
           style={{ zIndex: 2 }}
           onPress={() => {
-            console.log("hi");
             uploadReel();
           }}
           style={styles.uploadContainer}

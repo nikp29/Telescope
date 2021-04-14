@@ -52,7 +52,6 @@ const getImage = async (setProfilePic, uid) => {
           .child("profile_pictures/" + uid + ".jpg")
           .getDownloadURL()
           .then((url) => {
-            console.log(url);
             setProfilePic({ uri: url });
           });
       }
