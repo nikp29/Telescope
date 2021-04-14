@@ -27,6 +27,9 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "privacy": "unlisted",
+    "description": "",
+    "githubUrl": "https://github.com/nikp29/telescope"
   }
 }

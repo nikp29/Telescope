@@ -70,7 +70,7 @@ const ReelFeedView = ({ title, image_url, youtube_id, id, data }) => {
                 >
                   <View style={styles.upvoteView}>
                     <Icon
-                      name={upvoted ? "star" : "star-o"}
+                      name={upvoted ? "heart" : "heart-o"}
                       size={30}
                       color="#FFD770"
                     />

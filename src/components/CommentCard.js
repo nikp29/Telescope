@@ -52,9 +52,9 @@ const CommentCard = ({ data, uid }) => {
           }}
         >
           {upvoted ? (
-            <Icon name={"star"} size={20} color="#FFD770" />
+            <Icon name={"heart"} size={20} color="#FFD770" />
           ) : (
-            <Icon name={"star-o"} size={20} color="#FFD770" />
+            <Icon name={"heart-o"} size={20} color="#FFD770" />
           )}
           <Text style={styles.upvoteText}>{data.upvotes.length}</Text>
         </TouchableOpacity>
