@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   Dimensions,
+  Platform
 } from "react-native";
 import { NavigationEvents } from "react-navigation";
 import ReelView from "../components/ReelView";
@@ -40,6 +41,7 @@ const ExploreFeed = () => {
   if (!loaded) {
     return null;
   }
+  const height = Dimensions.get("window").height;
   return (
     <View style={styles.container}>
       <NavigationEvents onWillFocus={(payload) => getReels(setReelList)} />
@@ -48,17 +50,17 @@ const ExploreFeed = () => {
         layout={"default"}
         ref={caroselRef}
         data={reelList}
-        sliderHeight={Dimensions.get("window").height - 82}
+        sliderHeight={Platform.OS === 'ios' ? height-82 : height-20}
         sliderWidth={Dimensions.get("window").width}
         itemWidth={Dimensions.get("window").width}
-        itemHeight={Dimensions.get("window").height - 82}
+        itemHeight={Platform.OS === 'ios' ? height-82 : height-20}
         vertical={true}
         renderItem={({ item, index }) => {
           console.log(index);
           return (
             <View
               style={{
-                height: Dimensions.get("window").height - 82,
+                height: Platform.OS === 'ios' ? height-82 : height-20,
                 backgroundColor: "black",
                 width: Dimensions.get("window").width,
               }}
@@ -70,7 +72,7 @@ const ExploreFeed = () => {
                 reel_uid={item.user}
                 id={item.id}
                 showComments={true}
-                height={Dimensions.get("window").height - 82}
+                height={Platform.OS === 'ios' ? height-82 : height-20}
                 autoplay={index == current}
               />
             </View>

@@ -51,8 +51,9 @@ const Profile = ({
           style={{
             height: 212.5,
             width: "100%",
-            borderBottomLeftRadius: 25,
-            borderBottomRightRadius: 25,
+            borderRadius: 25,
+            borderTopRightRadius: 0,
+            borderTopLeftRadius: 0,
           }}
         >
           {!isOwn && (
