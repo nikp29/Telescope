@@ -16,7 +16,6 @@ import { LinearGradient } from "expo-linear-gradient";
 import Profile from "../components/Profile";
 
 const ProfileScreen = (props) => {
-
   const defaultImage = require("../icons/user.png");
   console.log(props.navigation.state);
   const { uid } = props.navigation.state.params;
@@ -31,15 +30,15 @@ const ProfileScreen = (props) => {
 
   useEffect(() => {
     getInfo(
-          setBio,
-          setName,
-          setEmail,
-          setProfilePic,
-          setYoutube,
-          setTiktok,
-          setInstagram,
-          uid
-        );
+      setBio,
+      setName,
+      setEmail,
+      setProfilePic,
+      setYoutube,
+      setTiktok,
+      setInstagram,
+      uid
+    );
     getReelList(setReelList, uid);
     return () => {
       null;

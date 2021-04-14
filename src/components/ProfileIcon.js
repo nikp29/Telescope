@@ -6,8 +6,10 @@ import { navigate } from "../navigationRef";
 var t = true;
 
 const ProfileIcon = ({ uid }) => {
+  const defaultImage = require("../icons/user.png");
+
   const [uid_, setUid] = useState("");
-  const [profilePic, setProfilePic] = useState({ uri: "" });
+  const [profilePic, setProfilePic] = useState(defaultImage);
   const [username, setUsername] = useState("");
   useEffect(() => {
     (async () => {
