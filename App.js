@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {Platform} from 'react-native';
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
@@ -78,8 +79,8 @@ const switchNavigator = createSwitchNavigator(
           activeTintColor: "#FFFFFF",
           style: {
             backgroundColor: "#5C33FF",
-            height: 48,
-            paddingBottom: 26,
+            height: Platform.OS === 'ios' ? 48 : 60, //was 48
+            paddingBottom: Platform.OS === 'ios' ? 26 : 10, //was 26
           },
         },
       }
