@@ -16,6 +16,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import Profile from "../components/Profile";
 
 const ProfileScreen = (props) => {
+  console.log(props.navigation.state);
   const { uid } = props.navigation.state.params;
   const [bio, setBio] = useState("");
   const [name, setName] = useState("");
