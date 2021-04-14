@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Image } from "react-native";
+import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { firebase } from "../firebase/config.js";
+import { navigate } from "../navigationRef";
+
 var t = true;
 
 const ProfileIcon = ({ uid }) => {
@@ -20,9 +22,12 @@ const ProfileIcon = ({ uid }) => {
     })();
   }, []);
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={(event) => navigate("ProfileView", { uid: uid_ ? uid_ : uid })}
+    >
       <Image style={{ width: 30, height: 30 }} source={profilePic} />
-    </View>
+    </TouchableOpacity>
   );
 };
 

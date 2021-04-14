@@ -11,13 +11,12 @@ import {
 } from "react-native";
 import Spacer from "../components/Spacer";
 import { Context as AuthContext } from "../context/AuthContext";
-import AsyncStorage from "@react-native-community/async-storage";
 import { firebase } from "../firebase/config.js";
 import { LinearGradient } from "expo-linear-gradient";
 import Profile from "../components/Profile";
 
-const AccountScreen = (props) => {
-  const { signout } = useContext(AuthContext);
+const ProfileScreen = (props) => {
+  const { uid } = props.navigation.state.params;
   const [bio, setBio] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -41,7 +40,8 @@ const AccountScreen = (props) => {
       setProfilePic,
       setFacebook,
       setTiktok,
-      setInstagram
+      setInstagram,
+      uid
     );
   };
 
@@ -53,14 +53,15 @@ const AccountScreen = (props) => {
       setProfilePic,
       setFacebook,
       setTiktok,
-      setInstagram
+      setInstagram,
+      uid
     );
-    getReelList(setReelList);
+    getReelList(setReelList, uid);
   }
 
   return (
     <Profile
-      isOwn={true}
+      navigation={props.navigation}
       reelList={reelList}
       update={update}
       bio={bio}
@@ -69,14 +70,13 @@ const AccountScreen = (props) => {
       facebook={facebook}
       instagram={instagram}
       tiktok={tiktok}
-      navigation={props.navigation}
     />
   );
 };
 
-AccountScreen.navigationOptions = () => {
+ProfileScreen.navigationOptions = () => {
   return {
-    header: () => true,
+    header: () => false,
   };
 };
 
@@ -87,16 +87,14 @@ const getInfo = async (
   setProfilePic,
   setFacebook,
   setTiktok,
-  setInstagram
+  setInstagram,
+  uid
 ) => {
   var imageURL = false;
-  const uid = await AsyncStorage.getItem("token");
   const userRef = firebase.firestore().collection("users");
   var storageRef = firebase.storage().ref();
 
-  firebase
-    .firestore()
-    .collection("users")
+  userRef
     .doc(uid)
     .get()
     .then((doc) => {
@@ -124,8 +122,7 @@ const getInfo = async (
   return temp;
 };
 
-const getReelList = async (setReelList) => {
-  const uid = await AsyncStorage.getItem("token");
+const getReelList = async (setReelList, uid) => {
   const reelsRef = firebase.firestore().collection("reels");
   let reelList_ = [];
   let reel_id = "";
@@ -180,4 +177,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AccountScreen;
+export default ProfileScreen;

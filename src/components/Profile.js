@@ -23,6 +23,8 @@ const Profile = ({
   facebook,
   instagram,
   tiktok,
+  navigation,
+  prevPath,
 }) => {
   return (
     <View
@@ -53,6 +55,19 @@ const Profile = ({
             borderBottomRightRadius: 25,
           }}
         >
+          {!isOwn && (
+            <View style={styles.topBar}>
+              <TouchableOpacity
+                style={{ zIndex: 2 }}
+                onPress={() => {
+                  navigation.goBack(null);
+                }}
+                style={styles.backContainer}
+              >
+                <Text style={styles.uploadText}>Back</Text>
+              </TouchableOpacity>
+            </View>
+          )}
           <View style={{ flexDirection: "row-reverse" }}>
             {isOwn && (
               <TouchableOpacity
@@ -63,7 +78,7 @@ const Profile = ({
                   alignItems: "flex-end",
                 }}
                 onPress={() => {
-                  props.navigation.navigate("EditAccount", {
+                  navigation.navigate("EditAccount", {
                     bio: bio,
                     name: name,
                     profilePic: profilePic,
@@ -178,6 +193,16 @@ const renderReelFeedView = (data) => {
 };
 
 const styles = StyleSheet.create({
+  topBar: {
+    position: "absolute",
+    top: 0,
+    paddingTop: 45,
+    backgroundColor: "rgba(0,0,0,0)",
+    left: 0,
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
   textInput: {
     color: "black",
   },
@@ -212,6 +237,15 @@ const styles = StyleSheet.create({
   icon: {
     height: 20,
     width: 20,
+  },
+  backContainer: {
+    padding: 8,
+    marginLeft: 8,
+  },
+  uploadText: {
+    color: "#5C33FF",
+    fontFamily: "Raleway-Bold",
+    fontSize: 18,
   },
 });
 

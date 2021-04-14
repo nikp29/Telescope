@@ -18,6 +18,7 @@ import { setNavigator } from "./src/navigationRef";
 import ResolveAuthScreen from "./src/screens/ResolveAuthScreen";
 import ExploreFeedScreen from "./src/screens/ExploreFeed";
 import Icon from "react-native-vector-icons/FontAwesome";
+import ProfileScreen from "./src/screens/ProfileScreen";
 
 const switchNavigator = createSwitchNavigator(
   {
