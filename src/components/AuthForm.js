@@ -6,6 +6,7 @@ import {
   Button,
   TouchableOpacity,
   Keyboard,
+  Image,
 } from "react-native";
 import { Text } from "react-native-elements";
 
@@ -19,10 +20,12 @@ const AuthForm = ({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
+  const logo = require("../../assets/icons/telescope.jpg");
 
   return (
     <View style={styles.viewContainer}>
       <View style={styles.titleContainer}>
+        <Image source={logo} style={{ height: 88, width: 70 }} />
         <Text style={styles.title}>telescope</Text>
         <Text style={styles.title2}>.</Text>
       </View>
@@ -106,6 +109,7 @@ const styles = StyleSheet.create({
     fontFamily: "Raleway-ExtraBold",
     color: "#FFD770",
     fontSize: 45,
+    marginLeft: -12,
   },
   title2: {
     fontFamily: "Raleway-ExtraBold",
@@ -115,8 +119,9 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: "row",
     width: "100%",
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: "baseline",
+    justifyContent: "flex-start",
+    marginLeft: "20%",
   },
   input: {
     fontSize: 18,
