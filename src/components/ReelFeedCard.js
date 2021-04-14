@@ -12,22 +12,7 @@ import { useFocusEffect } from "react-navigation-hooks";
 const ReelFeedView = ({ title, image_url, youtube_id, id, data }) => {
   const [upvoted, setUpvoted] = useState(false);
   const [upvotes, setUpvotes] = useState([]);
-  useFocusEffect(() => {
-    async function fetchUid() {
-      const uid = await AsyncStorage.getItem("token");
-      const reelsRef = firebase.firestore().collection("reels");
-      reelsRef
-        .doc(id)
-        .get()
-        .then((doc) => {
-          const data = doc.data();
-          setUpvoted(data.upvotes.includes(uid_));
-          setUpvotes(data.upvotes);
-        })
-        .catch((error) => console.log(error.message));
-    }
-    fetchUid();
-  });
+
   useEffect(() => {
     async function fetchUid() {
       const uid = await AsyncStorage.getItem("token");
@@ -37,7 +22,7 @@ const ReelFeedView = ({ title, image_url, youtube_id, id, data }) => {
         .get()
         .then((doc) => {
           const data = doc.data();
-          setUpvoted(data.upvotes.includes(uid_));
+          setUpvoted(data.upvotes.includes(uid));
           setUpvotes(data.upvotes);
         })
         .catch((error) => console.log(error.message));

@@ -5,7 +5,6 @@ import moment, { unix } from "moment";
 import { firebase } from "../firebase/config.js";
 import { navigate } from "../navigationRef";
 import ReelView from "../components/ReelView";
-import { NavigationEvents } from "react-navigation";
 
 const ConfirmUploadScreen = (props) => {
   const {

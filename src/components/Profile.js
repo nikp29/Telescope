@@ -26,7 +26,6 @@ const Profile = ({
   navigation,
   prevPath,
 }) => {
-  console.log("test", tiktok);
   return (
     <View
       style={{

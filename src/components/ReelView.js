@@ -31,6 +31,7 @@ const ReelView = ({
   autoplay,
   height,
 }) => {
+  const [on, setOn] = useState(true);
   const [status, setStatus] = useState(false);
   const [commenting, setCommenting] = useState(false);
   const [ready, setReady] = useState(false);
@@ -90,6 +91,14 @@ const ReelView = ({
         paddingTop: topPadding,
       }}
     >
+      <NavigationEvents
+        onWillBlur={(event) => {
+          setOn(false);
+        }}
+        onDidFocus={(event) => {
+          setOn(true);
+        }}
+      />
       <View
         style={{
           borderRadius: borderRad,
@@ -102,7 +111,7 @@ const ReelView = ({
       >
         <YoutubePlayer
           videoId={url}
-          play={autoplay} // control playback of video with true/false
+          play={autoplay && on} // control playback of video with true/false
           onReady={() => setReady(autoplay)}
           onChangeState={(e) => setStatus(e)}
           height={201}
