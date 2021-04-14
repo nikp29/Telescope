@@ -35,7 +35,7 @@ const ConfirmUploadScreen = (props) => {
       description,
     });
     props.navigation.goBack(null);
-    navigate("FeedScreen");
+    navigate("Today");
   };
 
   return (

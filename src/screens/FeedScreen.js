@@ -167,13 +167,13 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
   },
   tab: {
-    fontFamily: "Raleway",
+    fontFamily: "Raleway-Bold",
     fontWeight: "400",
     fontSize: 25,
     color: "#ccc0ff",
   },
   tabActive: {
-    fontFamily: "Raleway",
+    fontFamily: "Raleway-Bold",
     fontWeight: "400",
     fontSize: 25,
     color: "#5c33ff",

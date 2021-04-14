@@ -25,13 +25,14 @@ const ProfileScreen = (props) => {
   const [instagram, setInstagram] = useState("");
   const [profilePic, setProfilePic] = useState({ uri: "" });
   const [reelList, setReelList] = useState([]);
+
   useEffect(() => {
     getReelList(setReelList);
     return () => {
       null;
     };
   }, []);
-  console.log(reelList);
+
   const update = () => {
     getInfo(
       setBio,
@@ -156,18 +157,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   name: {
-    fontFamily: "Raleway",
+    fontFamily: "Raleway-Bold",
     fontSize: 32,
     fontWeight: "bold",
   },
   bio: {
-    fontFamily: "Raleway",
+    fontFamily: "Raleway-Regular",
     fontSize: 16,
     color: "#545454",
     fontWeight: "normal",
   },
   reels: {
-    fontFamily: "Raleway",
+    fontFamily: "Raleway-Regular",
     fontSize: 14,
     fontWeight: "normal",
   },

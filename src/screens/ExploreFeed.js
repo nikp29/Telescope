@@ -14,11 +14,16 @@ import { firebase } from "../firebase/config.js";
 import shuffle from "shuffle-array";
 import Carousel from "react-native-snap-carousel";
 import moment from "moment";
+import { useFonts } from "expo-font";
 
 const ExploreFeed = () => {
   const [current, setCurrent] = useState(0);
   const [reelList, setReelList] = useState([]);
   const caroselRef = useRef(null);
+  const [loaded] = useFonts({
+    Raleway: require("../../assets/Raleway-Bold.ttf"),
+    RalewayExtraBold: require("../../assets/Raleway-ExtraBold.ttf"),
+  });
   useEffect(() => {
     getReels(setReelList);
     return () => {
@@ -31,6 +36,9 @@ const ExploreFeed = () => {
       current == 0 ? 0 : current - 1,
       current + 1 == reelList.length ? reelList.length : current + 1
     );
+  }
+  if (!loaded) {
+    return null;
   }
   return (
     <View style={styles.container}>
@@ -145,14 +153,12 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
   },
   tab: {
-    fontFamily: "Raleway",
-    fontWeight: "400",
+    fontFamily: "Raleway-Bold",
     fontSize: 25,
     color: "rgba(255, 255, 255, 0.3)",
   },
   tabActive: {
-    fontFamily: "Raleway",
-    fontWeight: "400",
+    fontFamily: "Raleway-Bold",
     fontSize: 25,
     color: "white",
   },

@@ -22,7 +22,7 @@ const tryLocalSignin = (dispatch) => async () => {
   const token = await AsyncStorage.getItem("token");
   if (token) {
     dispatch({ type: "signin", payload: token });
-    navigate("FeedScreen");
+    navigate("Today");
   } else {
     navigate("Signup");
   }
@@ -46,7 +46,7 @@ const signup = (dispatch) => async ({ email, password, fullName }) => {
         pic: false,
         facebook: "",
         instagram: "",
-        tiktok: ""
+        tiktok: "",
       };
       const usersRef = firebase.firestore().collection("users");
       usersRef
@@ -55,7 +55,7 @@ const signup = (dispatch) => async ({ email, password, fullName }) => {
         .then(() => {
           AsyncStorage.setItem("token", uid);
           dispatch({ type: "signin", payload: data });
-          navigate("FeedScreen");
+          navigate("Today");
         })
         .catch((error) => {
           dispatch({
@@ -93,7 +93,7 @@ const signin = (dispatch) => async ({ email, password }) => {
           const data = firestoreDocument.data();
           dispatch({ type: "signin", payload: data });
           AsyncStorage.setItem("token", uid);
-          navigate("FeedScreen");
+          navigate("Today");
         })
         .catch((error) => {
           dispatch({
