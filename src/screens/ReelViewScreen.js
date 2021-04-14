@@ -3,14 +3,7 @@ import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import ReelView from "../components/ReelView";
 
 const ReelViewScreen = (props) => {
-  const {
-    data,
-    upvoted,
-    setUpvoted,
-    upvotes,
-    setUpvotes,
-    editVote,
-  } = props.navigation.state.params;
+  const { data } = props.navigation.state.params;
 
   return (
     <>
@@ -21,6 +14,7 @@ const ReelViewScreen = (props) => {
         reel_uid={data.user}
         id={data.id}
         showComments={true}
+        autoplay={true}
       />
       <View style={styles.topBar}>
         <TouchableOpacity

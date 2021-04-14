@@ -46,6 +46,7 @@ const ConfirmUploadScreen = (props) => {
         username={username}
         description={description}
         reel_uid={uid}
+        autoplay={true}
       />
       <View style={styles.topBar}>
         <TouchableOpacity

@@ -21,7 +21,16 @@ import ProfileIcon from "../components/ProfileIcon";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { NavigationEvents } from "react-navigation";
 
-const ReelView = ({ url, tags, description, reel_uid, showComments, id }) => {
+const ReelView = ({
+  url,
+  tags,
+  description,
+  reel_uid,
+  showComments,
+  id,
+  autoplay,
+  height,
+}) => {
   const [status, setStatus] = useState(false);
   const [commenting, setCommenting] = useState(false);
   const [ready, setReady] = useState(false);
@@ -66,31 +75,56 @@ const ReelView = ({ url, tags, description, reel_uid, showComments, id }) => {
     "rgba(255, 215, 112, 0.7)",
     "rgba(92, 51, 255, 0.6)",
   ];
+  let itemHeight = height ? height : "100%";
+  let topPadding = height ? 0 : 90;
+  let padding = height ? 0 : 16;
+  let borderRad = height ? 0 : 8;
   return (
-    <View style={styles.container}>
-      <View style={styles.video}>
+    <View
+      style={{
+        height: itemHeight,
+        backgroundColor: "white",
+        flexDirection: "column",
+        justifyContent: "flex-start",
+        padding: padding,
+        paddingTop: topPadding,
+      }}
+    >
+      <View
+        style={{
+          borderRadius: borderRad,
+          overflow: "hidden",
+          height: "100%",
+          backgroundColor: "black",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
         <YoutubePlayer
           videoId={url}
-          play={true} // control playback of video with true/false
-          onReady={() => setReady(true)}
-          onChangeState={(e) => setStatus(e)}
+          play={autoplay && true} // control playback of video with true/false
+          onReady={autoplay && (() => setReady(true))}
+          onChangeState={autoplay && ((e) => setStatus(e))}
           height={201}
           forceAndroidAutoplay
         />
-        {showComments && (
-          <TouchableOpacity
-            style={styles.upvoteBox}
-            onPress={() => editVote(upvotes, id, setUpvoted)}
-          >
-            {upvoted ? (
-              <Icon name={"star"} size={20} color="#FFD770" />
-            ) : (
-              <Icon name={"star-o"} size={20} color="#FFD770" />
-            )}
-            <Text style={styles.upvoteText}>{upvotes.length}</Text>
-          </TouchableOpacity>
-        )}
+
         <View style={styles.bottomContainer}>
+          <View style={styles.commentRow}>
+            {showComments && (
+              <TouchableOpacity
+                style={styles.upvoteBox}
+                onPress={() => editVote(upvotes, id, setUpvoted)}
+              >
+                {upvoted ? (
+                  <Icon name={"star"} size={20} color="#FFD770" />
+                ) : (
+                  <Icon name={"star-o"} size={20} color="#FFD770" />
+                )}
+                <Text style={styles.upvoteText}>{upvotes.length}</Text>
+              </TouchableOpacity>
+            )}
+          </View>
           <View style={styles.topRow}>
             {showComments && (
               <TouchableOpacity onPress={onOpen}>
@@ -158,11 +192,6 @@ const ReelView = ({ url, tags, description, reel_uid, showComments, id }) => {
             )}
           </View>
         </View>
-      </View>
-      <View>
-        {description != "" && (
-          <Text style={styles.description}>{description}</Text>
-        )}
       </View>
 
       {showComments && (
@@ -294,22 +323,6 @@ const getComments = async (id, setComments) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    height: "100%",
-    backgroundColor: "white",
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    padding: 16,
-    paddingTop: 90,
-  },
-  video: {
-    borderRadius: 8,
-    overflow: "hidden",
-    height: "100%",
-    backgroundColor: "black",
-    flexDirection: "column",
-    justifyContent: "center",
-  },
   username: {
     fontFamily: "Raleway-ExtraBold",
     fontSize: 26,
@@ -330,6 +343,11 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
+  },
+  commentRow: {
+    flexDirection: "row-reverse",
+    paddingLeft: 8,
+    alignItems: "center",
   },
   topRow: {
     flexDirection: "row-reverse",
@@ -373,10 +391,8 @@ const styles = StyleSheet.create({
   upvoteBox: {
     flexDirection: "column",
     alignItems: "center",
-    position: "absolute",
-    top: 0,
-    right: 0,
     padding: 8,
+    marginRight: -2,
   },
   upvoteText: {
     fontFamily: "Raleway-Regular",

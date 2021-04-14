@@ -16,6 +16,7 @@ import FeedScreen from "./src/screens/FeedScreen";
 import { Provider as AuthProvider } from "./src/context/AuthContext";
 import { setNavigator } from "./src/navigationRef";
 import ResolveAuthScreen from "./src/screens/ResolveAuthScreen";
+import ExploreFeedScreen from "./src/screens/ExploreFeed";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 const switchNavigator = createSwitchNavigator(
@@ -31,9 +32,12 @@ const switchNavigator = createSwitchNavigator(
     mainFlow: createBottomTabNavigator(
       {
         reelFlow: {
-          screen: createStackNavigator({
-            FeedScreen: FeedScreen,
-            ReelView: ReelViewScreen,
+          screen: createSwitchNavigator({
+            ThisWeek: createStackNavigator({
+              FeedScreen: FeedScreen,
+              ReelView: ReelViewScreen,
+            }),
+            Today: ExploreFeedScreen,
           }),
           navigationOptions: {
             tabBarLabel: "",

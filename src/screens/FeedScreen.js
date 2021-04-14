@@ -4,7 +4,6 @@ import {
   View,
   StyleSheet,
   Text,
-  Button,
   TouchableOpacity,
   ScrollView,
 } from "react-native";
@@ -15,6 +14,7 @@ import Spacer from "../components/Spacer";
 import { firebase } from "../firebase/config.js";
 import moment from "moment";
 import ReelFeedCard from "../components/ReelFeedCard";
+import { navigate } from "../navigationRef";
 
 const ReelScreen = (props) => {
   const [isWeek, setIsWeek] = useState(true);
@@ -40,22 +40,12 @@ const ReelScreen = (props) => {
       <View style={styles.tabBar}>
         <TouchableOpacity
           onPress={async (event) => {
-            // if (isWeek == true) {
-            //   await setIsWeek(false);
-            //   getReelList(setReelList, numDisplayed, false);
-            // }
+            navigate("Today");
           }}
         >
           <Text style={isWeek ? styles.tab : styles.tabActive}>Today</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={async (event) => {
-            // if (isWeek == false) {
-            //   await setIsWeek(true);
-            //   getReelList(setReelList, numDisplayed, true);
-            // }
-          }}
-        >
+        <TouchableOpacity onPress={async (event) => {}}>
           <Text style={isWeek ? styles.tabActive : styles.tab}>This Week</Text>
         </TouchableOpacity>
       </View>
