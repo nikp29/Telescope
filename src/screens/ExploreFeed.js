@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
+import { NavigationEvents } from "react-navigation";
 import ReelView from "../components/ReelView";
 import { navigate } from "../navigationRef";
 import { firebase } from "../firebase/config.js";
@@ -33,6 +34,7 @@ const ExploreFeed = () => {
   }
   return (
     <View style={styles.container}>
+      <NavigationEvents onWillFocus={(payload) => getReels(setReelList)} />
       <Carousel
         style={{ backgroundColor: "black" }}
         layout={"default"}
