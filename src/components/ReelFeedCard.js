@@ -51,34 +51,28 @@ const ReelFeedView = ({ title, image_url, youtube_id, id, data }) => {
           style={styles.image}
           imageStyle={{ borderRadius: 5 }}
         >
-          <View style={styles.horizontalContainer}>
-            <View style={{ flex: 1 }}>
-              {/* <Image source={{ uri: image_url }} style={styles.image} /> */}
-            </View>
-            <View
-              style={{
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                paddingLeft: 16,
-              }}
-            >
-              <View style={{ height: 120 }}></View>
-              <TouchableWithoutFeedback>
-                <TouchableOpacity
-                  onPress={() => editVote(upvotes, id, setUpvoted)}
-                >
-                  <View style={styles.upvoteView}>
-                    <Icon
-                      name={upvoted ? "heart" : "heart-o"}
-                      size={30}
-                      color="#FFD770"
-                    />
-                    <Text style={styles.text}>{upvotes.length}</Text>
-                  </View>
-                </TouchableOpacity>
-              </TouchableWithoutFeedback>
-            </View>
+          <View
+            style={{
+              flexDirection: "column-reverse",
+              height: "100%",
+              alignItems: "flex-end",
+              justifyContent: "flex-start",
+            }}
+          >
+            <TouchableWithoutFeedback>
+              <TouchableOpacity
+                onPress={() => editVote(upvotes, id, setUpvoted)}
+              >
+                <View style={styles.upvoteView}>
+                  <Icon
+                    name={upvoted ? "heart" : "heart-o"}
+                    size={30}
+                    color="#FFD770"
+                  />
+                  <Text style={styles.text}>{upvotes.length}</Text>
+                </View>
+              </TouchableOpacity>
+            </TouchableWithoutFeedback>
           </View>
         </ImageBackground>
       </View>
@@ -121,8 +115,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   horizontalContainer: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     alignItems: "center",
+    height: "100%",
   },
   name: {
     fontWeight: "bold",

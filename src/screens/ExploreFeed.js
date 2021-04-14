@@ -81,7 +81,7 @@ const ExploreFeed = () => {
       />
       <View style={styles.tabBar}>
         <TouchableOpacity onPress={(event) => {}}>
-          <Text style={styles.tabActive}>Today</Text>
+          <Text style={styles.tabActive}>Explore</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={(event) => {
@@ -91,7 +91,7 @@ const ExploreFeed = () => {
             setCurrent(cardIndex);
           }}
         >
-          <Text style={styles.tab}>This Week</Text>
+          <Text style={styles.tab}>Leaderboard</Text>
         </TouchableOpacity>
       </View>
     </View>

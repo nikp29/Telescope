@@ -43,15 +43,15 @@ const ReelScreen = (props) => {
             navigate("Today");
           }}
         >
-          <Text style={isWeek ? styles.tab : styles.tabActive}>Today</Text>
+          <Text style={isWeek ? styles.tab : styles.tabActive}>Explore</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={async (event) => {}}>
-          <Text style={isWeek ? styles.tabActive : styles.tab}>This Week</Text>
+          <Text style={isWeek ? styles.tabActive : styles.tab}>
+            Leaderboard
+          </Text>
         </TouchableOpacity>
       </View>
-      <ScrollView
-        style={{backgroundColor: "white"}}
-      >
+      <ScrollView style={{ backgroundColor: "white" }}>
         <Spacer>
           {reelList.length != 0 ? (
             <Text style={styles.header}>Top 3</Text>
