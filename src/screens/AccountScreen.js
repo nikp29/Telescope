@@ -17,16 +17,26 @@ import { LinearGradient } from "expo-linear-gradient";
 import Profile from "../components/Profile";
 
 const AccountScreen = (props) => {
+  const defaultImage = require("../icons/user.png")
   const { signout } = useContext(AuthContext);
   const [bio, setBio] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [facebook, setFacebook] = useState("");
+  const [youtube, setYoutube] = useState("");
   const [tiktok, setTiktok] = useState("");
   const [instagram, setInstagram] = useState("");
-  const [profilePic, setProfilePic] = useState({ uri: "" });
+  const [profilePic, setProfilePic] = useState(defaultImage);
   const [reelList, setReelList] = useState([]);
   useEffect(() => {
+    getInfo(
+      setBio,
+      setName,
+      setEmail,
+      setProfilePic,
+      setYoutube,
+      setTiktok,
+      setInstagram
+    );
     getReelList(setReelList);
     return () => {
       null;
@@ -39,24 +49,24 @@ const AccountScreen = (props) => {
       setName,
       setEmail,
       setProfilePic,
-      setFacebook,
+      setYoutube,
       setTiktok,
       setInstagram
     );
   };
 
-  if (email == "") {
-    getInfo(
-      setBio,
-      setName,
-      setEmail,
-      setProfilePic,
-      setFacebook,
-      setTiktok,
-      setInstagram
-    );
-    getReelList(setReelList);
-  }
+  // if (email == "") {
+  //   getInfo(
+  //     setBio,
+  //     setName,
+  //     setEmail,
+  //     setProfilePic,
+  //     setYoutube,
+  //     setTiktok,
+  //     setInstagram
+  //   );
+  //   getReelList(setReelList);
+  // }
 
   return (
     <Profile
@@ -66,7 +76,7 @@ const AccountScreen = (props) => {
       bio={bio}
       name={name}
       profilePic={profilePic}
-      facebook={facebook}
+      youtube={youtube}
       instagram={instagram}
       tiktok={tiktok}
       navigation={props.navigation}
@@ -85,7 +95,7 @@ const getInfo = async (
   setName,
   setEmail,
   setProfilePic,
-  setFacebook,
+  setYoutube,
   setTiktok,
   setInstagram
 ) => {
@@ -103,7 +113,7 @@ const getInfo = async (
       setBio(doc.data().bio);
       setName(doc.data().fullName);
       setEmail(doc.data().email);
-      setFacebook(doc.data().facebook);
+      setYoutube(doc.data().youtube);
       setTiktok(doc.data().tiktok);
       setInstagram(doc.data().instagram);
       imageURL = doc.data().pic;

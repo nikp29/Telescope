@@ -38,8 +38,13 @@ const switchNavigator = createSwitchNavigator(
             ThisWeek: createStackNavigator({
               FeedScreen: FeedScreen,
               ReelView: ReelViewScreen,
+              ProfileView: ProfileScreen
             }),
-            Today: ExploreFeedScreen,
+            Today: createStackNavigator({
+              Explore: ExploreFeedScreen,
+              ProfileView: ProfileScreen
+            })
+            // ProfileView: ProfileScreen
           }),
           navigationOptions: {
             tabBarLabel: "",

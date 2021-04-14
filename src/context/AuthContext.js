@@ -44,7 +44,7 @@ const signup = (dispatch) => async ({ email, password, fullName }) => {
         fullName,
         bio: "",
         pic: false,
-        facebook: "",
+        youtube: "",
         instagram: "",
         tiktok: "",
       };

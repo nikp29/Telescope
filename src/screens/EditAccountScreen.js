@@ -13,7 +13,7 @@ const AccountInfo = ({route, navigation}) => {
     const [bio, setBio] = useState(navigation.getParam('bio')); 
     const [name, setName] = useState(navigation.getParam('name'));
     const [tiktok, setTiktok] = useState(navigation.getParam('tiktok'));
-    const [facebook, setFacebook] = useState(navigation.getParam('facebook'));
+    const [youtube, setYoutube] = useState(navigation.getParam('youtube'));
     const [instagram, setInstagram] = useState(navigation.getParam('instagram')); 
     const [profilePic, setProfilePic] = useState(navigation.getParam('profilePic')); 
     if(t) {
@@ -48,9 +48,9 @@ const AccountInfo = ({route, navigation}) => {
             />
             <TextInput
                 style={styles.textInput}
-                value={facebook}
-                onChange={newValue => {setFacebook(newValue.nativeEvent.text);}}
-                placeholder={"facebook url"}
+                value={youtube}
+                onChange={newValue => {setYoutube(newValue.nativeEvent.text);}}
+                placeholder={"youtube url"}
                 autoCapitalize="none"
                 autoCorrect={false}
             />
@@ -74,7 +74,7 @@ const AccountInfo = ({route, navigation}) => {
             <TouchableOpacity
                 onPress={() => {
                         const temp = navigation.getParam('func');
-                        editInfo(name, bio, facebook, tiktok, instagram).then(()=> {
+                        editInfo(name, bio, youtube, tiktok, instagram).then(()=> {
                             temp();                        
                         }).then(()=> {
                             navigation.navigate('ViewAccount', {bio: bio, name: name, profilePic: profilePic});
@@ -143,7 +143,7 @@ const editInfo = async (name, bio, f, t, i) => {
     firebase.firestore().collection("users").doc(uid).update({
         bio: bio,
         fullName: name,
-        facebook: f,
+        youtube: f,
         tiktok: t,
         instagram: i
     })

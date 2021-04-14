@@ -49,7 +49,9 @@ const ReelScreen = (props) => {
           <Text style={isWeek ? styles.tabActive : styles.tab}>This Week</Text>
         </TouchableOpacity>
       </View>
-      <ScrollView>
+      <ScrollView
+        style={{backgroundColor: "white"}}
+      >
         <Spacer>
           {reelList.length != 0 ? (
             <Text style={styles.header}>Top 3</Text>

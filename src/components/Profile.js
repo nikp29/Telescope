@@ -20,12 +20,13 @@ const Profile = ({
   bio,
   name,
   profilePic,
-  facebook,
+  youtube,
   instagram,
   tiktok,
   navigation,
   prevPath,
 }) => {
+  
   return (
     <View
       style={{
@@ -83,7 +84,7 @@ const Profile = ({
                     bio: bio,
                     name: name,
                     profilePic: profilePic,
-                    facebook: facebook,
+                    youtube: youtube,
                     instagram: instagram,
                     tiktok: tiktok,
                     func: update,
@@ -127,8 +128,8 @@ const Profile = ({
         <View style={styles.inline}>
           <TouchableOpacity
             onPress={() => {
-              if (facebook != "") {
-                Linking.openURL(facebook);
+              if (youtube != "") {
+                Linking.openURL(youtube);
               }
             }}
           >
