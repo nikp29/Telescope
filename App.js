@@ -38,7 +38,11 @@ const switchNavigator = createSwitchNavigator(
             ThisWeek: createStackNavigator({
               FeedScreen: FeedScreen,
               ReelView: ReelViewScreen,
+<<<<<<< HEAD
               ProfileView: ProfileScreen
+=======
+              ProfileView: ProfileScreen,
+>>>>>>> refs/remotes/origin/master
             }),
             Today: createStackNavigator({
               Explore: ExploreFeedScreen,
