@@ -6,7 +6,7 @@ import {
   Text,
   TouchableOpacity,
   Dimensions,
-  Platform
+  Platform,
 } from "react-native";
 import { NavigationEvents } from "react-navigation";
 import ReelView from "../components/ReelView";
@@ -50,17 +50,16 @@ const ExploreFeed = () => {
         layout={"default"}
         ref={caroselRef}
         data={reelList}
-        sliderHeight={Platform.OS === 'ios' ? height-82 : height-20}
+        sliderHeight={Platform.OS === "ios" ? height - 82 : height - 20}
         sliderWidth={Dimensions.get("window").width}
         itemWidth={Dimensions.get("window").width}
-        itemHeight={Platform.OS === 'ios' ? height-82 : height-20}
+        itemHeight={Platform.OS === "ios" ? height - 82 : height - 20}
         vertical={true}
         renderItem={({ item, index }) => {
-          console.log(index);
           return (
             <View
               style={{
-                height: Platform.OS === 'ios' ? height-82 : height-20,
+                height: Platform.OS === "ios" ? height - 82 : height - 20,
                 backgroundColor: "black",
                 width: Dimensions.get("window").width,
               }}
@@ -72,7 +71,7 @@ const ExploreFeed = () => {
                 reel_uid={item.user}
                 id={item.id}
                 showComments={true}
-                height={Platform.OS === 'ios' ? height-82 : height-20}
+                height={Platform.OS === "ios" ? height - 82 : height - 20}
                 autoplay={index == current}
               />
             </View>
@@ -109,12 +108,10 @@ const getReels = async (setReelList) => {
     .get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        console.log("hi");
         let data_ = doc.data();
         data_["id"] = doc.id;
         reelList_.push(data_);
       });
-      console.log(reelList_);
       setReelList(shuffle(reelList_));
     })
     .catch((error) => {

@@ -17,7 +17,6 @@ import Profile from "../components/Profile";
 
 const ProfileScreen = (props) => {
   const defaultImage = require("../../assets/icons/user.png");
-  console.log(props.navigation.state);
   const { uid } = props.navigation.state.params;
   const [bio, setBio] = useState("");
   const [name, setName] = useState("");
@@ -150,7 +149,6 @@ const getReelList = async (setReelList, uid) => {
         reelList_.push(data_);
       });
       setReelList(reelList_);
-      console.log(reelList_.length);
     });
 };
 

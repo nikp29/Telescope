@@ -61,7 +61,6 @@ const ConfirmUploadScreen = (props) => {
         <TouchableOpacity
           style={{ zIndex: 2 }}
           onPress={() => {
-            console.log("hi");
             confirmUpload();
           }}
           style={styles.uploadContainer}

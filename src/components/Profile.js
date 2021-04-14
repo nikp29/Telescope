@@ -26,6 +26,7 @@ const Profile = ({
   navigation,
   prevPath,
 }) => {
+  console.log("test", tiktok);
   return (
     <View
       style={{
@@ -125,22 +126,24 @@ const Profile = ({
         </View>
 
         <View style={styles.inline}>
-          <TouchableOpacity
-            onPress={() => {
-              if (youtube != "") {
-                Linking.openURL(youtube);
-              }
-            }}
-          >
-            <Image
-              source={require("../../assets/icons/youtube.png")}
-              style={styles.icon}
-            />
-          </TouchableOpacity>
+          {youtube != "" && (
+            <TouchableOpacity
+              onPress={() => {
+                if (youtube != "") {
+                  Linking.openURL("https://www.youtube.com/user/" + youtube);
+                }
+              }}
+            >
+              <Image
+                source={require("../../assets/icons/youtube.png")}
+                style={styles.icon}
+              />
+            </TouchableOpacity>
+          )}
           <TouchableOpacity
             onPress={() => {
               if (instagram != "") {
-                Linking.openURL(instagram);
+                Linking.openURL("https://www.instagram.com/" + instagram);
               }
             }}
           >
@@ -152,7 +155,7 @@ const Profile = ({
           <TouchableOpacity
             onPress={() => {
               if (tiktok != "") {
-                Linking.openURL(tiktok);
+                Linking.openURL("https://tiktok.com/@" + tiktok);
               }
             }}
           >
@@ -172,7 +175,6 @@ const Profile = ({
           data={reelList}
           keyExtractor={(data) => data.id}
           renderItem={({ item }) => {
-            console.log("item is " + item);
             return renderReelFeedView(item);
           }}
         />
