@@ -26,7 +26,6 @@ const Profile = ({
   navigation,
   prevPath,
 }) => {
-  
   return (
     <View
       style={{
@@ -92,7 +91,7 @@ const Profile = ({
                 }}
               >
                 <Image
-                  source={require("../icons/settings.png")}
+                  source={require("../../assets/icons/settings.png")}
                   style={styles.icon}
                 />
               </TouchableOpacity>
@@ -134,7 +133,7 @@ const Profile = ({
             }}
           >
             <Image
-              source={require("../icons/youtube.png")}
+              source={require("../../assets/icons/youtube.png")}
               style={styles.icon}
             />
           </TouchableOpacity>
@@ -146,7 +145,7 @@ const Profile = ({
             }}
           >
             <Image
-              source={require("../icons/instagram.png")}
+              source={require("../../assets/icons/instagram.png")}
               style={styles.icon}
             />
           </TouchableOpacity>
@@ -158,7 +157,7 @@ const Profile = ({
             }}
           >
             <Image
-              source={require("../icons/tik-tok.png")}
+              source={require("../../assets/icons/tik-tok.png")}
               style={styles.icon}
             />
           </TouchableOpacity>

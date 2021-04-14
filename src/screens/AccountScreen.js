@@ -17,7 +17,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import Profile from "../components/Profile";
 
 const AccountScreen = (props) => {
-  const defaultImage = require("../icons/user.png")
+  const defaultImage = require("../../assets/icons/user.png");
   const { signout } = useContext(AuthContext);
   const [bio, setBio] = useState("");
   const [name, setName] = useState("");
