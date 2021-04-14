@@ -102,9 +102,9 @@ const ReelView = ({
       >
         <YoutubePlayer
           videoId={url}
-          play={autoplay && true} // control playback of video with true/false
-          onReady={autoplay && (() => setReady(true))}
-          onChangeState={autoplay && ((e) => setStatus(e))}
+          play={autoplay} // control playback of video with true/false
+          onReady={() => setReady(autoplay)}
+          onChangeState={(e) => setStatus(e)}
           height={201}
           forceAndroidAutoplay
         />
