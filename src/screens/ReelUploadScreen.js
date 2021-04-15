@@ -73,10 +73,11 @@ const confirmUpload = async ({ url, tags, setError, description }) => {
           setError("");
           navigate("ConfirmUpload", {
             url,
-            title,
             tags,
             thumbnail,
             description,
+            username: data.fullName,
+            uid,
           });
         } else {
           setError("invalid youtube video");

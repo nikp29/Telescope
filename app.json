@@ -30,6 +30,7 @@
     },
     "privacy": "unlisted",
     "description": "",
-    "githubUrl": "https://github.com/nikp29/telescope"
+    "githubUrl": "https://github.com/nikp29/telescope",
+    "owner": "telescope"
   }
 }
