@@ -32,6 +32,7 @@ const ConfirmUploadScreen = (props) => {
       upvotes: [],
       comments: [],
       description,
+      num_upvotes: 0,
     });
     props.navigation.goBack(null);
     navigate("Today");

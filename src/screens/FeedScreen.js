@@ -99,7 +99,7 @@ const getReelList = async (setReelList, numDisplayed, isWeek) => {
   let reelList_ = [];
   if (isWeek) {
     reelsRef
-      .orderBy("upvotes", "desc")
+      .orderBy("num_upvotes", "desc")
       .where("weekstamp", "==", getWeekstamp(moment()))
       .orderBy("timestamp", "desc")
       .limit(numDisplayed)

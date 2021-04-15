@@ -102,7 +102,7 @@ const getReels = async (setReelList) => {
   let reelsRef = firebase.firestore().collection("reels");
   let reelList_ = [];
   await reelsRef
-    .orderBy("upvotes", "desc")
+    .orderBy("num_upvotes", "desc")
     .where("daystamp", "==", getDaystamp(moment()))
     .orderBy("timestamp", "desc")
     .get()

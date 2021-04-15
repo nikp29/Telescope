@@ -284,6 +284,7 @@ const addComment = async (reel_id, description, setComment) => {
       description: description,
       timestamp: moment().unix().valueOf(),
       upvotes: [],
+      num_upvotes: 0,
       reel_id,
     })
     .then((docRef) => {
@@ -302,12 +303,16 @@ const editVote = async (upvotes, id, setUpvoted) => {
   let new_upvotes = upvotes;
   if (upvotes.includes(uid)) {
     new_upvotes.splice(new_upvotes.indexOf(uid), 1);
-    await reelsRef.doc(id).update({ upvotes: new_upvotes });
+    await reelsRef
+      .doc(id)
+      .update({ upvotes: new_upvotes, num_upvotes: new_upvotes.length });
     setUpvoted(false);
   } else {
     // reel has not already been upvoted
     new_upvotes.push(uid);
-    await reelsRef.doc(id).update({ upvotes: new_upvotes });
+    await reelsRef
+      .doc(id)
+      .update({ upvotes: new_upvotes, num_upvotes: new_upvotes.length });
     setUpvoted(true);
   }
 };
@@ -317,7 +322,7 @@ const getComments = async (id, setComments) => {
   await firebase
     .firestore()
     .collection(`reels/${id}/comments`)
-    .orderBy("upvotes", "desc")
+    .orderBy("num_upvotes", "desc")
     .orderBy("timestamp", "desc")
     .get()
     .then((querySnapshot) => {

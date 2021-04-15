@@ -88,7 +88,9 @@ const editVote = async (upvotes, id, setUpvoted) => {
   let new_upvotes = upvotes;
   if (upvotes.includes(uid)) {
     new_upvotes.splice(new_upvotes.indexOf(uid), 1);
-    await reelsRef.doc(id).update({ upvotes: new_upvotes });
+    await reelsRef
+      .doc(id)
+      .update({ upvotes: new_upvotes, num_upvotes: upvotes.length });
     setUpvoted(false);
   } else {
     // reel has not already been upvoted
