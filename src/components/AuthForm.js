@@ -25,9 +25,9 @@ const AuthForm = ({
   return (
     <View style={styles.viewContainer}>
       <View style={styles.titleContainer}>
-        <Image source={logo} style={{ height: 88, width: 70 }} />
+        {/* <Image source={logo} style={{ height: 88, width: 70 }} />
         <Text style={styles.title}>telescope</Text>
-        <Text style={styles.title2}>.</Text>
+        <Text style={styles.title2}>.</Text> */}
       </View>
       <Text style={styles.headerText}>{headerText}</Text>
       {isSignUp ? (
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     fontFamily: "Raleway-Bold",
     fontSize: 28,
     color: "white",
-    marginTop: 32,
+    // marginTop: 32,
     marginBottom: -16,
   },
 });

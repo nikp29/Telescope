@@ -45,15 +45,15 @@ const ExploreFeed = () => {
     return null;
   }
   const height = Dimensions.get("window").height;
-  if(isLoading) {
-    return <Image 
-    style={{
-      width: "100%",
-      height: "100%",
-    }}
-      source={require("../../assets/icons/loading.gif")}
-    ></Image>
-  }
+  // if(isLoading) {
+  //   return <Image 
+  //   style={{
+  //     width: "100%",
+  //     height: "100%",
+  //   }}
+  //     source={require("../../assets/icons/loading.gif")}
+  //   ></Image>
+  // }
   return (
     <View style={styles.container}>
       <NavigationEvents onWillFocus={(payload) => getReels(setReelList)} />
