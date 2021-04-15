@@ -116,6 +116,7 @@ const Profile = ({
             }}
             source={profilePic}
           />
+         
         </View>
         <View style={{ alignItems: "center" }}>
           <Text style={styles.name}>{name}</Text>

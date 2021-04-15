@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   Dimensions,
   Platform,
+  Image,
+  Animated
 } from "react-native";
 import { NavigationEvents } from "react-navigation";
 import ReelView from "../components/ReelView";
@@ -20,13 +22,14 @@ import { useFonts } from "expo-font";
 const ExploreFeed = () => {
   const [current, setCurrent] = useState(0);
   const [reelList, setReelList] = useState([]);
+  const [isLoading, setLoading] = useState(true);
   const caroselRef = useRef(null);
   const [loaded] = useFonts({
     Raleway: require("../../assets/Raleway-Bold.ttf"),
     RalewayExtraBold: require("../../assets/Raleway-ExtraBold.ttf"),
   });
   useEffect(() => {
-    getReels(setReelList);
+    getReels(setReelList, setLoading);
     return () => {
       null;
     };
@@ -42,6 +45,15 @@ const ExploreFeed = () => {
     return null;
   }
   const height = Dimensions.get("window").height;
+  if(isLoading) {
+    return <Image 
+    style={{
+      width: "100%",
+      height: "100%",
+    }}
+      source={require("../../assets/icons/loading.gif")}
+    ></Image>
+  }
   return (
     <View style={styles.container}>
       <NavigationEvents onWillFocus={(payload) => getReels(setReelList)} />
@@ -98,7 +110,7 @@ const ExploreFeed = () => {
   );
 };
 
-const getReels = async (setReelList) => {
+const getReels = async (setReelList, setLoading) => {
   let reelsRef = firebase.firestore().collection("reels");
   let reelList_ = [];
   await reelsRef
@@ -113,6 +125,7 @@ const getReels = async (setReelList) => {
         reelList_.push(data_);
       });
       setReelList(shuffle(reelList_));
+        setLoading(false);
     })
     .catch((error) => {
       console.log(error.message);

@@ -125,11 +125,11 @@ const ReelView = ({
                 style={styles.upvoteBox}
                 onPress={() => editVote(upvotes, id, setUpvoted)}
               >
-                {upvoted ? (
-                  <Icon name={"heart"} size={20} color="#FFD770" />
-                ) : (
-                  <Icon name={"heart-o"} size={20} color="#FFD770" />
-                )}
+                <Icon
+                    name={"heart"}
+                    size={30}
+                    color={upvoted ? "#FFD770" : "#999999"}
+                  />
                 <Text style={styles.upvoteText}>{upvotes.length}</Text>
               </TouchableOpacity>
             )}

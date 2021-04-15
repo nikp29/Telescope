@@ -70,6 +70,7 @@ const switchNavigator = createSwitchNavigator(
         accountFlow: {
           screen: createStackNavigator({
             ViewAccount: AccountScreen,
+            ReelView: ReelViewScreen,
             EditAccount: EditAccountScreen,
           }),
           navigationOptions: {

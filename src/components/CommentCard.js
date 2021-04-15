@@ -51,11 +51,11 @@ const CommentCard = ({ data, uid }) => {
             editVote(data.upvotes, data.id, setUpvoted, data.reel_id, uid);
           }}
         >
-          {upvoted ? (
-            <Icon name={"heart"} size={20} color="#FFD770" />
-          ) : (
-            <Icon name={"heart-o"} size={20} color="#FFD770" />
-          )}
+          <Icon
+            name={"heart"}
+            size={30}
+            color={upvoted ? "#FFD770" : "#999999"}
+          />
           <Text style={styles.upvoteText}>{data.upvotes.length}</Text>
         </TouchableOpacity>
       </View>

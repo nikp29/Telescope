@@ -65,9 +65,9 @@ const ReelFeedView = ({ title, image_url, youtube_id, id, data }) => {
               >
                 <View style={styles.upvoteView}>
                   <Icon
-                    name={upvoted ? "heart" : "heart-o"}
+                    name={"heart"}
                     size={30}
-                    color="#FFD770"
+                    color={upvoted ? "#FFD770" : "#999999"}
                   />
                   <Text style={styles.text}>{upvotes.length}</Text>
                 </View>
