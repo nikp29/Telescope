@@ -99,7 +99,9 @@ const Profile = ({
           </View>
         </LinearGradient>
       </View>
-      <View>
+      <View
+      style={{alignItems: "center"}}
+      >
         <View style={{ height: 125 }}></View>
         <View style={{ alignItems: "center" }}>
           <Image
@@ -218,6 +220,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "space-around",
     alignItems: "center",
+    width: "50%"
   },
   name: {
     fontFamily: "Raleway-Bold",

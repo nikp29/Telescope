@@ -10,8 +10,8 @@ import {
 import { Button, Input } from "react-native-elements";
 import AsyncStorage from "@react-native-community/async-storage";
 import { firebase } from "../firebase/config.js";
-// import Spacer from "./Spacer";
 import ImagePick from "../components/ImagePick";
+import InputField from "../components/InputField";
 
 var t = false;
 
@@ -30,79 +30,78 @@ const AccountInfo = ({ route, navigation }) => {
   }
 
   return (
-    <View style={{ marginTop: 32 }}>
-      <Image style={{ width: 200, height: 200 }} source={profilePic} />
-
-      <TextInput
-        style={styles.textInput}
-        value={name}
-        onChange={(newValue) => {
-          setName(newValue.nativeEvent.text);
-        }}
-        placeholder={"Name"}
-        autoCapitalize="none"
-        autoCorrect={false}
-      />
-      <TextInput
-        style={styles.textInput}
-        value={bio}
-        onChange={(newValue) => {
-          setBio(newValue.nativeEvent.text);
-        }}
-        placeholder={"Bio"}
-        autoCapitalize="none"
-        autoCorrect={false}
-      />
-      <TextInput
-        style={styles.textInput}
-        value={youtube}
-        onChange={(newValue) => {
-          setYoutube(newValue.nativeEvent.text);
-        }}
-        placeholder={"youtube url"}
-        autoCapitalize="none"
-        autoCorrect={false}
-      />
-      <TextInput
-        style={styles.textInput}
-        value={tiktok}
-        onChange={(newValue) => {
-          setTiktok(newValue.nativeEvent.text);
-        }}
-        placeholder={"tiktok url"}
-        autoCapitalize="none"
-        autoCorrect={false}
-      />
-      <TextInput
-        style={styles.textInput}
-        value={instagram}
-        onChange={(newValue) => {
-          setInstagram(newValue.nativeEvent.text);
-        }}
-        placeholder={"instagram url"}
-        autoCapitalize="none"
-        autoCorrect={false}
-      />
-      {/* <Spacer/> */}
-      <TouchableOpacity
-        onPress={() => {
-          const temp = navigation.getParam("func");
-          editInfo(name, bio, youtube, tiktok, instagram)
-            .then(() => {
-              temp();
-            })
-            .then(() => {
-              navigation.navigate("ViewAccount", {
-                bio: bio,
-                name: name,
-                profilePic: profilePic,
-              });
-            });
-        }}
+    <View
+      style={{backgroundColor: "white", height: "100%", width: "100%", alignItems: "center"}}
+    >
+      <View style={styles.topBar}>
+        <TouchableOpacity
+          style={{ zIndex: 2 }}
+          onPress={() => {
+            navigation.goBack(null);
+          }}
+          style={styles.backContainer}
+        >
+          <Text style={styles.uploadText}>Back</Text>
+        </TouchableOpacity>
+      </View>
+    <View style={styles.container}>
+      <View
+        style={{alignItems: "center"}}
       >
-        <Text>Finish Editing</Text>
-      </TouchableOpacity>
-      <ImagePick setURL={setProfilePic} />
+        <Image style={{ width: 100, height: 100, borderRadius: 100 }} source={profilePic} />
+        <ImagePick setURL={setProfilePic} />
+      </View>
+      <InputField
+        name="Name"
+        value={name}
+        setValue={setName}
+      />
+      <InputField
+        name="Bio"
+        value={bio}
+        setValue={setBio}
+      />
+      <InputField
+        name="YouTube"
+        value={youtube}
+        setValue={setYoutube}
+      />
+      <InputField
+        name="Instagram"
+        value={instagram}
+        setValue={setInstagram}
+      />
+      <InputField
+        name="TikTok"
+        value={tiktok}
+        setValue={setTiktok}
+      />
+      </View>
+      <View
+        styles={{ alignContent: "center", width: "100%"}}
+      >
+        <TouchableOpacity
+          onPress={() => {
+            const temp = navigation.getParam("func");
+            editInfo(name, bio, youtube, tiktok, instagram)
+              .then(() => {
+                temp();
+              })
+              .then(() => {
+                navigation.navigate("ViewAccount", {
+                  bio: bio,
+                  name: name,
+                  profilePic: profilePic,
+                });
+              });
+          }}
+          style={styles.button}
+        >
+          <Text
+            style={styles.buttonStyle}
+          >Finish Editing</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -167,8 +166,47 @@ const editInfo = async (name, bio, f, t, i) => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    marginTop: 60,
+    width: "100%"
+    // backgroundColor: "white",
+    // alignItems: "center",
+    // width: "100%"
+  },
   textInput: {
     color: "black",
+  },
+  buttonStyle: {
+    color: "white",
+    fontFamily: "Raleway-SemiBold",
+    fontSize: 18,
+  },
+  button: {
+    width: 150,
+    backgroundColor: "#5C33FF",
+    padding: 16,
+    borderRadius: 25,
+    marginTop: 16,
+    alignItems: "center"
+  },
+  backContainer: {
+    padding: 8,
+    marginLeft: 8,
+  },
+  uploadText: {
+    color: "#5C33FF",
+    fontFamily: "Raleway-Bold",
+    fontSize: 18,
+  },
+  topBar: {
+    position: "absolute",
+    top: 0,
+    paddingTop: 45,
+    backgroundColor: "white",
+    left: 0,
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 });
 
