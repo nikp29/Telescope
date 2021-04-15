@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Text,
   View,
@@ -6,14 +6,17 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  KeyboardAvoidingView,
+  Keyboard
 } from "react-native";
 import { Button, Input } from "react-native-elements";
 import AsyncStorage from "@react-native-community/async-storage";
 import { firebase } from "../firebase/config.js";
 import ImagePick from "../components/ImagePick";
 import InputField from "../components/InputField";
+import { Context as AuthContext } from "../context/AuthContext";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-var t = false;
 
 const AccountInfo = ({ route, navigation }) => {
   const [bio, setBio] = useState(navigation.getParam("bio"));
@@ -24,10 +27,8 @@ const AccountInfo = ({ route, navigation }) => {
   const [profilePic, setProfilePic] = useState(
     navigation.getParam("profilePic")
   );
-  if (t) {
-    getInfo(setBio, setName, setProfilePic).then(() => {});
-    t = false;
-  }
+  const { signout } = useContext(AuthContext);
+  
 
   return (
     <View
@@ -43,8 +44,15 @@ const AccountInfo = ({ route, navigation }) => {
         >
           <Text style={styles.uploadText}>Back</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          style={{ zIndex: 2 }}
+          onPress={signout}
+          style={styles.backContainer}
+        >
+          <Text style={styles.uploadText}>Sign Out</Text>
+        </TouchableOpacity>
       </View>
-    <View style={styles.container}>
+    <KeyboardAwareScrollView style={styles.container} resetScrollToCoords={{ x: 0, y: 0 }}>
       <View
         style={{alignItems: "center"}}
       >
@@ -76,7 +84,7 @@ const AccountInfo = ({ route, navigation }) => {
         value={tiktok}
         setValue={setTiktok}
       />
-      </View>
+      </KeyboardAwareScrollView>
       <View
         styles={{ alignContent: "center", width: "100%"}}
       >
@@ -207,6 +215,7 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
+    
   },
 });
 

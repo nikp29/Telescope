@@ -103,7 +103,8 @@ const Profile = ({
       style={{alignItems: "center"}}
       >
         <View style={{ height: 125 }}></View>
-        <View style={{ alignItems: "center" }}>
+        <View style={{ alignItems: "center",
+      width: "100%" }}>
           <Image
             style={{
               width: 175,
@@ -120,7 +121,7 @@ const Profile = ({
           />
          
         </View>
-        <View style={{ alignItems: "center" }}>
+        <View style={{ alignItems: "center", }}>
           <Text style={styles.name}>{name}</Text>
 
           <Text style={styles.bio}>{bio}</Text>
@@ -219,8 +220,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-around",
-    alignItems: "center",
-    width: "50%"
+    // alignItems: "center",
+    width: "50%",
+    // borderWidth: 10,
   },
   name: {
     fontFamily: "Raleway-Bold",
@@ -240,6 +242,7 @@ const styles = StyleSheet.create({
   icon: {
     height: 20,
     width: 20,
+    marginLeft: 10
   },
   backContainer: {
     padding: 8,

@@ -1,5 +1,5 @@
 import React from 'react';
-import {TextInput, View, Text, StyleSheet} from 'react-native';
+import {TextInput, View, Text, StyleSheet, ScrollView} from 'react-native';
 
 const InputField = ({
     name,
@@ -7,6 +7,7 @@ const InputField = ({
     setValue
 }) => {
     return (
+        
         <View style={styles.container}>
             <View style={styles.textContainer}>
                 <Text
