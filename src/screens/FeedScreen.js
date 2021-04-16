@@ -15,6 +15,7 @@ import { firebase } from "../firebase/config.js";
 import moment from "moment";
 import ReelFeedCard from "../components/ReelFeedCard";
 import { navigate } from "../navigationRef";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const ReelScreen = (props) => {
   const [isWeek, setIsWeek] = useState(true);
@@ -49,6 +50,21 @@ const ReelScreen = (props) => {
           <Text style={isWeek ? styles.tabActive : styles.tab}>
             Leaderboard
           </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+        style={{marginTop: 5}}
+          onPress={(event) => {
+            navigate("Search");
+          }}
+          onSwiped={(cardIndex) => {
+            setCurrent(cardIndex);
+          }}
+        >
+          <Icon
+            name={"search"}
+            size={25}
+            color={ "#ccc0ff"}
+          />
         </TouchableOpacity>
       </View>
       <ScrollView style={{ backgroundColor: "white" }}>

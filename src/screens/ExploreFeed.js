@@ -18,6 +18,7 @@ import shuffle from "shuffle-array";
 import Carousel from "react-native-snap-carousel";
 import moment from "moment";
 import { useFonts } from "expo-font";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const ExploreFeed = () => {
   const [current, setCurrent] = useState(0);
@@ -104,6 +105,21 @@ const ExploreFeed = () => {
           }}
         >
           <Text style={styles.tab}>Leaderboard</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+        style={{marginTop: 5}}
+          onPress={(event) => {
+            navigate("Search");
+          }}
+          onSwiped={(cardIndex) => {
+            setCurrent(cardIndex);
+          }}
+        >
+          <Icon
+            name={"search"}
+            size={25}
+            color={ "rgba(255, 255, 255, 0.3)"}
+          />
         </TouchableOpacity>
       </View>
     </View>

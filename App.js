@@ -20,6 +20,7 @@ import ResolveAuthScreen from "./src/screens/ResolveAuthScreen";
 import ExploreFeedScreen from "./src/screens/ExploreFeed";
 import Icon from "react-native-vector-icons/FontAwesome";
 import ProfileScreen from "./src/screens/ProfileScreen";
+import SearchScreen from "./src/screens/SearchScreen";
 
 const switchNavigator = createSwitchNavigator(
   {
@@ -43,6 +44,11 @@ const switchNavigator = createSwitchNavigator(
             }),
             Today: createStackNavigator({
               Explore: ExploreFeedScreen,
+              ProfileView: ProfileScreen,
+              ReelView: ReelViewScreen
+            }),
+            Search: createStackNavigator({
+              Results: SearchScreen,
               ProfileView: ProfileScreen,
               ReelView: ReelViewScreen
             })
