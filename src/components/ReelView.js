@@ -41,6 +41,7 @@ const ReelView = ({
   const [initialGet, setInitialGet] = useState(false);
   const [upvoted, setUpvoted] = useState(false);
   const [upvotes, setUpvotes] = useState([]);
+  const [author, setAuthor] = useState("");
   useEffect(() => {
     async function fetchUid() {
       const uid_ = await AsyncStorage.getItem("token");
@@ -57,6 +58,16 @@ const ReelView = ({
           .catch((error) => console.log(error.message));
       }
       setUid(uid_);
+      firebase
+        .firestore()
+        .collection("users")
+        .doc(reel_uid)
+        .get()
+        .then((doc) => {
+          const data = doc.data();
+          setAuthor(data.fullName);
+        })
+        .catch((error) => console.log(error.message));
     }
     fetchUid();
     return () => {
@@ -126,10 +137,10 @@ const ReelView = ({
                 onPress={() => editVote(upvotes, id, setUpvoted)}
               >
                 <Icon
-                    name={"heart"}
-                    size={30}
-                    color={upvoted ? "#FFD770" : "#999999"}
-                  />
+                  name={"heart"}
+                  size={30}
+                  color={upvoted ? "#FFD770" : "#999999"}
+                />
                 <Text style={styles.upvoteText}>{upvotes.length}</Text>
               </TouchableOpacity>
             )}
@@ -213,6 +224,17 @@ const ReelView = ({
               onClose={() => {
                 setCommenting(false);
               }}
+              HeaderComponent={
+                <>
+                  {description && (
+                    <Text style={styles.adviceText}>
+                      {author +
+                        " would like advice on these areas: " +
+                        description}
+                    </Text>
+                  )}
+                </>
+              }
               FooterComponent={
                 <View style={styles.footer}>
                   <TextInput
@@ -399,7 +421,6 @@ const styles = StyleSheet.create({
   },
   commentModal: {
     flexDirection: "column",
-    marginTop: 16,
   },
   upvoteBox: {
     flexDirection: "column",
@@ -411,6 +432,13 @@ const styles = StyleSheet.create({
     fontFamily: "Raleway-Regular",
     fontSize: 13,
     color: "#86878B",
+  },
+  adviceText: {
+    marginTop: 16,
+    padding: 16,
+    fontFamily: "Raleway-Regular",
+    fontSize: 15,
+    color: "black",
   },
 });
 

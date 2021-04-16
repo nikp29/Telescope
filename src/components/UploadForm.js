@@ -77,7 +77,7 @@ const UploadForm = ({
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.inputMulti}
-            placeholder="Write a description"
+            placeholder="What are you looking for advice on?"
             value={description}
             onChangeText={setDescription}
             autoCapitalize="none"
