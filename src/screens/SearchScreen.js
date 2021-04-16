@@ -9,7 +9,9 @@ import {
   Platform,
   Image,
   Animated,
-  TextInput
+  TextInput,
+  FlatList,
+  Keyboard
 } from "react-native";
 import { NavigationEvents } from "react-navigation";
 import ReelView from "../components/ReelView";
@@ -21,9 +23,15 @@ import moment from "moment";
 import { useFonts } from "expo-font";
 import Icon from "react-native-vector-icons/FontAwesome";
 import InputField from "../components/InputField";
+import ReelFeedCard from "../components/ReelFeedCard"
 
 
 const SearchScreen = () => {
+
+    const [reelList, setReelList] = useState([]);
+    const [isLoading, setLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState("");
+
     return (
         <>
             <View style={styles.tabBar}>
@@ -63,17 +71,71 @@ const SearchScreen = () => {
                     <TextInput
                     style={styles.input}
                     placeholder="Search"
-                    value=""
-                    // onChangeText={setValue}
+                    value={searchTerm}
+                    onChangeText={setSearchTerm}
                     autoCapitalize="none"
                     autoCorrect={false}
+                    returnKeyType="search"
+                    onSubmitEditing={() => {
+                        Keyboard.dismiss();
+                        getReels(setReelList, setLoading, searchTerm);
+                    }}
                     onPress={() => Keyboard.dismiss()}
+                    onSubmit
                     />
                 </View>
+                    <ScrollView
+                        style={{ height: "100%", width: "90%" }}
+                        showsVerticalScrollIndicator={false}
+                    >
+                        <FlatList
+                            data={reelList}
+                            keyExtractor={(data) => data.id}
+                            renderItem={({ item }) => {
+                                return renderReelFeedView(item);
+                            }}
+                        />
+                </ScrollView>
             </View>
         </>
     );
 };
+
+const renderReelFeedView = (data) => {
+    return (
+      <ReelFeedCard
+        title={data.title}
+        upvotes={data.upvotes}
+        image_url={data.thumbnail}
+        id={data.id}
+        data={data}
+      />
+    );
+  };
+
+const getReels = async (setReelList, setLoading, searchTerm) => {
+    let reelsRef = firebase.firestore().collection("reels");
+    let reelList_ = [];
+    console.log("getting reels");
+    await reelsRef
+    //   .orderBy("num_upvotes", "desc")
+      .where("tags", "array-contains", searchTerm)
+    //   .orderBy("timestamp", "desc")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          let data_ = doc.data();
+          data_["id"] = doc.id;
+          reelList_.push(data_);
+            console.log(doc.id);
+        });
+        setReelList(shuffle(reelList_));
+          setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
 
 SearchScreen.navigationOptions = () => {
     return {
@@ -119,12 +181,14 @@ const styles = StyleSheet.create({
         width: "80%",
         borderRadius: 6,
         marginTop: 16,
+        marginBottom: 32
     },
     container: {
         alignItems: "center",
         backgroundColor: "white",
         height:"100%"
     }
+      
   });  
 
 export default SearchScreen;
