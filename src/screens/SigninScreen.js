@@ -100,18 +100,20 @@ const SigninScreen = () => {
       source={require("../../assets/splash_no_text.png")}
       />
       </Animated.View>
-      <KeyboardAvoidingView
+      <View
         style={{width: "80%",
-          marginTop: 50,
+          marginTop: Platform.OS === "ios" ? 25 : 50,
           height: "100%",
           backgroundColor: "#DFD7FF",
           position: "absolute",
           zIndex: zForm
         }}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <View style={styles.container}>
           <NavigationEvents onWillFocus={clearErrorMessage} />
+          <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : ""}
+          >
           <AuthForm
             headerText="Sign In"
             errorMessage={state.errorMessage}
@@ -124,8 +126,9 @@ const SigninScreen = () => {
             linkText="Sign up"
             routeName="Signup"
           />
+          </KeyboardAvoidingView>
         </View>
-      </KeyboardAvoidingView>
+      </View>
     </View>
   );
 };
