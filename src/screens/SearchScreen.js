@@ -84,10 +84,14 @@ const SearchScreen = () => {
                     onSubmit
                     />
                 </View>
-                    <ScrollView
+                </View>
+                <ScrollView
+                style={styles.scrollContainer}
+                >
+                    {/* <ScrollView
                         style={{ height: "100%", width: "90%" }}
                         showsVerticalScrollIndicator={false}
-                    >
+                    > */}
                         <FlatList
                             data={reelList}
                             keyExtractor={(data) => data.id}
@@ -95,8 +99,8 @@ const SearchScreen = () => {
                                 return renderReelFeedView(item);
                             }}
                         />
-                </ScrollView>
-            </View>
+                {/* </ScrollView> */}
+            </ScrollView>
         </>
     );
 };
@@ -181,10 +185,15 @@ const styles = StyleSheet.create({
         width: "80%",
         borderRadius: 6,
         marginTop: 16,
-        marginBottom: 32
+        marginBottom: 16
     },
     container: {
         alignItems: "center",
+        backgroundColor: "white",
+        // height:"100%"
+    },
+    scrollContainer: {
+        // alignItems: "center",
         backgroundColor: "white",
         height:"100%"
     }
