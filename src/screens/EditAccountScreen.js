@@ -40,9 +40,10 @@ const AccountInfo = ({ route, navigation }) => {
     >
       <View style={styles.topBar}>
         <TouchableOpacity
-          style={{ zIndex: 2 }}
+          // style={{ zIndex: 2 }}
           onPress={() => {
             navigation.goBack(null);
+            console.log("going back");
           }}
           style={styles.backContainer}
         >
@@ -152,14 +153,16 @@ const editInfo = async (name, bio, f, t, i) => {
       .catch((error) => {
         console.error("Error editing document: ", error);
       });
-  if (name)
+  if (name){
+    console.log("changing name");
     await userDoc
       .update({
-        name: name,
+        fullName: name,
       })
       .catch((error) => {
         console.error("Error editing document: ", error);
       });
+    }
   if (f)
     await userDoc
       .update({
@@ -215,6 +218,7 @@ const styles = StyleSheet.create({
   backContainer: {
     padding: 8,
     marginLeft: 8,
+    // backgroundColor: "orange"
   },
   uploadText: {
     color: "#5C33FF",
