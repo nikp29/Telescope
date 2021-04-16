@@ -15,6 +15,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { firebase } from "../firebase/config.js";
 import { LinearGradient } from "expo-linear-gradient";
 import Profile from "../components/Profile";
+import { NavigationEvents } from "react-navigation";
 
 const AccountScreen = (props) => {
   const defaultImage = require("../../assets/icons/user.png");
@@ -68,18 +69,21 @@ const AccountScreen = (props) => {
   // }
 
   return (
-    <Profile
-      isOwn={true}
-      reelList={reelList}
-      update={update}
-      bio={bio}
-      name={name}
-      profilePic={profilePic}
-      youtube={youtube}
-      instagram={instagram}
-      tiktok={tiktok}
-      navigation={props.navigation}
-    />
+    <>
+      <NavigationEvents onDidFocus={(event) => update()} />
+      <Profile
+        isOwn={true}
+        reelList={reelList}
+        update={update}
+        bio={bio}
+        name={name}
+        profilePic={profilePic}
+        youtube={youtube}
+        instagram={instagram}
+        tiktok={tiktok}
+        navigation={props.navigation}
+      />
+    </>
   );
 };
 
