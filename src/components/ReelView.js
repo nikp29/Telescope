@@ -226,7 +226,7 @@ const ReelView = ({
               }}
               HeaderComponent={
                 <>
-                  {description && (
+                  {description != "" && (
                     <Text style={styles.adviceText}>
                       {author +
                         " would like advice on these areas: " +
