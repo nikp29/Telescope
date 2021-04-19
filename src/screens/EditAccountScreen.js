@@ -229,11 +229,12 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     paddingTop: 45,
-    backgroundColor: "white",
+    // backgroundColor: "white",
     left: 0,
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
+    zIndex: 2
   },
 });
 
