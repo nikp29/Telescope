@@ -137,7 +137,7 @@ const ReelView = ({
                 onPress={() => editVote(upvotes, id, setUpvoted)}
               >
                 <Icon
-                  name={"heart"}
+                  name={upvoted ? "heart" : "heart-o"}
                   size={30}
                   color={upvoted ? "#FFD770" : "#999999"}
                 />
