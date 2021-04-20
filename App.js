@@ -78,10 +78,9 @@ const switchNavigator = createSwitchNavigator(
         },
         discussionFlow: {
           screen: createStackNavigator({
-            ViewAccount: AccountScreen,
-            ReelView: ReelViewScreen,
-            EditAccount: EditAccountScreen,
-            EditExp: EditExpScreen
+            DiscussionFeed: DiscussionFeed,
+            UploadDiscussion: DiscussionUploadScreen,
+            DiscussionView: DiscussionViewScreen,
           }),
           navigationOptions: {
             tabBarLabel: "",
@@ -95,6 +94,7 @@ const switchNavigator = createSwitchNavigator(
             ViewAccount: AccountScreen,
             ReelView: ReelViewScreen,
             EditAccount: EditAccountScreen,
+            EditExp: EditExpScreen
           }),
           navigationOptions: {
             tabBarLabel: "",

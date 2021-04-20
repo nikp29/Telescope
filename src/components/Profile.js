@@ -12,11 +12,8 @@ import {
 import Spacer from "../components/Spacer";
 import { LinearGradient } from "expo-linear-gradient";
 import ReelFeedCard from "../components/ReelFeedCard";
-<<<<<<< HEAD
 import ExperienceCard from "../components/ExperienceCard";
-=======
 import Icon from "react-native-vector-icons/FontAwesome";
->>>>>>> 9770ba25eaaf471366993761d36b36584ae4036b
 
 const Profile = ({
   isOwn,
