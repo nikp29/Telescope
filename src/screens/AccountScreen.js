@@ -91,8 +91,6 @@ const AccountScreen = (props) => {
   );
 };
 
-
-
 AccountScreen.navigationOptions = () => {
   return {
     header: () => true,
@@ -140,7 +138,6 @@ const getInfo = async (
     .catch((error) => {
       console.error("Error fetching document: ", error);
     });
-  return temp;
 };
 
 const getReelList = async (setReelList) => {
@@ -165,20 +162,22 @@ const getReelList = async (setReelList) => {
 const getExpList = async (setExpList) => {
   const uid = await AsyncStorage.getItem("token");
   console.log("getting exp");
-  const expRef = firebase.firestore().collection("users").doc(uid).collection("experiences");
+  const expRef = firebase
+    .firestore()
+    .collection("users")
+    .doc(uid)
+    .collection("experiences");
   let expList_ = [];
   let reel_id = "";
-  expRef
-    .get()
-    .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        let data_ = doc.data();
-        data_["id"] = doc.id;
-        console.log("exp doc id " + doc.id);
-        expList_.push(data_);
-      });
-      setExpList(expList_);
+  expRef.get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      let data_ = doc.data();
+      data_["id"] = doc.id;
+      console.log("exp doc id " + doc.id);
+      expList_.push(data_);
     });
+    setExpList(expList_);
+  });
 };
 
 const styles = StyleSheet.create({

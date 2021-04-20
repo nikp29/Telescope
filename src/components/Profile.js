@@ -12,11 +12,8 @@ import {
 import Spacer from "../components/Spacer";
 import { LinearGradient } from "expo-linear-gradient";
 import ReelFeedCard from "../components/ReelFeedCard";
-<<<<<<< HEAD
 import ExperienceCard from "../components/ExperienceCard";
-=======
 import Icon from "react-native-vector-icons/FontAwesome";
->>>>>>> 9770ba25eaaf471366993761d36b36584ae4036b
 
 const Profile = ({
   isOwn,
@@ -94,7 +91,7 @@ const Profile = ({
                     instagram: instagram,
                     tiktok: tiktok,
                     func: update,
-                    expList: expList
+                    expList: expList,
                   });
                 }}
               >
@@ -172,37 +169,45 @@ const Profile = ({
       <View
         style={{
           width: "90%",
-          flexDirection: "row"
+          flexDirection: "row",
         }}
       >
         <TouchableOpacity
-            style={{marginRight: 5}}
-            onPress={() => {
-              setShowExp(false);
-            }}
-          >
-          <Text style={{
-            fontFamily: "Raleway-Bold",
-            fontSize: 20,
-            textAlign: "left",
-            // width: "90%",
-            color: showExp ? "#86878B" : "black"
-          }}>Reels</Text>
-        </TouchableOpacity>
-          <TouchableOpacity
-            style={{marginLeft: 5}}
-            onPress={() => {
-              setShowExp(true);
-            }}
-          >
-            <Text style={{
+          style={{ marginRight: 5 }}
+          onPress={() => {
+            setShowExp(false);
+          }}
+        >
+          <Text
+            style={{
               fontFamily: "Raleway-Bold",
               fontSize: 20,
               textAlign: "left",
               // width: "90%",
-              color: showExp ? "black" : "#86878B"
-            }}>Experience</Text>
-          </TouchableOpacity>
+              color: showExp ? "#86878B" : "black",
+            }}
+          >
+            Reels
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{ marginLeft: 5 }}
+          onPress={() => {
+            setShowExp(true);
+          }}
+        >
+          <Text
+            style={{
+              fontFamily: "Raleway-Bold",
+              fontSize: 20,
+              textAlign: "left",
+              // width: "90%",
+              color: showExp ? "black" : "#86878B",
+            }}
+          >
+            Experience
+          </Text>
+        </TouchableOpacity>
       </View>
       <ScrollView
         style={{ height: "100%", width: "90%" }}
@@ -244,12 +249,7 @@ const renderReelFeedView = (data) => {
 };
 
 const renderExpView = (data) => {
-  return (
-    <ExperienceCard
-      title={data.title}
-      description={data.description}
-    />
-  );
+  return <ExperienceCard title={data.title} description={data.description} />;
 };
 
 const styles = StyleSheet.create({
@@ -293,7 +293,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "left",
     // width: "90%",
-    color: "black"
+    color: "black",
   },
   notSelected: {
     fontFamily: "Raleway-Bold",
