@@ -12,10 +12,15 @@ import {
 import Spacer from "../components/Spacer";
 import { LinearGradient } from "expo-linear-gradient";
 import ReelFeedCard from "../components/ReelFeedCard";
+<<<<<<< HEAD
+import ExperienceCard from "../components/ExperienceCard";
+=======
 import Icon from "react-native-vector-icons/FontAwesome";
+>>>>>>> 9770ba25eaaf471366993761d36b36584ae4036b
 
 const Profile = ({
   isOwn,
+  expList,
   reelList,
   update,
   bio,
@@ -27,6 +32,7 @@ const Profile = ({
   navigation,
   prevPath,
 }) => {
+  const [showExp, setShowExp] = useState(false);
   return (
     <View
       style={{
@@ -88,6 +94,7 @@ const Profile = ({
                     instagram: instagram,
                     tiktok: tiktok,
                     func: update,
+                    expList: expList
                   });
                 }}
               >
@@ -119,7 +126,6 @@ const Profile = ({
           <Text style={styles.name}>{name}</Text>
 
           <Text style={styles.bio}>{bio}</Text>
-          <Spacer></Spacer>
         </View>
 
         <View style={styles.inline}>
@@ -163,18 +169,63 @@ const Profile = ({
           </TouchableOpacity>
         </View>
       </View>
-      <Text style={styles.reels}>Reels</Text>
+      <View
+        style={{
+          width: "90%",
+          flexDirection: "row"
+        }}
+      >
+        <TouchableOpacity
+            style={{marginRight: 5}}
+            onPress={() => {
+              setShowExp(false);
+            }}
+          >
+          <Text style={{
+            fontFamily: "Raleway-Bold",
+            fontSize: 20,
+            textAlign: "left",
+            // width: "90%",
+            color: showExp ? "#86878B" : "black"
+          }}>Reels</Text>
+        </TouchableOpacity>
+          <TouchableOpacity
+            style={{marginLeft: 5}}
+            onPress={() => {
+              setShowExp(true);
+            }}
+          >
+            <Text style={{
+              fontFamily: "Raleway-Bold",
+              fontSize: 20,
+              textAlign: "left",
+              // width: "90%",
+              color: showExp ? "black" : "#86878B"
+            }}>Experience</Text>
+          </TouchableOpacity>
+      </View>
       <ScrollView
         style={{ height: "100%", width: "90%" }}
         showsVerticalScrollIndicator={false}
       >
-        <FlatList
-          data={reelList}
-          keyExtractor={(data) => data.id}
-          renderItem={({ item }) => {
-            return renderReelFeedView(item);
-          }}
-        />
+        {!showExp && (
+          <FlatList
+            data={reelList}
+            keyExtractor={(data) => data.id}
+            renderItem={({ item }) => {
+              return renderReelFeedView(item);
+            }}
+          />
+        )}
+        {showExp && (
+          <FlatList
+            data={expList}
+            keyExtractor={(data) => data.id}
+            renderItem={({ item }) => {
+              return renderExpView(item);
+            }}
+          />
+        )}
       </ScrollView>
     </View>
   );
@@ -188,6 +239,15 @@ const renderReelFeedView = (data) => {
       image_url={data.thumbnail}
       id={data.id}
       data={data}
+    />
+  );
+};
+
+const renderExpView = (data) => {
+  return (
+    <ExperienceCard
+      title={data.title}
+      description={data.description}
     />
   );
 };
@@ -211,6 +271,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   inline: {
+    marginTop: 15,
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-around",
@@ -227,11 +288,19 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#545454",
   },
-  reels: {
-    fontFamily: "Raleway-Regular",
-    fontSize: 14,
+  selected: {
+    fontFamily: "Raleway-Bold",
+    fontSize: 20,
     textAlign: "left",
-    width: "90%",
+    // width: "90%",
+    color: "black"
+  },
+  notSelected: {
+    fontFamily: "Raleway-Bold",
+    color: "#86878B",
+    fontSize: 20,
+    textAlign: "left",
+    // width: "90%"
   },
   icon: {
     height: 20,
