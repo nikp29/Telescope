@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {Platform} from 'react-native';
+import { Platform } from "react-native";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
@@ -13,6 +13,9 @@ import SigninScreen from "./src/screens/SigninScreen";
 import SignupScreen from "./src/screens/SignupScreen";
 import ReelUploadScreen from "./src/screens/ReelUploadScreen";
 import ReelViewScreen from "./src/screens/ReelViewScreen";
+import DiscussionFeed from "./src/screens/DiscussionFeed";
+import DiscussionUploadScreen from "./src/screens/DiscussionUploadScreen";
+import DiscussionViewScreen from "./src/screens/DiscussionViewScreen";
 import FeedScreen from "./src/screens/FeedScreen";
 import { Provider as AuthProvider } from "./src/context/AuthContext";
 import { setNavigator } from "./src/navigationRef";
@@ -39,19 +42,18 @@ const switchNavigator = createSwitchNavigator(
             ThisWeek: createStackNavigator({
               FeedScreen: FeedScreen,
               ProfileView: ProfileScreen,
-              ReelView: ReelViewScreen
-
+              ReelView: ReelViewScreen,
             }),
             Today: createStackNavigator({
               Explore: ExploreFeedScreen,
               ProfileView: ProfileScreen,
-              ReelView: ReelViewScreen
+              ReelView: ReelViewScreen,
             }),
             Search: createStackNavigator({
               Results: SearchScreen,
               ProfileView: ProfileScreen,
-              ReelView: ReelViewScreen
-            })
+              ReelView: ReelViewScreen,
+            }),
             // ProfileView: ProfileScreen
           }),
           navigationOptions: {
@@ -86,6 +88,19 @@ const switchNavigator = createSwitchNavigator(
             ),
           },
         },
+        discussionFlow: {
+          discussions: createStackNavigator({
+            UploadDiscussion: DiscussionUploadScreen,
+            DiscussionFeed: DiscussionFeed,
+            DiscussionView: DiscussionViewScreen,
+          }),
+          navigationOptions: {
+            tabBarLabel: "",
+            tabBarIcon: ({ tintColor }) => (
+              <Icon name="user" color={tintColor} size={29} />
+            ),
+          },
+        },
       },
       {
         tabBarOptions: {
@@ -93,8 +108,8 @@ const switchNavigator = createSwitchNavigator(
           activeTintColor: "#FFFFFF",
           style: {
             backgroundColor: "#5C33FF",
-            height: Platform.OS === 'ios' ? 48 : 60, //was 48
-            paddingBottom: Platform.OS === 'ios' ? 26 : 10, //was 26
+            height: Platform.OS === "ios" ? 48 : 60, //was 48
+            paddingBottom: Platform.OS === "ios" ? 26 : 10, //was 26
           },
         },
       }

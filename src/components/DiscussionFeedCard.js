@@ -9,15 +9,15 @@ import { navigate } from "../navigationRef";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useFocusEffect } from "react-navigation-hooks";
 
-const ReelFeedView = ({ title, image_url, youtube_id, id, data }) => {
+const DiscussionFeedView = ({ title, description, data, id }) => {
   const [upvoted, setUpvoted] = useState(false);
   const [upvotes, setUpvotes] = useState([]);
 
   useEffect(() => {
     async function fetchUid() {
       const uid = await AsyncStorage.getItem("token");
-      const reelsRef = firebase.firestore().collection("reels");
-      reelsRef
+      const discussionsRef = firebase.firestore().collection("discussions");
+      discussionsRef
         .doc(id)
         .get()
         .then((doc) => {
@@ -35,7 +35,7 @@ const ReelFeedView = ({ title, image_url, youtube_id, id, data }) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        navigate("ReelView", {
+        navigate("DiscussionView", {
           data: data,
           upvoted,
           setUpvoted,
@@ -46,35 +46,31 @@ const ReelFeedView = ({ title, image_url, youtube_id, id, data }) => {
       }}
     >
       <View style={styles.container}>
-        <ImageBackground
-          source={{ uri: image_url }}
-          style={styles.image}
-          imageStyle={{ borderRadius: 5 }}
+        <View style={styles.profilecontainer}></View>
+        <View style={styles.TextContainer}>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.description}>{description}</Text>
+        </View>
+        <View
+          style={{
+            flexDirection: "column-reverse",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
         >
-          <View
-            style={{
-              flexDirection: "column-reverse",
-              height: "100%",
-              alignItems: "flex-end",
-              justifyContent: "flex-start",
-            }}
-          >
-            <TouchableWithoutFeedback>
-              <TouchableOpacity
-                onPress={() => editVote(upvotes, id, setUpvoted)}
-              >
-                <View style={styles.upvoteView}>
-                  <Icon
-                    name={"heart"}
-                    size={30}
-                    color={upvoted ? "#FFD770" : "#999999"}
-                  />
-                  <Text style={styles.text}>{upvotes.length}</Text>
-                </View>
-              </TouchableOpacity>
-            </TouchableWithoutFeedback>
-          </View>
-        </ImageBackground>
+          <TouchableWithoutFeedback>
+            <TouchableOpacity onPress={() => editVote(upvotes, id, setUpvoted)}>
+              <View style={styles.upvoteView}>
+                <Icon
+                  name={"heart"}
+                  size={30}
+                  color={upvoted ? "#FFD770" : "#999999"}
+                />
+                <Text style={styles.text}>{upvotes.length}</Text>
+              </View>
+            </TouchableOpacity>
+          </TouchableWithoutFeedback>
+        </View>
       </View>
       <Spacer />
     </TouchableOpacity>
@@ -83,19 +79,19 @@ const ReelFeedView = ({ title, image_url, youtube_id, id, data }) => {
 
 const editVote = async (upvotes, id, setUpvoted) => {
   const uid = await AsyncStorage.getItem("token");
-  const reelsRef = firebase.firestore().collection("reels");
+  const discussionsRef = firebase.firestore().collection("discussions");
 
   let new_upvotes = upvotes;
   if (upvotes.includes(uid)) {
     new_upvotes.splice(new_upvotes.indexOf(uid), 1);
-    await reelsRef
+    await discussionsRef
       .doc(id)
       .update({ upvotes: new_upvotes, num_upvotes: upvotes.length });
     setUpvoted(false);
   } else {
-    // reel has not already been upvoted
+    // discussion has not already been upvoted
     new_upvotes.push(uid);
-    await reelsRef
+    await discussionsRef
       .doc(id)
       .update({ upvotes: new_upvotes, num_upvotes: upvotes.length });
     setUpvoted(true);
@@ -140,4 +136,4 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
 });
-export default ReelFeedView;
+export default DiscussionFeedView;
