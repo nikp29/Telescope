@@ -12,7 +12,11 @@ import {
 import Spacer from "../components/Spacer";
 import { LinearGradient } from "expo-linear-gradient";
 import ReelFeedCard from "../components/ReelFeedCard";
+<<<<<<< HEAD
 import ExperienceCard from "../components/ExperienceCard";
+=======
+import Icon from "react-native-vector-icons/FontAwesome";
+>>>>>>> 9770ba25eaaf471366993761d36b36584ae4036b
 
 const Profile = ({
   isOwn,
@@ -94,21 +98,15 @@ const Profile = ({
                   });
                 }}
               >
-                <Image
-                  source={require("../../assets/icons/settings.png")}
-                  style={styles.icon}
-                />
+                <Icon name={"cog"} size={23} />
               </TouchableOpacity>
             )}
           </View>
         </LinearGradient>
       </View>
-      <View
-      style={{alignItems: "center"}}
-      >
+      <View style={{ alignItems: "center" }}>
         <View style={{ height: 125 }}></View>
-        <View style={{ alignItems: "center",
-      width: "100%" }}>
+        <View style={{ alignItems: "center", width: "100%" }}>
           <Image
             style={{
               width: 175,
@@ -123,9 +121,8 @@ const Profile = ({
             }}
             source={profilePic}
           />
-         
         </View>
-        <View style={{ alignItems: "center", }}>
+        <View style={{ alignItems: "center" }}>
           <Text style={styles.name}>{name}</Text>
 
           <Text style={styles.bio}>{bio}</Text>
@@ -308,7 +305,7 @@ const styles = StyleSheet.create({
   icon: {
     height: 20,
     width: 20,
-    marginLeft: 10
+    marginLeft: 10,
   },
   backContainer: {
     padding: 8,

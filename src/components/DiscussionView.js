@@ -9,11 +9,8 @@ import {
   ScrollView,
   TextInput,
   Keyboard,
+  KeyboardAvoidingView,
 } from "react-native";
-import { Input } from "react-native-elements";
-import { Modalize } from "react-native-modalize";
-import { Host, Portal } from "react-native-portalize";
-import YoutubePlayer from "react-native-youtube-iframe";
 import AsyncStorage from "@react-native-community/async-storage";
 import { firebase } from "../firebase/config.js";
 import CommentCard from "./CommentCard";
@@ -33,10 +30,12 @@ const DiscussionView = ({
 }) => {
   const [uid, setUid] = useState("");
   const [comments, setComments] = useState([]);
+  const [comment, setComment] = useState([]);
   const [initialGet, setInitialGet] = useState(false);
   const [upvoted, setUpvoted] = useState(false);
   const [upvotes, setUpvotes] = useState([]);
   const [author, setAuthor] = useState("");
+  const [commenting, setCommenting] = useState(false);
   useEffect(() => {
     async function fetchUid() {
       const uid_ = await AsyncStorage.getItem("token");
@@ -77,18 +76,59 @@ const DiscussionView = ({
   let topPadding = height ? 0 : 90;
   let padding = height ? 0 : 16;
   let borderRad = height ? 0 : 8;
+  let paddingBottom = commenting ? 82 : 0;
   return (
     <View
       style={{
         height: itemHeight,
         backgroundColor: "white",
         flexDirection: "column",
-        justifyContent: "flex-start",
-        padding: padding,
+        justifyContent: "flex-end",
+        padding: 0,
         paddingTop: topPadding,
       }}
     >
       <NavigationEvents />
+
+      <KeyboardAvoidingView behavior="padding">
+        <View
+          style={{
+            marginBottom: paddingBottom,
+            flexDirection: "row",
+            backgroundColor: "#E5E5E5",
+            padding: 16,
+            paddingBottom: 24,
+            alignItems: "center",
+          }}
+        >
+          <TextInput
+            style={styles.commentInput}
+            placeholder={"Add a comment"}
+            value={comment}
+            onChangeText={setComment}
+            autoCapitalize="none"
+            onBlur={() => setCommenting(false)}
+            onFocus={() => setCommenting(true)}
+            autoCorrect={false}
+            returnKeyType="send"
+            onSubmitEditing={() => {
+              Keyboard.dismiss();
+            }}
+          />
+          <TouchableOpacity
+            onPress={() => {
+              if (comment != "") {
+                Keyboard.dismiss();
+                setCommenting(false);
+                addComment(id, comment, setComment);
+                getComments(id, setComments);
+              }
+            }}
+          >
+            <Icon name={"paper-plane"} size={24} color="rgba(0, 0, 0, .7)" />
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
     </View>
   );
 };
@@ -214,7 +254,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     flexDirection: "row",
-    backgroundColor: "white",
+    backgroundColor: "#E5E5E5",
     padding: 16,
     paddingBottom: 24,
     alignItems: "center",

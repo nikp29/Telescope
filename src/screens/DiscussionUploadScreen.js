@@ -19,6 +19,7 @@ const DiscussionUploadScreen = (props) => {
         discussion_uid: uid,
         upvotes: [],
         num_upvotes: 0,
+        num_comments: 0,
         timestamp: moment().unix().valueOf(),
       })
       .catch((error) => {

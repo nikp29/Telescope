@@ -8,7 +8,7 @@ const DiscussionViewScreen = (props) => {
   return (
     <>
       <DiscussionView
-        description={title}
+        description={data.title}
         description={data.description}
         discussion_uid={data.discussion_uid}
         id={data.id}

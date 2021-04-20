@@ -30,7 +30,7 @@ const DiscussionFeed = (props) => {
       <NavigationEvents
         onWillFocus={(payload) => getDiscussions(setDiscussionList)}
       />
-      <ScrollView style={{ backgroundColor: "white" }}>
+      <ScrollView style={{ backgroundColor: "white", marginTop: 82 }}>
         <Spacer>
           {discussionList.length != 0 ? (
             <Text style={styles.header}>Discussions</Text>

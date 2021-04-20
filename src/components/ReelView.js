@@ -426,7 +426,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     padding: 8,
-    marginRight: -2,
+    marginRight: -8,
   },
   upvoteText: {
     fontFamily: "Raleway-Regular",
