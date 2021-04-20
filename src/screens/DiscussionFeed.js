@@ -94,6 +94,7 @@ const renderReelFeedView = (data) => {
       upvotes={data.upvotes}
       id={data.id}
       data={data}
+      num_comments={data.num_comments}
     />
   );
 };

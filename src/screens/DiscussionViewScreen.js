@@ -12,6 +12,7 @@ const DiscussionViewScreen = (props) => {
         description={data.description}
         discussion_uid={data.discussion_uid}
         id={data.id}
+        data={data}
       />
       <View style={styles.topBar}>
         <TouchableOpacity
