@@ -13,7 +13,7 @@ import { NavigationEvents } from "react-navigation";
 import Spacer from "../components/Spacer";
 import { firebase } from "../firebase/config.js";
 import moment from "moment";
-import ReelFeedCard from "../components/ReelFeedCard";
+import DiscussionFeedCard from "../components/DiscussionFeedCard";
 import { navigate } from "../navigationRef";
 import Icon from "react-native-vector-icons/FontAwesome";
 
@@ -25,9 +25,6 @@ const DiscussionFeed = (props) => {
     setInitialGet(true);
     getDiscussions(setDiscussionList);
   }
-  if (!loaded) {
-    return null;
-  }
   return (
     <>
       <NavigationEvents
@@ -35,7 +32,7 @@ const DiscussionFeed = (props) => {
       />
       <ScrollView style={{ backgroundColor: "white" }}>
         <Spacer>
-          {reelList.length != 0 ? (
+          {discussionList.length != 0 ? (
             <Text style={styles.header}>Discussions</Text>
           ) : null}
 
@@ -49,11 +46,22 @@ const DiscussionFeed = (props) => {
           />
         </Spacer>
       </ScrollView>
+      <View style={styles.topBar}>
+        <TouchableOpacity
+          style={{ zIndex: 2 }}
+          onPress={() => {
+            navigate("UploadDiscussion");
+          }}
+          style={styles.uploadContainer}
+        >
+          <Text style={styles.uploadText}>Create</Text>
+        </TouchableOpacity>
+      </View>
     </>
   );
 };
 
-ReelScreen.navigationOptions = () => {
+DiscussionFeed.navigationOptions = () => {
   return {
     header: () => false,
   };
@@ -61,7 +69,7 @@ ReelScreen.navigationOptions = () => {
 
 const getDiscussions = async (setDiscussionList) => {
   let discussRef = firebase.firestore().collection("discussions");
-  let reelList_ = [];
+  let discussionList_ = [];
   discussRef
     .orderBy("timestamp", "desc")
     .get()
@@ -69,9 +77,9 @@ const getDiscussions = async (setDiscussionList) => {
       querySnapshot.forEach((doc) => {
         let data_ = doc.data();
         data_["id"] = doc.id;
-        reelList_.push(data_);
+        discussionList_.push(data_);
       });
-      setDiscussionList(reelList_);
+      setDiscussionList(discussionList_);
     })
     .catch((error) => {
       console.log(error.message);
@@ -80,10 +88,10 @@ const getDiscussions = async (setDiscussionList) => {
 
 const renderReelFeedView = (data) => {
   return (
-    <ReelFeedCard
+    <DiscussionFeedCard
       title={data.title}
+      description={data.description}
       upvotes={data.upvotes}
-      image_url={data.thumbnail}
       id={data.id}
       data={data}
     />
@@ -116,6 +124,25 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontFamily: "RalewayExtraBold",
     marginBottom: 16,
+  },
+  topBar: {
+    position: "absolute",
+    top: 0,
+    paddingTop: 45,
+    backgroundColor: "white",
+    left: 0,
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+  },
+  uploadContainer: {
+    padding: 8,
+    marginRight: 8,
+  },
+  uploadText: {
+    color: "#5C33FF",
+    fontFamily: "Raleway-Bold",
+    fontSize: 18,
   },
 });
 

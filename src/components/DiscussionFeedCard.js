@@ -80,7 +80,7 @@ const DiscussionFeedView = ({ title, description, data, id }) => {
 const editVote = async (upvotes, id, setUpvoted) => {
   const uid = await AsyncStorage.getItem("token");
   const discussionsRef = firebase.firestore().collection("discussions");
-
+  console.log("hi");
   let new_upvotes = upvotes;
   if (upvotes.includes(uid)) {
     new_upvotes.splice(new_upvotes.indexOf(uid), 1);

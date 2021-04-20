@@ -89,15 +89,15 @@ const switchNavigator = createSwitchNavigator(
           },
         },
         discussionFlow: {
-          discussions: createStackNavigator({
-            UploadDiscussion: DiscussionUploadScreen,
+          screen: createStackNavigator({
             DiscussionFeed: DiscussionFeed,
+            UploadDiscussion: DiscussionUploadScreen,
             DiscussionView: DiscussionViewScreen,
           }),
           navigationOptions: {
             tabBarLabel: "",
             tabBarIcon: ({ tintColor }) => (
-              <Icon name="user" color={tintColor} size={29} />
+              <Icon name="comments" color={tintColor} size={29} />
             ),
           },
         },

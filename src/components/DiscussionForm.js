@@ -11,6 +11,7 @@ const DiscussionForm = ({
   onSubmit,
   submitButtonText,
   setError,
+  goback,
 }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -89,6 +90,13 @@ const DiscussionForm = ({
       <View style={styles.topBar}>
         <TouchableOpacity
           style={{ zIndex: 2 }}
+          onPress={goback}
+          style={styles.uploadContainer}
+        >
+          <Text style={styles.uploadText}>Back</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{ zIndex: 2 }}
           onPress={() => makeAlert()}
           style={styles.uploadContainer}
         >
@@ -141,7 +149,7 @@ const styles = StyleSheet.create({
     left: 0,
     width: "100%",
     flexDirection: "row",
-    justifyContent: "flex-end",
+    justifyContent: "space-between",
   },
   uploadContainer: {
     padding: 8,

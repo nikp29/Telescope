@@ -34,12 +34,13 @@ const DiscussionUploadScreen = (props) => {
         submitButtonText="Submit"
         onSubmit={pushDiscusion}
         setError={setError}
+        goback={() => props.navigation.goBack(null)}
       />
     </View>
   );
 };
 
-ReelUploadScreen.navigationOptions = () => {
+DiscussionUploadScreen.navigationOptions = () => {
   return {
     header: () => false,
   };
