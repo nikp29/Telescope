@@ -94,6 +94,7 @@ const switchNavigator = createSwitchNavigator(
             ViewAccount: AccountScreen,
             ReelView: ReelViewScreen,
             EditAccount: EditAccountScreen,
+            EditExp: EditExpScreen
           }),
           navigationOptions: {
             tabBarLabel: "",
