@@ -8,6 +8,7 @@ import Spacer from "./Spacer";
 import { navigate } from "../navigationRef";
 import Icon from "react-native-vector-icons/FontAwesome";
 import ProfileIcon from "./ProfileIcon";
+import { NavigationEvents } from "react-navigation";
 
 const DiscussionFeedView = ({
   title,
@@ -21,20 +22,20 @@ const DiscussionFeedView = ({
   const [upvoted, setUpvoted] = useState(false);
   const [upvotes, setUpvotes] = useState([]);
   let padding_ = padding ? 16 : 0;
+  async function fetchUid() {
+    const uid = await AsyncStorage.getItem("token");
+    const discussionsRef = firebase.firestore().collection("discussions");
+    discussionsRef
+      .doc(id)
+      .get()
+      .then((doc) => {
+        const data = doc.data();
+        setUpvoted(data.upvotes.includes(uid));
+        setUpvotes(data.upvotes);
+      })
+      .catch((error) => console.log(error.message));
+  }
   useEffect(() => {
-    async function fetchUid() {
-      const uid = await AsyncStorage.getItem("token");
-      const discussionsRef = firebase.firestore().collection("discussions");
-      discussionsRef
-        .doc(id)
-        .get()
-        .then((doc) => {
-          const data = doc.data();
-          setUpvoted(data.upvotes.includes(uid));
-          setUpvotes(data.upvotes);
-        })
-        .catch((error) => console.log(error.message));
-    }
     fetchUid();
     return () => {
       null;
@@ -55,6 +56,7 @@ const DiscussionFeedView = ({
       disabled={not_touchable}
       style={{ paddingLeft: padding_, paddingRight: padding_ }}
     >
+      <NavigationEvents onWillFocus={(payload) => fetchUid()} />
       <View style={styles.container}>
         <View style={styles.profilecontainer}>
           <ProfileIcon uid={data.discussion_uid} />

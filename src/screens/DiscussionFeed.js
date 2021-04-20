@@ -70,6 +70,7 @@ DiscussionFeed.navigationOptions = () => {
 const getDiscussions = async (setDiscussionList) => {
   let discussRef = firebase.firestore().collection("discussions");
   let discussionList_ = [];
+  console.log("getting data");
   discussRef
     .orderBy("timestamp", "desc")
     .get()
