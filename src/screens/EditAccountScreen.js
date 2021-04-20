@@ -27,6 +27,7 @@ const AccountInfo = ({ route, navigation }) => {
   const [profilePic, setProfilePic] = useState(
     navigation.getParam("profilePic")
   );
+  var expList = navigation.getParam("expList")
   const { signout } = useContext(AuthContext);
 
   return (
@@ -78,6 +79,16 @@ const AccountInfo = ({ route, navigation }) => {
         />
         <InputField name="TikTok" value={tiktok} setValue={setTiktok} />
       </KeyboardAwareScrollView>
+      <TouchableOpacity
+          onPress={() => {
+                navigate("EditExp", {
+                  expList: expList
+              });
+          }}
+          style={styles.button}
+        >
+          <Text style={styles.buttonStyle}>Edit Experience</Text>
+        </TouchableOpacity>
       <View styles={{ alignContent: "center", width: "100%" }}>
         <TouchableOpacity
           onPress={() => {

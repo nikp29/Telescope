@@ -24,6 +24,7 @@ import ExploreFeedScreen from "./src/screens/ExploreFeed";
 import Icon from "react-native-vector-icons/FontAwesome";
 import ProfileScreen from "./src/screens/ProfileScreen";
 import SearchScreen from "./src/screens/SearchScreen";
+import EditExpScreen from "./src/screens/EditExperienceScreen";
 
 const switchNavigator = createSwitchNavigator(
   {
@@ -80,6 +81,7 @@ const switchNavigator = createSwitchNavigator(
             ViewAccount: AccountScreen,
             ReelView: ReelViewScreen,
             EditAccount: EditAccountScreen,
+            EditExp: EditExpScreen
           }),
           navigationOptions: {
             tabBarLabel: "",

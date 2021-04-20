@@ -26,6 +26,7 @@ const ProfileScreen = (props) => {
   const [instagram, setInstagram] = useState("");
   const [profilePic, setProfilePic] = useState(defaultImage);
   const [reelList, setReelList] = useState([]);
+  const [expList, setExpList] = useState([]);
 
   useEffect(() => {
     getInfo(
@@ -39,6 +40,7 @@ const ProfileScreen = (props) => {
       uid
     );
     getReelList(setReelList, uid);
+    getExpList(setExpList, uid);
     return () => {
       null;
     };
@@ -82,6 +84,7 @@ const ProfileScreen = (props) => {
       youtube={youtube}
       instagram={instagram}
       tiktok={tiktok}
+      expList={expList}
     />
   );
 };
@@ -131,7 +134,6 @@ const getInfo = async (
     .catch((error) => {
       console.error("Error fetching document: ", error);
     });
-  return temp;
 };
 
 const getReelList = async (setReelList, uid) => {
@@ -149,6 +151,24 @@ const getReelList = async (setReelList, uid) => {
         reelList_.push(data_);
       });
       setReelList(reelList_);
+    });
+};
+
+const getExpList = async (setExpList, uid) => {
+  console.log("getting exp");
+  const expRef = firebase.firestore().collection("users").doc(uid).collection("experiences");
+  let expList_ = [];
+  let reel_id = "";
+  expRef
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        let data_ = doc.data();
+        data_["id"] = doc.id;
+        console.log("exp doc id " + doc.id);
+        expList_.push(data_);
+      });
+      setExpList(expList_);
     });
 };
 
