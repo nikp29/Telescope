@@ -17,22 +17,17 @@ import CommentCard from "./CommentCard";
 import ProfileIcon from "./ProfileIcon";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { NavigationEvents } from "react-navigation";
+import DiscussionFeedCard from "../components/DiscussionFeedCard";
+import DiscussionCommentCard from "./DiscussionCommentCard.js";
+import Spacer from "react-native-spacer";
 
-const DiscussionView = ({
-  url,
-  tags,
-  description,
-  discussion_uid,
-  showComments,
-  id,
-  autoplay,
-  height,
-}) => {
+const DiscussionView = ({ discussion_uid, showComments, id, height, data }) => {
   const [uid, setUid] = useState("");
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState([]);
   const [initialGet, setInitialGet] = useState(false);
   const [upvoted, setUpvoted] = useState(false);
+  const [numComments, setNumComments] = useState(data.num_comments);
   const [upvotes, setUpvotes] = useState([]);
   const [author, setAuthor] = useState("");
   const [commenting, setCommenting] = useState(false);
@@ -89,8 +84,33 @@ const DiscussionView = ({
       }}
     >
       <NavigationEvents />
-
-      <KeyboardAvoidingView behavior="padding">
+      <View styles={{ width: "50%" }}>
+        <DiscussionFeedCard
+          title={data.title}
+          description={data.description}
+          upvotes={data.upvotes}
+          id={data.id}
+          data={data}
+          not_touchable={true}
+          num_comments={numComments}
+          padding
+        />
+      </View>
+      <View style={{ flex: 1 }}>
+        <ScrollView>
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            data={comments}
+            keyExtractor={(data) => {
+              return data.id;
+            }}
+            renderItem={({ item }) => {
+              return <DiscussionCommentCard data={item} uid={uid} />;
+            }}
+          />
+        </ScrollView>
+      </View>
+      <Spacer>
         <View
           style={{
             marginBottom: paddingBottom,
@@ -120,7 +140,13 @@ const DiscussionView = ({
               if (comment != "") {
                 Keyboard.dismiss();
                 setCommenting(false);
-                addComment(id, comment, setComment);
+                addComment(
+                  id,
+                  comment,
+                  setComment,
+                  numComments,
+                  setNumComments
+                );
                 getComments(id, setComments);
               }
             }}
@@ -128,12 +154,18 @@ const DiscussionView = ({
             <Icon name={"paper-plane"} size={24} color="rgba(0, 0, 0, .7)" />
           </TouchableOpacity>
         </View>
-      </KeyboardAvoidingView>
+      </Spacer>
     </View>
   );
 };
 
-const addComment = async (discussion_id, description, setComment) => {
+const addComment = async (
+  discussion_id,
+  description,
+  setComment,
+  num_comments,
+  setNumComments
+) => {
   if (description == "") {
     return;
   }
@@ -155,6 +187,13 @@ const addComment = async (discussion_id, description, setComment) => {
     .catch((error) => {
       console.error("Error adding document: ", error);
     });
+  await firebase
+    .firestore()
+    .collection("discussions")
+    .doc(discussion_id)
+    .update({ num_comments: num_comments + 1 });
+  setNumComments(num_comments + 1);
+  console.log(num_comments + 1);
   return;
 };
 
@@ -279,6 +318,10 @@ const styles = StyleSheet.create({
     fontFamily: "Raleway-Regular",
     fontSize: 15,
     color: "black",
+  },
+  header: {
+    padding: 8,
+    margin: 12,
   },
 });
 

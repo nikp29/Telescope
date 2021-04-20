@@ -9,10 +9,18 @@ import { navigate } from "../navigationRef";
 import Icon from "react-native-vector-icons/FontAwesome";
 import ProfileIcon from "./ProfileIcon";
 
-const DiscussionFeedView = ({ title, description, data, id }) => {
+const DiscussionFeedView = ({
+  title,
+  description,
+  data,
+  id,
+  not_touchable,
+  num_comments,
+  padding,
+}) => {
   const [upvoted, setUpvoted] = useState(false);
   const [upvotes, setUpvotes] = useState([]);
-
+  let padding_ = padding ? 16 : 0;
   useEffect(() => {
     async function fetchUid() {
       const uid = await AsyncStorage.getItem("token");
@@ -44,6 +52,8 @@ const DiscussionFeedView = ({ title, description, data, id }) => {
           editVote,
         });
       }}
+      disabled={not_touchable}
+      style={{ paddingLeft: padding_, paddingRight: padding_ }}
     >
       <View style={styles.container}>
         <View style={styles.profilecontainer}>
@@ -69,7 +79,7 @@ const DiscussionFeedView = ({ title, description, data, id }) => {
             </TouchableWithoutFeedback>
             <View style={styles.upvoteView}>
               <Icon name={"comment-o"} size={20} color={"#999999"} />
-              <Text style={styles.text}>{data.num_comments}</Text>
+              <Text style={styles.text}>{num_comments}</Text>
             </View>
           </View>
         </View>
