@@ -1,5 +1,12 @@
 import React, { useContext, useRef, useEffect, useState } from "react";
-import { View, StyleSheet, KeyboardAvoidingView, Image, Animated, Dimensions } from "react-native";
+import {
+  View,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Image,
+  Animated,
+  Dimensions,
+} from "react-native";
 import { NavigationEvents } from "react-navigation";
 import AuthForm from "../components/AuthForm";
 import NavLink from "../components/NavLink";
@@ -15,31 +22,22 @@ const SigninScreen = () => {
   const [zForm, setZForm] = useState(-1);
 
   useEffect(() => {
-    setTimeout(()=>{
-      Animated.timing(
-        fadeAnim,
-        {
-          toValue: 0,
-          duration: 1000,
-        }
-      ).start();
-      Animated.timing(
-        curve,
-        {
-          toValue: 25,
-          duration: 750,
-        }
-      ).start();
-        Animated.timing(
-          margin1,
-          {
-            toValue: -height/4.5,
-            duration: 1000,
-          }
-        ).start();
-      setTimeout(()=>{
+    setTimeout(() => {
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 1000,
+      }).start();
+      Animated.timing(curve, {
+        toValue: 25,
+        duration: 750,
+      }).start();
+      Animated.timing(margin1, {
+        toValue: -height / 4.5,
+        duration: 1000,
+      }).start();
+      setTimeout(() => {
         setZForm(1);
-      }, 1000)
+      }, 1000);
     }, 100);
     return () => {
       null;
@@ -48,14 +46,14 @@ const SigninScreen = () => {
 
   return (
     <View
-    style={{
-      flex: 1,
-      flexDirection: "column",
-      height: height,
-      backgroundColor: "#DFD7FF",
-      flexDirection: "column",
-      alignItems: "center",
-    }}
+      style={{
+        flex: 1,
+        flexDirection: "column",
+        height: height,
+        backgroundColor: "#5C33FF",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
     >
       <Animated.View
         style={{
@@ -67,14 +65,13 @@ const SigninScreen = () => {
           zIndex: 2,
         }}
       >
-      <Image
-      style={{
-        height: height,
-        width: width,
-      }
-    }
-      source={require("../../assets/splash.png")}
-      />
+        <Image
+          style={{
+            height: height,
+            width: width,
+          }}
+          source={require("../../assets/splash.png")}
+        />
       </Animated.View>
       <Animated.View
         style={{
@@ -87,45 +84,45 @@ const SigninScreen = () => {
           // flex: 1,
         }}
       >
-      <Image
-      style={{
-        zIndex: 0,
-        position: "absolute",
-        height: height,
-        width: "100%",
-        // top: 0, left: 0 
-        // overflow:"hidden"
-      }
-    }
-      source={require("../../assets/splash_no_text.png")}
-      />
+        <Image
+          style={{
+            zIndex: 0,
+            position: "absolute",
+            height: height,
+            width: "100%",
+            // top: 0, left: 0
+            // overflow:"hidden"
+          }}
+          source={require("../../assets/splash_no_text.png")}
+        />
       </Animated.View>
       <View
-        style={{width: "80%",
+        style={{
+          width: "80%",
           marginTop: Platform.OS === "ios" ? 25 : 50,
           height: "100%",
-          backgroundColor: "#DFD7FF",
+          backgroundColor: "#5C33FF",
           position: "absolute",
-          zIndex: zForm
+          zIndex: zForm,
         }}
       >
         <View style={styles.container}>
           <NavigationEvents onWillFocus={clearErrorMessage} />
           <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : ""}
+            behavior={Platform.OS === "ios" ? "padding" : ""}
           >
-          <AuthForm
-            headerText="Sign In"
-            errorMessage={state.errorMessage}
-            onSubmit={signin}
-            submitButtonText="Sign In"
-            isSignUp={false}
-          />
-          <NavLink
-            text="Dont have an account?"
-            linkText="Sign up"
-            routeName="Signup"
-          />
+            <AuthForm
+              headerText="Sign In"
+              errorMessage={state.errorMessage}
+              onSubmit={signin}
+              submitButtonText="Sign In"
+              isSignUp={false}
+            />
+            <NavLink
+              text="Dont have an account?"
+              linkText="Sign up"
+              routeName="Signup"
+            />
           </KeyboardAvoidingView>
         </View>
       </View>
@@ -146,7 +143,7 @@ const styles = StyleSheet.create({
     width: "80%",
     marginTop: 50,
     height: "100%",
-    backgroundColor: "#DFD7FF",
+    backgroundColor: "#5C33FF",
     position: "absolute",
     // zIndex: -1
   },
