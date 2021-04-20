@@ -7,7 +7,7 @@ import { Text, Image } from "react-native-elements";
 import Spacer from "./Spacer";
 import { navigate } from "../navigationRef";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { useFocusEffect } from "react-navigation-hooks";
+import ProfileIcon from "./ProfileIcon";
 
 const DiscussionFeedView = ({ title, description, data, id }) => {
   const [upvoted, setUpvoted] = useState(false);
@@ -46,33 +46,34 @@ const DiscussionFeedView = ({ title, description, data, id }) => {
       }}
     >
       <View style={styles.container}>
-        <View style={styles.profilecontainer}></View>
+        <View style={styles.profilecontainer}>
+          <ProfileIcon uid={data.discussion_uid} />
+        </View>
         <View style={styles.TextContainer}>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.description}>{description}</Text>
-        </View>
-        <View
-          style={{
-            flexDirection: "column-reverse",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <TouchableWithoutFeedback>
-            <TouchableOpacity onPress={() => editVote(upvotes, id, setUpvoted)}>
-              <View style={styles.upvoteView}>
-                <Icon
-                  name={"heart"}
-                  size={30}
-                  color={upvoted ? "#FFD770" : "#999999"}
-                />
-                <Text style={styles.text}>{upvotes.length}</Text>
-              </View>
-            </TouchableOpacity>
-          </TouchableWithoutFeedback>
+          <View style={styles.bottomRow}>
+            <TouchableWithoutFeedback>
+              <TouchableOpacity
+                onPress={() => editVote(upvotes, id, setUpvoted)}
+              >
+                <View style={styles.upvoteView}>
+                  <Icon
+                    name={upvoted ? "heart" : "heart-o"}
+                    size={20}
+                    color={upvoted ? "#FFD770" : "#999999"}
+                  />
+                  <Text style={styles.text}>{upvotes.length}</Text>
+                </View>
+              </TouchableOpacity>
+            </TouchableWithoutFeedback>
+            <View style={styles.upvoteView}>
+              <Icon name={"comment-o"} size={20} color={"#999999"} />
+              <Text style={styles.text}>{data.num_comments}</Text>
+            </View>
+          </View>
         </View>
       </View>
-      <Spacer />
     </TouchableOpacity>
   );
 };
@@ -101,18 +102,18 @@ const editVote = async (upvotes, id, setUpvoted) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
-    flexDirection: "column",
-    padding: 0,
-    // borderRadius: 10,
-  },
-  image: {
+    flexDirection: "row",
     width: "100%",
-    aspectRatio: 16 / 9,
-    // height: null,
-    // width: 100,
-    // width: null,
-    // flex: 1,
-    borderRadius: 5,
+    padding: 0,
+    borderBottomWidth: 2,
+    borderBottomColor: "#E5E5E5",
+    paddingBottom: 16,
+    paddingTop: 16,
+  },
+  profilecontainer: {
+    flexDirection: "column",
+    alignContent: "flex-start",
+    paddingRight: 8,
   },
   horizontalContainer: {
     flexDirection: "row-reverse",
@@ -123,17 +124,35 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   text: {
-    color: "white",
+    color: "#999999",
     fontFamily: "Raleway",
+    paddingLeft: 4,
+    fontSize: 11,
   },
   upvoteView: {
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 8,
+    flexDirection: "row",
+    alignItems: "flex-end",
+    justifyContent: "flex-start",
+    paddingTop: 8,
     // borderColor: "#FFD770",
     // borderWidth: 1,
     borderRadius: 8,
+    marginRight: 8,
+  },
+  title: {
+    fontFamily: "Raleway-Bold",
+    fontSize: 13,
+    paddingTop: 6,
+    paddingBottom: 8,
+  },
+  description: {
+    fontFamily: "Raleway-Regular",
+    fontSize: 13,
+    color: "#86878B",
+  },
+  bottomRow: {
+    padding: 0,
+    flexDirection: "row",
   },
 });
 export default DiscussionFeedView;

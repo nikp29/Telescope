@@ -59,7 +59,7 @@ const switchNavigator = createSwitchNavigator(
           navigationOptions: {
             tabBarLabel: "",
             tabBarIcon: ({ tintColor }) => (
-              <Icon name="home" color={tintColor} size={29} />
+              <Icon name="film" color={tintColor} size={29} />
             ),
           },
         },
@@ -75,19 +75,6 @@ const switchNavigator = createSwitchNavigator(
             ),
           },
         },
-        accountFlow: {
-          screen: createStackNavigator({
-            ViewAccount: AccountScreen,
-            ReelView: ReelViewScreen,
-            EditAccount: EditAccountScreen,
-          }),
-          navigationOptions: {
-            tabBarLabel: "",
-            tabBarIcon: ({ tintColor }) => (
-              <Icon name="user" color={tintColor} size={29} />
-            ),
-          },
-        },
         discussionFlow: {
           screen: createStackNavigator({
             DiscussionFeed: DiscussionFeed,
@@ -98,6 +85,19 @@ const switchNavigator = createSwitchNavigator(
             tabBarLabel: "",
             tabBarIcon: ({ tintColor }) => (
               <Icon name="comments" color={tintColor} size={29} />
+            ),
+          },
+        },
+        accountFlow: {
+          screen: createStackNavigator({
+            ViewAccount: AccountScreen,
+            ReelView: ReelViewScreen,
+            EditAccount: EditAccountScreen,
+          }),
+          navigationOptions: {
+            tabBarLabel: "",
+            tabBarIcon: ({ tintColor }) => (
+              <Icon name="user" color={tintColor} size={29} />
             ),
           },
         },

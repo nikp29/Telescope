@@ -64,7 +64,7 @@ const DiscussionForm = ({
             onPress={() => Keyboard.dismiss()}
           />
         </View>
-        <View style={styles.inputContainer}>
+        <View style={styles.inputContainerMulti}>
           <TextInput
             style={styles.inputMulti}
             placeholder="Discussion topic description"
@@ -120,6 +120,13 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     marginTop: 32,
   },
+  inputContainerMulti: {
+    backgroundColor: "rgba(255, 215, 112, 0.7)",
+    width: "80%",
+    borderRadius: 16,
+    marginTop: 32,
+    padding: 24,
+  },
   input: {
     fontFamily: "Raleway-Regular",
     fontSize: 18,
@@ -129,8 +136,6 @@ const styles = StyleSheet.create({
     fontFamily: "Raleway-Regular",
     fontSize: 18,
     maxHeight: 90,
-    padding: 24,
-    paddingTop: 24,
   },
   title: {
     width: "100%",

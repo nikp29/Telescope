@@ -12,6 +12,7 @@ import {
 import Spacer from "../components/Spacer";
 import { LinearGradient } from "expo-linear-gradient";
 import ReelFeedCard from "../components/ReelFeedCard";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const Profile = ({
   isOwn,
@@ -90,21 +91,15 @@ const Profile = ({
                   });
                 }}
               >
-                <Image
-                  source={require("../../assets/icons/settings.png")}
-                  style={styles.icon}
-                />
+                <Icon name={"cog"} size={23} />
               </TouchableOpacity>
             )}
           </View>
         </LinearGradient>
       </View>
-      <View
-      style={{alignItems: "center"}}
-      >
+      <View style={{ alignItems: "center" }}>
         <View style={{ height: 125 }}></View>
-        <View style={{ alignItems: "center",
-      width: "100%" }}>
+        <View style={{ alignItems: "center", width: "100%" }}>
           <Image
             style={{
               width: 175,
@@ -119,9 +114,8 @@ const Profile = ({
             }}
             source={profilePic}
           />
-         
         </View>
-        <View style={{ alignItems: "center", }}>
+        <View style={{ alignItems: "center" }}>
           <Text style={styles.name}>{name}</Text>
 
           <Text style={styles.bio}>{bio}</Text>
@@ -242,7 +236,7 @@ const styles = StyleSheet.create({
   icon: {
     height: 20,
     width: 20,
-    marginLeft: 10
+    marginLeft: 10,
   },
   backContainer: {
     padding: 8,
