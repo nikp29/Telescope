@@ -91,7 +91,7 @@ const Profile = ({
                     instagram: instagram,
                     tiktok: tiktok,
                     func: update,
-                    expList: expList,
+                    expList: expList
                   });
                 }}
               >
@@ -249,7 +249,13 @@ const renderReelFeedView = (data) => {
 };
 
 const renderExpView = (data) => {
-  return <ExperienceCard title={data.title} description={data.description} />;
+  return (
+    <View
+    style={{marginBottom: 32}}
+    >
+      <ExperienceCard title={data.title} description={data.description} />
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({

@@ -36,7 +36,7 @@ const AccountInfo = ({ route, navigation }) => {
         backgroundColor: "white",
         height: "100%",
         width: "100%",
-        alignItems: "center",
+        // alignItems: "center",
       }}
     >
       <View style={styles.topBar}>
@@ -68,6 +68,16 @@ const AccountInfo = ({ route, navigation }) => {
             source={profilePic}
           />
           <ImagePick setURL={setProfilePic} />
+          <TouchableOpacity
+            onPress={() => {
+                  navigate("EditExp", {
+                    expList: expList,
+                });
+            }}
+            style={styles.buttonSmall}
+          >
+            <Text style={styles.buttonStyleSmall}>Edit Experience</Text>
+          </TouchableOpacity>
         </View>
         <InputField name="Name" value={name} setValue={setName} />
         <InputField name="Bio" value={bio} setValue={setBio} />
@@ -79,34 +89,25 @@ const AccountInfo = ({ route, navigation }) => {
         />
         <InputField name="TikTok" value={tiktok} setValue={setTiktok} />
       </KeyboardAwareScrollView>
-      <TouchableOpacity
-          onPress={() => {
-                navigate("EditExp", {
-                  expList: expList
-              });
-          }}
-          style={styles.button}
-        >
-          <Text style={styles.buttonStyle}>Edit Experience</Text>
-        </TouchableOpacity>
-      <View styles={{ alignContent: "center", width: "100%" }}>
-        <TouchableOpacity
-          onPress={() => {
-            editInfo(name, bio, youtube, tiktok, instagram)
-              .then(() => {
-                console.log("hi");
-              })
-              .then(() => {
-                navigate("ViewAccount", {
-                  bio: bio,
-                  name: name,
-                  profilePic: profilePic,
+      <View style={{ flexDirection: "row",
+          justifyContent: "space-around" }}>
+          <TouchableOpacity
+            onPress={() => {
+              editInfo(name, bio, youtube, tiktok, instagram)
+                .then(() => {
+                  console.log("hi");
+                })
+                .then(() => {
+                  navigate("ViewAccount", {
+                    bio: bio,
+                    name: name,
+                    profilePic: profilePic,
+                  });
                 });
-              });
-          }}
-          style={styles.button}
-        >
-          <Text style={styles.buttonStyle}>Finish Editing</Text>
+            }}
+            style={styles.button}
+          >
+            <Text style={styles.buttonStyle}>Finish Editing</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -223,7 +224,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#5C33FF",
     padding: 16,
     borderRadius: 25,
-    marginTop: 16,
+    marginTop: 8,
+    marginBottom: 8,
     alignItems: "center",
   },
   backContainer: {
@@ -247,6 +249,19 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     zIndex: 2
   },
+  buttonStyleSmall: {
+    color: "white",
+    fontFamily: "Raleway-SemiBold",
+    fontSize: 14,
+  },
+  buttonSmall: {
+    width: 180,
+    backgroundColor: "#5C33FF",
+    padding: 5,
+    borderRadius: 25,
+    marginTop: 10,
+    alignItems: "center"
+  }
 });
 
 export default AccountInfo;

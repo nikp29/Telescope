@@ -55,7 +55,9 @@ const EditExp = ({ route, navigation }) => {
       >
         <View
           style={{width: "100%",
-          alignItems: "center"}}
+          alignItems: "center",
+          marginTop: 20
+        }}
         >
           {!addExp && (<TouchableOpacity
             onPress={() => {
@@ -81,7 +83,11 @@ const EditExp = ({ route, navigation }) => {
           >
             <TouchableOpacity
               onPress={() => {
-                setAddExp(true);
+                addNewExp(newTitle, newDescription, setExpList, expList).then(() => {
+                  setTitle("");
+                  setDescription("");
+                });
+                setAddExp(false);
               }}
               style={styles.button}
             >
@@ -90,6 +96,8 @@ const EditExp = ({ route, navigation }) => {
             <TouchableOpacity
               onPress={() => {
                 setAddExp(false);
+                setTitle("");
+                setDescription("");
               }}
               style={styles.button}
             >
@@ -150,7 +158,11 @@ const renderExpView = (data) => {
       description={data.description}
     />
     </View>
-    <TouchableOpacity>
+    <TouchableOpacity
+      onPress={() => {
+        deleteExp(data.id);
+      }}
+    >
     <Icon
       name={"trash"}
       size={30}
@@ -160,6 +172,43 @@ const renderExpView = (data) => {
     </View>
   );
 };
+
+const addNewExp = async (newTitle, newDescription, setExpList, expList) => {
+  if(newTitle == "") {
+    return;
+  }
+  console.log('add exp test');
+  const uid = await AsyncStorage.getItem("token");
+  const expRef = firebase.firestore().collection("users").doc(uid).collection("experiences");
+  expRef.add({
+    title: newTitle,
+    description: newDescription
+  })
+  .then((docRef) => {
+    console.log('exp id is ' + docRef.id);
+    let data_ = {
+      title: newTitle,
+      description: newDescription
+    };
+    data_["id"] = docRef.id;
+    setExpList([data_, ...expList]);
+  })
+  .catch((error) => {
+    console.error("Error adding document: ", error);
+  });
+}
+
+const deleteExp = async (expId, setExpList, expList) => {
+  const uid = await AsyncStorage.getItem("token");
+  const expRef = firebase.firestore().collection("users").doc(uid).collection("experiences");
+  let expList_ = [];
+  expRef.doc(expId).delete().then(() => {
+    console.log("deleted" + expId);
+  })
+  .catch((error) => {
+    console.error("Error removing document: ", error);
+  });
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -201,7 +250,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     paddingTop: 45,
-    // backgroundColor: "white",
+    backgroundColor: "white",
     left: 0,
     width: "100%",
     flexDirection: "row",

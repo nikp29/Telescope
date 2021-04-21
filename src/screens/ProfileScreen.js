@@ -59,20 +59,6 @@ const ProfileScreen = (props) => {
     );
   };
 
-  // if (email == "") {
-  //   getInfo(
-  //     setBio,
-  //     setName,
-  //     setEmail,
-  //     setProfilePic,
-  //     setYoutube,
-  //     setTiktok,
-  //     setInstagram,
-  //     uid
-  //   );
-  //   getReelList(setReelList, uid);
-  // }
-
   return (
     <Profile
       navigation={props.navigation}
