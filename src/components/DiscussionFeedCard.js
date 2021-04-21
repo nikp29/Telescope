@@ -61,7 +61,7 @@ const DiscussionFeedView = ({
         <View style={styles.profilecontainer}>
           <ProfileIcon uid={data.discussion_uid} />
         </View>
-        <View style={styles.TextContainer}>
+        <View style={styles.textContainer}>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.description}>{description}</Text>
           <View style={styles.bottomRow}>
@@ -165,6 +165,9 @@ const styles = StyleSheet.create({
   bottomRow: {
     padding: 0,
     flexDirection: "row",
+  },
+  textContainer: {
+    flex: 1,
   },
 });
 export default DiscussionFeedView;
