@@ -8,7 +8,7 @@ import {
   Dimensions,
   Platform,
   Image,
-  Animated
+  Animated,
 } from "react-native";
 import { NavigationEvents } from "react-navigation";
 import ReelView from "../components/ReelView";
@@ -47,7 +47,7 @@ const ExploreFeed = () => {
   }
   const height = Dimensions.get("window").height;
   // if(isLoading) {
-  //   return <Image 
+  //   return <Image
   //   style={{
   //     width: "100%",
   //     height: "100%",
@@ -107,7 +107,7 @@ const ExploreFeed = () => {
           <Text style={styles.tab}>Leaderboard</Text>
         </TouchableOpacity>
         <TouchableOpacity
-        style={{marginTop: 5}}
+          style={{ marginTop: 5 }}
           onPress={(event) => {
             navigate("Search");
           }}
@@ -115,11 +115,7 @@ const ExploreFeed = () => {
             setCurrent(cardIndex);
           }}
         >
-          <Icon
-            name={"search"}
-            size={25}
-            color={ "rgba(255, 255, 255, 0.3)"}
-          />
+          <Icon name={"search"} size={25} color={"rgba(255, 255, 255, 0.3)"} />
         </TouchableOpacity>
       </View>
     </View>
@@ -131,7 +127,7 @@ const getReels = async (setReelList, setLoading) => {
   let reelList_ = [];
   await reelsRef
     .orderBy("num_upvotes", "desc")
-    .where("daystamp", "==", getDaystamp(moment()))
+    .where("weekstamp", "==", getWeekstamp(moment())) // changing to weekstamp for the demo
     .orderBy("timestamp", "desc")
     .get()
     .then((querySnapshot) => {
@@ -141,11 +137,16 @@ const getReels = async (setReelList, setLoading) => {
         reelList_.push(data_);
       });
       setReelList(shuffle(reelList_));
-        setLoading(false);
+      setLoading(false);
     })
     .catch((error) => {
       console.log(error.message);
     });
+};
+
+const getWeekstamp = (moment_) => {
+  // get unix weeks since dec 29 monday 1969
+  return Math.floor((Math.floor(moment_.unix().valueOf() / 86400) - 4) / 7);
 };
 
 const getDaystamp = (moment_) => {
