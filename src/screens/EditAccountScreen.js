@@ -100,7 +100,7 @@ const AccountInfo = ({ route, navigation }) => {
                   console.log("hi");
                 })
                 .then(() => {
-                  updateList();
+                  updateList(); 
                   navigate("ViewAccount", {
                     bio: bio,
                     name: name,

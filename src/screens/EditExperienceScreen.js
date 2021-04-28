@@ -56,7 +56,8 @@ const EditExp = ({ route, navigation }) => {
         <View
           style={{width: "100%",
           alignItems: "center",
-          marginTop: 20
+          marginTop: 20,
+          marginBottom: 20
         }}
         >
           {!addExp && (<TouchableOpacity
@@ -144,13 +145,17 @@ EditExp.navigationOptions = () => {
 const renderExpView = (data) => {
   return (
     <View
-    style={{flexDirection: "row",
-  alignItems: "center"}}
+      style={{
+      flexDirection: "row",
+      alignItems: "center",
+      borderColor: "#86878B",
+      borderTopWidth: 1,
+      borderBottomWidth: 1}}
     >
       <View
       style={{width: "70%",
               margin: 20,
-              marginRight: "9%"
+              marginRight: "9%",
             }}
       >
     <ExperienceCard

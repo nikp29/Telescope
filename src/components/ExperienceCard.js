@@ -21,9 +21,18 @@ const ExperienceCard = ({
 }) => {
     
   return (
-    <TouchableOpacity
+    <View
+      style={styles.container}
     >
-        <LinearGradient
+      <View
+        style={{
+          height: 35,
+          width: 35,
+          borderRadius: 10,
+          backgroundColor: "#FFD770",
+        }}
+      ></View>
+        {/* <LinearGradient
           colors={["#DFD7FF", "#7D5BFC"]}
           style={{
             // height: 212.5,
@@ -40,25 +49,22 @@ const ExperienceCard = ({
             // borderTopRightRadius: 0,
             // borderTopLeftRadius: 0,
           }}
+        > */}
+        <View
+          style={{
+            marginLeft: 15,
+            marginRight: 25,
+            justifyContent: "space-around"
+          }}
         >
-        <Text>Title: {title}</Text>
-        <Text>Description: {description}</Text>
-        </LinearGradient>
-    </TouchableOpacity>
+          <Text style={styles.title}>{title}</Text>
+        </View>
+        {/* <Text>Description: {description}</Text> */}
+        {/* </LinearGradient> */}
+    </View>
   );
 };
 
-const renderReelFeedView = (data) => {
-  return (
-    <ReelFeedCard
-      title={data.title}
-      upvotes={data.upvotes}
-      image_url={data.thumbnail}
-      id={data.id}
-      data={data}
-    />
-  );
-};
 
 const getProfilePic = async(setProfilePic, uid, imageURL) => {
     var storageRef = firebase.storage().ref();
@@ -76,6 +82,14 @@ const getProfilePic = async(setProfilePic, uid, imageURL) => {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    padding: 12,
+  },
+  title: {
+    fontFamily: "Raleway-Regular",
+    fontSize: 16
+  },
   topBar: {
     position: "absolute",
     top: 0,
@@ -110,26 +124,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#545454",
   },
-  reels: {
-    fontFamily: "Raleway-Regular",
-    fontSize: 14,
-    textAlign: "left",
-    width: "90%",
-  },
   icon: {
     height: 20,
     width: 20,
     marginLeft: 10
-  },
-  backContainer: {
-    padding: 8,
-    marginLeft: 8,
-  },
-  uploadText: {
-    color: "#5C33FF",
-    fontFamily: "Raleway-Bold",
-    fontSize: 18,
-  },
+  }
 });
 
 export default ExperienceCard;

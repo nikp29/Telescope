@@ -172,6 +172,7 @@ const Profile = ({
         style={{
           width: "90%",
           flexDirection: "row",
+          marginBottom: 10
         }}
       >
         <TouchableOpacity
@@ -212,7 +213,10 @@ const Profile = ({
         </TouchableOpacity>
       </View>
       <ScrollView
-        style={{ height: "100%", width: "90%" }}
+        style={{ 
+          height: "100%", 
+          width: showExp ? "100%" : "95%"
+        }}
         showsVerticalScrollIndicator={false}
       >
         {!showExp && (
@@ -253,7 +257,10 @@ const renderReelFeedView = (data) => {
 const renderExpView = (data) => {
   return (
     <View
-    style={{marginBottom: 32}}
+    style={{
+    borderColor: "#86878B",
+    borderTopWidth: 0.4,
+    borderBottomWidth: 0.4}}
     >
       <ExperienceCard title={data.title} description={data.description} />
     </View>
