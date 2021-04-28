@@ -58,6 +58,11 @@ const AccountScreen = (props) => {
     );
   };
 
+  const updateMin = () => {
+    getReelList(setReelList);
+    getExpList(setExpList);
+  }
+
   // if (email == "") {
   //   getInfo(
   //     setBio,
@@ -78,6 +83,7 @@ const AccountScreen = (props) => {
         isOwn={true}
         reelList={reelList}
         update={update}
+        updateMin={updateMin}
         bio={bio}
         name={name}
         profilePic={profilePic}

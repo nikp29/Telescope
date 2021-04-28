@@ -24,6 +24,7 @@ const AccountInfo = ({ route, navigation }) => {
   const [tiktok, setTiktok] = useState(navigation.getParam("tiktok"));
   const [youtube, setYoutube] = useState(navigation.getParam("youtube"));
   const [instagram, setInstagram] = useState(navigation.getParam("instagram"));
+  const updateList = navigation.getParam("func2");
   const [profilePic, setProfilePic] = useState(
     navigation.getParam("profilePic")
   );
@@ -43,6 +44,7 @@ const AccountInfo = ({ route, navigation }) => {
         <TouchableOpacity
           // style={{ zIndex: 2 }}
           onPress={() => {
+            updateList();
             navigation.goBack(null);
             console.log("going back");
           }}
@@ -98,6 +100,7 @@ const AccountInfo = ({ route, navigation }) => {
                   console.log("hi");
                 })
                 .then(() => {
+                  updateList();
                   navigate("ViewAccount", {
                     bio: bio,
                     name: name,

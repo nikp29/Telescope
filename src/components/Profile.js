@@ -20,6 +20,7 @@ const Profile = ({
   expList,
   reelList,
   update,
+  updateMin,
   bio,
   name,
   profilePic,
@@ -91,6 +92,7 @@ const Profile = ({
                     instagram: instagram,
                     tiktok: tiktok,
                     func: update,
+                    func2: updateMin,
                     expList: expList
                   });
                 }}
