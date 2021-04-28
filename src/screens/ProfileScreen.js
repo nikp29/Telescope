@@ -14,6 +14,7 @@ import { Context as AuthContext } from "../context/AuthContext";
 import { firebase } from "../firebase/config.js";
 import { LinearGradient } from "expo-linear-gradient";
 import Profile from "../components/Profile";
+import { NavigationEvents } from "react-navigation";
 
 const ProfileScreen = (props) => {
   const defaultImage = require("../../assets/icons/user.png");
@@ -60,18 +61,36 @@ const ProfileScreen = (props) => {
   };
 
   return (
-    <Profile
-      navigation={props.navigation}
-      reelList={reelList}
-      update={update}
-      bio={bio}
-      name={name}
-      profilePic={profilePic}
-      youtube={youtube}
-      instagram={instagram}
-      tiktok={tiktok}
-      expList={expList}
-    />
+    <>
+      <NavigationEvents
+        onDidFocus={() => {
+          getInfo(
+            setBio,
+            setName,
+            setEmail,
+            setProfilePic,
+            setYoutube,
+            setTiktok,
+            setInstagram,
+            uid
+          );
+          getReelList(setReelList, uid);
+          getExpList(setExpList, uid);
+        }}
+      />
+      <Profile
+        navigation={props.navigation}
+        reelList={reelList}
+        update={update}
+        bio={bio}
+        name={name}
+        profilePic={profilePic}
+        youtube={youtube}
+        instagram={instagram}
+        tiktok={tiktok}
+        expList={expList}
+      />
+    </>
   );
 };
 
@@ -142,20 +161,22 @@ const getReelList = async (setReelList, uid) => {
 
 const getExpList = async (setExpList, uid) => {
   console.log("getting exp");
-  const expRef = firebase.firestore().collection("users").doc(uid).collection("experiences");
+  const expRef = firebase
+    .firestore()
+    .collection("users")
+    .doc(uid)
+    .collection("experiences");
   let expList_ = [];
   let reel_id = "";
-  expRef
-    .get()
-    .then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        let data_ = doc.data();
-        data_["id"] = doc.id;
-        console.log("exp doc id " + doc.id);
-        expList_.push(data_);
-      });
-      setExpList(expList_);
+  expRef.get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      let data_ = doc.data();
+      data_["id"] = doc.id;
+      console.log("exp doc id " + doc.id);
+      expList_.push(data_);
     });
+    setExpList(expList_);
+  });
 };
 
 const styles = StyleSheet.create({
