@@ -28,7 +28,7 @@ const ProfileIcon = ({ uid }) => {
       style={styles.container}
       onPress={(event) => navigate("ProfileView", { uid: uid_ ? uid_ : uid })}
     >
-      <Image style={{ width: 30, height: 30 }} source={profilePic} />
+      <Image style={{ width: 26, height: 26 }} source={profilePic} />
     </TouchableOpacity>
   );
 };

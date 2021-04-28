@@ -81,6 +81,7 @@ const switchNavigator = createSwitchNavigator(
             DiscussionFeed: DiscussionFeed,
             UploadDiscussion: DiscussionUploadScreen,
             DiscussionView: DiscussionViewScreen,
+            ProfileView: ProfileScreen,
           }),
           navigationOptions: {
             tabBarLabel: "",
@@ -94,7 +95,7 @@ const switchNavigator = createSwitchNavigator(
             ViewAccount: AccountScreen,
             ReelView: ReelViewScreen,
             EditAccount: EditAccountScreen,
-            EditExp: EditExpScreen
+            EditExp: EditExpScreen,
           }),
           navigationOptions: {
             tabBarLabel: "",
