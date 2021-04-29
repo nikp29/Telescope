@@ -93,7 +93,7 @@ const Profile = ({
                     tiktok: tiktok,
                     func: update,
                     func2: updateMin,
-                    expList: expList
+                    expList: expList,
                   });
                 }}
               >
@@ -173,7 +173,8 @@ const Profile = ({
         style={{
           width: "90%",
           flexDirection: "row",
-          marginBottom: 10
+          marginBottom: 20,
+          marginTop: 24,
         }}
       >
         <TouchableOpacity
@@ -214,9 +215,9 @@ const Profile = ({
         </TouchableOpacity>
       </View>
       <ScrollView
-        style={{ 
-          height: "100%", 
-          width: showExp ? "100%" : "95%"
+        style={{
+          height: "100%",
+          width: showExp ? "100%" : "95%",
         }}
         showsVerticalScrollIndicator={false}
       >
@@ -265,11 +266,19 @@ const renderReelFeedView = (data) => {
 const renderExpView = (data) => {
   return (
     <View
+<<<<<<< HEAD
     style={{
       borderColor: "#86878B",
       padding: 17,
       borderBottomWidth: 0.4
     }}
+=======
+      style={{
+        borderColor: "#86878B",
+        borderTopWidth: 0.4,
+        borderBottomWidth: 0.4,
+      }}
+>>>>>>> 94024c6af6e6c4aaaba9b5587ff4cf48478280ce
     >
       <ExperienceCard title={data.title} description={data.description} />
     </View>

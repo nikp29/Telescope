@@ -35,6 +35,9 @@ const UploadForm = ({
           setError,
           description,
         });
+        setDescription("");
+        setUrl("");
+        setTags("");
       } else {
         setError("Description must be between 2 and 40 characters");
       }
@@ -90,7 +93,6 @@ const UploadForm = ({
             onSubmitEditing={() => {
               Keyboard.dismiss();
               uploadReel();
-              setDescription(""), setUrl(""), set;
             }}
           />
         </View>
