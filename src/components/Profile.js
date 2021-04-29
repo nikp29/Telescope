@@ -266,19 +266,11 @@ const renderReelFeedView = (data) => {
 const renderExpView = (data) => {
   return (
     <View
-<<<<<<< HEAD
     style={{
       borderColor: "#86878B",
       padding: 17,
       borderBottomWidth: 0.4
     }}
-=======
-      style={{
-        borderColor: "#86878B",
-        borderTopWidth: 0.4,
-        borderBottomWidth: 0.4,
-      }}
->>>>>>> 94024c6af6e6c4aaaba9b5587ff4cf48478280ce
     >
       <ExperienceCard title={data.title} description={data.description} />
     </View>
