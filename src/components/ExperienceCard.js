@@ -84,10 +84,11 @@ const getProfilePic = async(setProfilePic, uid, imageURL) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    padding: 12,
+    // padding: 12,
   },
   title: {
-    fontFamily: "Raleway-Regular",
+    fontFamily: "Raleway-Bold",
+    color: "#86878B",
     fontSize: 16
   },
   topBar: {

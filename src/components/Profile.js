@@ -121,9 +121,10 @@ const Profile = ({
             source={profilePic}
           />
         </View>
-        <View style={{ alignItems: "center" }}>
+        <View style={{ width: "80%", alignItems: "center",}}>
           <Text style={styles.name}>{name}</Text>
-
+        </View>
+        <View style={{ width: "65%", alignItems: "center",}}>
           <Text style={styles.bio}>{bio}</Text>
         </View>
 
@@ -229,6 +230,12 @@ const Profile = ({
           />
         )}
         {showExp && (
+          <View
+            style={{
+              borderColor: "#86878B",
+              borderTopWidth: expList.length == 0 ? 0: 0.4
+            }}
+          >
           <FlatList
             data={expList}
             keyExtractor={(data) => data.id}
@@ -236,6 +243,7 @@ const Profile = ({
               return renderExpView(item);
             }}
           />
+          </View>
         )}
       </ScrollView>
     </View>
@@ -258,9 +266,10 @@ const renderExpView = (data) => {
   return (
     <View
     style={{
-    borderColor: "#86878B",
-    borderTopWidth: 0.4,
-    borderBottomWidth: 0.4}}
+      borderColor: "#86878B",
+      padding: 17,
+      borderBottomWidth: 0.4
+    }}
     >
       <ExperienceCard title={data.title} description={data.description} />
     </View>
@@ -297,8 +306,10 @@ const styles = StyleSheet.create({
   name: {
     fontFamily: "Raleway-Bold",
     fontSize: 32,
+    textAlign: "center"
   },
   bio: {
+    textAlign: "center",
     fontFamily: "Raleway-Regular",
     fontSize: 16,
     color: "#545454",

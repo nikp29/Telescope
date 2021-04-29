@@ -109,11 +109,17 @@ const EditExp = ({ route, navigation }) => {
             style={{ height: "100%", width: "100%" }}
             showsVerticalScrollIndicator={false}
           >
+            <View
+            style={{
+              borderColor: "#86878B",
+              borderTopWidth: expList.length == 0 ? 0: 0.4
+            }}
+            ></View>
             <FlatList
               data={expList}
               keyExtractor={(data) => data.id}
               renderItem={({ item }) => {
-                return renderExpView(item);
+                return renderExpView(item, setExpList, expList);
               }}
             />
           </ScrollView>
@@ -142,15 +148,14 @@ EditExp.navigationOptions = () => {
   };
 };
 
-const renderExpView = (data) => {
+const renderExpView = (data, setExpList, expList) => {
   return (
     <View
       style={{
       flexDirection: "row",
       alignItems: "center",
       borderColor: "#86878B",
-      borderTopWidth: 1,
-      borderBottomWidth: 1}}
+      borderBottomWidth: 0.4}}
     >
       <View
       style={{width: "70%",
@@ -165,7 +170,7 @@ const renderExpView = (data) => {
     </View>
     <TouchableOpacity
       onPress={() => {
-        deleteExp(data.id);
+        deleteExp(data.id, setExpList, expList);
       }}
     >
     <Icon
@@ -208,7 +213,12 @@ const deleteExp = async (expId, setExpList, expList) => {
   const expRef = firebase.firestore().collection("users").doc(uid).collection("experiences");
   let expList_ = [];
   expRef.doc(expId).delete().then(() => {
-    console.log("deleted" + expId);
+    for(let i=0; i<expList.length; i++) {
+      if(expList[i]["id"] != expId) {
+        expList_.push(expList[i]);
+      }
+    }
+    setExpList(expList_);
   })
   .catch((error) => {
     console.error("Error removing document: ", error);

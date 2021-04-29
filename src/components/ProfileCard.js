@@ -67,10 +67,13 @@ const ProfileCard = ({
         />
         <View style={{
             flexDirection: "column",
-            marginLeft: 20
+            marginLeft: 20,
+            marginRight: 50
         }}>
-        <Text>Name: {name}</Text>
-        <Text>Bio: {bio}</Text>
+          <View style={{width: "80%"}}>
+        <Text style={styles.name}>{name}</Text>
+          <Text style={styles.bio}>{bio}</Text>
+        </View>
         </View>
         </LinearGradient>
     </TouchableOpacity>
@@ -131,13 +134,15 @@ const styles = StyleSheet.create({
     // borderWidth: 10,
   },
   name: {
+    textAlign: "center",
     fontFamily: "Raleway-Bold",
-    fontSize: 32,
+    fontSize: 20,
   },
   bio: {
+    textAlign: "center",
     fontFamily: "Raleway-Regular",
-    fontSize: 16,
-    color: "#545454",
+    fontSize: 12,
+    color: "black",
   },
   reels: {
     fontFamily: "Raleway-Regular",

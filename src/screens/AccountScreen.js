@@ -167,7 +167,6 @@ const getReelList = async (setReelList) => {
 
 const getExpList = async (setExpList) => {
   const uid = await AsyncStorage.getItem("token");
-  console.log("getting exp");
   const expRef = firebase
     .firestore()
     .collection("users")
@@ -179,7 +178,7 @@ const getExpList = async (setExpList) => {
     querySnapshot.forEach((doc) => {
       let data_ = doc.data();
       data_["id"] = doc.id;
-      console.log("exp doc id " + doc.id);
+      // console.log("exp doc id " + doc.id);
       expList_.push(data_);
     });
     setExpList(expList_);
