@@ -223,8 +223,7 @@ const getComments = async (id, setComments) => {
   await firebase
     .firestore()
     .collection(`discussions/${id}/comments`)
-    .orderBy("num_upvotes", "desc")
-    .orderBy("timestamp", "desc")
+    .orderBy("timestamp", "asc")
     .get()
     .then((querySnapshot) => {
       comments = querySnapshot.docs.map((doc) => {
