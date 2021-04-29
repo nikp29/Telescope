@@ -90,7 +90,7 @@ const UploadForm = ({
             onSubmitEditing={() => {
               Keyboard.dismiss();
               uploadReel();
-              setDescription(""), setUrl(""), set;
+              setDescription(""), setUrl(""), setTags("");
             }}
           />
         </View>
