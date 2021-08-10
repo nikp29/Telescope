@@ -2,7 +2,7 @@
 
 - open terminal and enter `git clone https://github.com/nikp29/Telescope`
 - `cd Telescope`
-- get env file from the Shub's favorite person
+- get env file from Nikhil
 - `nano .env`
 - paste the contents of the file nikhil sent you and type `<control-key>+x`, `Y`, `enter`
 - install LTS version of Node.js from here: https://nodejs.org/en/download/
