@@ -13,7 +13,7 @@
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/material-top-tabs": "^5.3.15",
     "axios": "^0.21.1",
-    "dotenv": "^8.2.0",
+    "dotenv": "^8.6.0",
     "expo": "~40.0.0",
     "expo-app-loading": "^1.0.1",
     "expo-font": "~8.4.0",
