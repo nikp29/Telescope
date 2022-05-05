@@ -52,10 +52,12 @@
     "shuffle-array": "^1.0.1",
     "url-parse": "^1.5.3",
     "ws": "^8.1.0",
-    "xmldom": "^0.6.0"
+    "xmldom": "^0.6.0",
+    "expo-updates": "~0.4.1"
   },
   "devDependencies": {
-    "@babel/core": "~7.9.0"
+    "@babel/core": "~7.9.0",
+    "dotenv-webpack": "^7.1.0"
   },
   "private": true,
   "rnpm": {
