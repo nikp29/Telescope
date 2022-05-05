@@ -12,7 +12,7 @@ import {
   ScrollView
 } from "react-native";
 import { Button, Input } from "react-native-elements";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { firebase } from "../firebase/config.js";
 import ImagePick from "../components/ImagePick";
 import InputField from "../components/InputField";

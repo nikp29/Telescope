@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useRef } from "react";
 import { View, StyleSheet, Text, Button, TouchableOpacity } from "react-native";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import moment, { unix } from "moment";
 import { firebase } from "../firebase/config.js";
 import { navigate } from "../navigationRef";

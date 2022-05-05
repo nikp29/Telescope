@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import Spacer from "../components/Spacer";
 import { Context as AuthContext } from "../context/AuthContext";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { firebase } from "../firebase/config.js";
 import { LinearGradient } from "expo-linear-gradient";
 import Profile from "../components/Profile";

@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { View, ScrollView, StyleSheet, Text } from "react-native";
 import UploadForm from "./../components/UploadForm";
 import { navigate } from "../navigationRef";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { firebase } from "../firebase/config.js";
 import moment from "moment";
 import youtubeApi from "../api/youtube.js";

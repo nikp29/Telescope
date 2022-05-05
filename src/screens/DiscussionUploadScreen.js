@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import DiscussionForm from "../components/DiscussionForm";
 import { navigate } from "../navigationRef";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { firebase } from "../firebase/config.js";
 import moment from "moment";
 

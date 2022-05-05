@@ -14,7 +14,7 @@ import { Input } from "react-native-elements";
 import { Modalize } from "react-native-modalize";
 import { Host, Portal } from "react-native-portalize";
 import YoutubePlayer from "react-native-youtube-iframe";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { firebase } from "../firebase/config.js";
 import CommentCard from "../components/CommentCard";
 import ProfileIcon from "../components/ProfileIcon";

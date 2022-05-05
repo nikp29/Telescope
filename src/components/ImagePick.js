@@ -3,7 +3,7 @@ import { Button, Image, View, Platform, Text, StyleSheet } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import Constants from "expo-constants";
 import { firebase } from "../firebase/config.js";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const ImagePick = ({ setURL }) => {

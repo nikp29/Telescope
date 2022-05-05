@@ -11,7 +11,7 @@ import {
   Keyboard,
   KeyboardAvoidingView,
 } from "react-native";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { firebase } from "../firebase/config.js";
 import CommentCard from "./CommentCard";
 import ProfileIcon from "./ProfileIcon";
